@@ -34,6 +34,18 @@
                     x:Uid="Settings"
                     Margin="0,24,0,0"
                     Style="{StaticResource TitleTextBlockStyle}" />
+                <muxc:InfoBar
+                    Title="Warning"
+                    Grid.Row="2"
+                    VerticalAlignment="Bottom"
+                    IsClosable="False"
+                    IsOpen="True"
+                    Message="Bluebird is being deprecated and replaced by Horizon"
+                    Severity="Warning">
+                    <muxc:InfoBar.ActionButton>
+                        <HyperlinkButton Content="Get Horizon" NavigateUri="ms-windows-store://pdp/?productid=9PFS0VXCD5SR" />
+                    </muxc:InfoBar.ActionButton>
+                </muxc:InfoBar>
                 <!--  General  -->
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="General" />
                 <toolkitc:SettingsCard Header="Set as default">
