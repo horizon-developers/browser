@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="Horizon.Pages.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:core="using:Horizon.Core"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkitc="using:CommunityToolkit.WinUI.Controls"
+    mc:Ignorable="d">
+    <Grid Style="{StaticResource PageBorder}">
+        <ScrollViewer
+            MaxWidth="1000"
+            Padding="36,0,36,10"
+            IsTabStop="False"
+            UseSystemFocusVisuals="False"
+            VerticalScrollBarVisibility="Auto"
+            VerticalScrollMode="Auto">
+            <StackPanel Spacing="{StaticResource SettingsCardSpacing}">
+                <TextBlock
+                    Margin="0,24,0,0"
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    Text="Settings" />
+                <!--  General  -->
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="General" />
+                <!--<toolkitc:SettingsCard Header="Set as default">
+                    <toolkitc:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xEB51;" />
+                    </toolkitc:SettingsCard.HeaderIcon>
+                    <Button Click="SetAsDefaultButton_Click" Content="Set as default" />
+                </toolkitc:SettingsCard>-->
+                <toolkitc:SettingsCard Header="Search engine" HeaderIcon="Find">
+                    <ComboBox x:Name="SearchEngineSelector">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="core:SearchEngine">
+                                <TextBlock Text="{x:Bind EngineFriendlyName}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </toolkitc:SettingsCard>
+                <!--  Data  -->
+                <!--<TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Data" />
+                <toolkitc:SettingsCard x:Uid="ClearData">
+                    <toolkitc:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE74E;" />
+                    </toolkitc:SettingsCard.HeaderIcon>
+                    <Grid>
+                        <ProgressRing
+                            x:Name="ClearUserDataProgressRing"
+                            Width="25"
+                            Height="25"
+                            IsActive="False" />
+                        <Button
+                            x:Name="ClearUserDataBtn"
+                            x:Uid="Clear"
+                            Click="ClearUserDataButton_Click" />
+                    </Grid>
+                </toolkitc:SettingsCard>-->
+                <!--  Personalization  -->
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Personalization" />
+                <toolkitc:SettingsCard Description="Choose between Acrylic, Mica and Mica Alt" Header="Backdrop type">
+                    <toolkitc:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE790;" />
+                    </toolkitc:SettingsCard.HeaderIcon>
+                    <ComboBox x:Name="BackdropTypeSelector" />
+                </toolkitc:SettingsCard>
+                <toolkitc:SettingsCard Description="Use advanced context menu" Header="Extended context menu">
+                    <toolkitc:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xEDE3;" />
+                    </toolkitc:SettingsCard.HeaderIcon>
+                    <ToggleSwitch x:Name="AdvancedCTXToggle" Toggled="AdvancedCTXToggle_Toggled" />
+                </toolkitc:SettingsCard>
+                <!--  Advanced features  -->
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Advanced features" />
+                <toolkitc:SettingsCard
+                    Click="SettingsCardClickHandler"
+                    Description="Add/remove web extensions"
+                    Header="Extensions"
+                    IsClickEnabled="True"
+                    Tag="Extensions">
+                    <toolkitc:SettingsCard.ActionIcon>
+                        <FontIcon Glyph="&#xE8A7;" />
+                    </toolkitc:SettingsCard.ActionIcon>
+                    <toolkitc:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xEA86;" />
+                    </toolkitc:SettingsCard.HeaderIcon>
+                </toolkitc:SettingsCard>
+                <!--  About  -->
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="About" />
+                <toolkitc:SettingsCard
+                    Click="SettingsCardClickHandler"
+                    Description="A discord server about Windows Apps"
+                    Header="Join the discussion on Developer Sanctuary"
+                    IsClickEnabled="True"
+                    Tag="DevSanx">
+                    <toolkitc:SettingsCard.ActionIcon>
+                        <FontIcon Glyph="&#xE8A7;" />
+                    </toolkitc:SettingsCard.ActionIcon>
+                    <toolkitc:SettingsCard.HeaderIcon>
+                        <BitmapIcon ShowAsMonochrome="False" UriSource="/Assets/Icons/DevSanx.png" />
+                    </toolkitc:SettingsCard.HeaderIcon>
+                </toolkitc:SettingsCard>
+                <toolkitc:SettingsCard
+                    Click="SettingsCardClickHandler"
+                    Description="On PayPal"
+                    Header="Support the development"
+                    IsClickEnabled="True"
+                    Tag="Donate">
+                    <toolkitc:SettingsCard.ActionIcon>
+                        <FontIcon Glyph="&#xE8A7;" />
+                    </toolkitc:SettingsCard.ActionIcon>
+                    <toolkitc:SettingsCard.HeaderIcon>
+                        <BitmapIcon ShowAsMonochrome="False" UriSource="/Assets/Icons/paypal.png" />
+                    </toolkitc:SettingsCard.HeaderIcon>
+                </toolkitc:SettingsCard>
+                <toolkitc:SettingsExpander Header="Generous sponsors and credits">
+                    <toolkitc:SettingsExpander.HeaderIcon>
+                        <FontIcon Glyph="&#xEB51;" />
+                    </toolkitc:SettingsExpander.HeaderIcon>
+                    <toolkitc:SettingsExpander.Items>
+                        <toolkitc:SettingsCard Description="Microsoft Store Developer Registration sponsor" Header="Jarno9981" />
+                        <toolkitc:SettingsCard Description="Horizon icon created by Freepik on Flaticon" Header="Freepik" />
+                        <toolkitc:SettingsCard Header="Many thanks to everyone!" />
+                    </toolkitc:SettingsExpander.Items>
+                </toolkitc:SettingsExpander>
+                <toolkitc:SettingsExpander Description="Your next-gen browser, brought to you by Pinguin2001" Header="Horizon">
+                    <toolkitc:SettingsExpander.HeaderIcon>
+                        <BitmapIcon ShowAsMonochrome="False" UriSource="Horizon.ico" />
+                    </toolkitc:SettingsExpander.HeaderIcon>
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        IsTextSelectionEnabled="True"
+                        Loaded="VersionTextBlock_Loaded" />
+                    <toolkitc:SettingsExpander.Items>
+                        <toolkitc:SettingsCard
+                            Click="SettingsCardClickHandler"
+                            Description="The software is distributed under the GNU GENERAL PUBLIC LICENSE Version 3"
+                            Header="License"
+                            IsClickEnabled="True"
+                            Tag="GNU">
+                            <toolkitc:SettingsCard.ActionIcon>
+                                <FontIcon Glyph="&#xE8A7;" />
+                            </toolkitc:SettingsCard.ActionIcon>
+                        </toolkitc:SettingsCard>
+                        <toolkitc:SettingsCard
+                            Click="SettingsCardClickHandler"
+                            Description="On GitHub"
+                            Header="File a bug or request a new feature"
+                            IsClickEnabled="True"
+                            Tag="GitHub">
+                            <toolkitc:SettingsCard.ActionIcon>
+                                <FontIcon Glyph="&#xE8A7;" />
+                            </toolkitc:SettingsCard.ActionIcon>
+                        </toolkitc:SettingsCard>
+                        <toolkitc:SettingsCard
+                            HorizontalContentAlignment="Left"
+                            ContentAlignment="Vertical"
+                            Header="Dependencies &amp; references">
+                            <StackPanel Margin="-12,0,0,0" Orientation="Vertical">
+                                <HyperlinkButton Content="Microsoft.Web.WebView2" NavigateUri="https://aka.ms/webview" />
+                                <HyperlinkButton Content="Microsoft.Windows.CsWin32" NavigateUri="https://github.com/microsoft/CsWin32" />
+                                <HyperlinkButton Content="Microsoft.Windows.CsWinRT" NavigateUri="https://github.com/microsoft/CsWinRT" />
+                                <HyperlinkButton Content="Microsoft.Windows.SDK.BuildTools" NavigateUri="https://www.nuget.org/packages/Microsoft.Windows.SDK.BuildTools" />
+                                <HyperlinkButton Content="Mozilla Readability" NavigateUri="https://github.com/mozilla/readability" />
+                                <HyperlinkButton Content="QRCoder" NavigateUri="https://github.com/codebude/QRCoder" />
+                                <HyperlinkButton Content="Windows Community Toolkit" NavigateUri="https://github.com/CommunityToolkit/Windows" />
+                                <HyperlinkButton Content="Windows UI Library" NavigateUri="https://aka.ms/winui" />
+                            </StackPanel>
+                        </toolkitc:SettingsCard>
+                        <toolkitc:SettingsCard
+                            Click="SettingsCardClickHandler"
+                            Description="View advanced build information"
+                            Header="Build information"
+                            IsClickEnabled="True"
+                            Tag="BuildInfo">
+                            <toolkitc:SettingsCard.ActionIcon>
+                                <FontIcon Glyph="&#xE8A7;" />
+                            </toolkitc:SettingsCard.ActionIcon>
+                        </toolkitc:SettingsCard>
+                    </toolkitc:SettingsExpander.Items>
+                </toolkitc:SettingsExpander>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

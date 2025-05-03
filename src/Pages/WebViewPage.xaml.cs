@@ -1,0 +1,344 @@
+namespace Horizon.Pages;
+
+public sealed partial class WebViewPage : Page
+{
+    string launchurl;
+    private Tab myTab { get; set; }
+    private bool IsSplitTab { get; set; }
+
+    public WebViewPage()
+    {
+        this.InitializeComponent();
+    }
+
+    protected override void OnNavigatedTo(NavigationEventArgs e)
+    {
+        base.OnNavigatedTo(e);
+
+        var parameters = (WebTabCreationParams)e.Parameter;
+
+        launchurl = parameters.LaunchURL;
+        myTab = parameters.myTab;
+        IsSplitTab = parameters.IsSplitTab;
+    }
+
+    private void UrlBox_Loaded(object sender, RoutedEventArgs e)
+    {
+        UrlBox.Focus(FocusState.Programmatic);
+
+    }
+
+    private async void WebViewControl_Loaded(object sender, RoutedEventArgs e)
+    {
+        if ((sender as WebView2).CoreWebView2 == null)
+        {
+            try
+            {
+                System.Diagnostics.Debug.WriteLine("WebView instance init");
+                CoreWebView2EnvironmentOptions options = new()
+                {
+                    AreBrowserExtensionsEnabled = true,
+                    ScrollBarStyle = CoreWebView2ScrollbarStyle.FluentOverlay
+                };
+                CoreWebView2Environment environment = await CoreWebView2Environment.CreateWithOptionsAsync(null, null, options);
+                await (sender as WebView2).EnsureCoreWebView2Async(environment);
+            }
+            catch
+            {
+                ContentDialog dialog = new()
+                {
+                    Title = "Error",
+                    Content = "WebView2 Runtime is not installed which is required to display webpages",
+                    DefaultButton = ContentDialogButton.Primary,
+                    PrimaryButtonText = "Download WebView2 Runtime",
+                    CloseButtonText = "Close App",
+                    XamlRoot = XamlRoot
+                };
+                var result = await dialog.ShowAsync();
+                if (result == ContentDialogResult.Primary)
+                    await WS.Launcher.LaunchUriAsync(new Uri("https://go.microsoft.com/fwlink/p/?LinkId=2124703"));
+                else
+                    Application.Current.Exit();
+            }
+        }
+    }
+
+    private void WebViewControl_CoreWebView2Initialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
+    {
+        // WebViewEvents
+        sender.CoreWebView2.NavigationStarting += CoreWebView2_NavigationStarting;
+        sender.CoreWebView2.NavigationCompleted += CoreWebView2_NavigationCompleted;
+        sender.CoreWebView2.SourceChanged += CoreWebView2_SourceChanged;
+        sender.CoreWebView2.NewWindowRequested += CoreWebView2_NewWindowRequested;
+        sender.CoreWebView2.ContextMenuRequested += CoreWebView2_ContextMenuRequested;
+        sender.CoreWebView2.IsDocumentPlayingAudioChanged += CoreWebView2_IsDocumentPlayingAudioChanged;
+        sender.CoreWebView2.IsMutedChanged += CoreWebView2_IsMutedChanged;
+        if (!IsSplitTab)
+            sender.CoreWebView2.DocumentTitleChanged += CoreWebView2_DocumentTitleChanged;
+        //sender.CoreWebView2.FaviconChanged += CoreWebView2_FaviconChanged;
+        sender.CoreWebView2.ContainsFullScreenElementChanged += CoreWebView2_ContainsFullScreenElementChanged;
+        sender.Source = new Uri(launchurl);
+    }
+
+    private void CoreWebView2_NavigationStarting(CoreWebView2 sender, CoreWebView2NavigationStartingEventArgs args)
+    {
+        LoadingBar.Visibility = Visibility.Visible;
+    }
+
+    private void CoreWebView2_NavigationCompleted(CoreWebView2 sender, CoreWebView2NavigationCompletedEventArgs args)
+    {
+        LoadingBar.Visibility = Visibility.Collapsed;
+    }
+
+    private void CoreWebView2_SourceChanged(CoreWebView2 sender, CoreWebView2SourceChangedEventArgs args)
+    {
+        UrlBox.Text = sender.Source;
+    }
+
+    private void CoreWebView2_NewWindowRequested(CoreWebView2 sender, CoreWebView2NewWindowRequestedEventArgs args)
+    {
+        args.Handled = true;
+        WindowHelper.CreateNewTabInMainWindow("New tab", args.Uri);
+    }
+
+
+    string SelectionText;
+    string LinkUri;
+    private void CoreWebView2_ContextMenuRequested(CoreWebView2 sender, CoreWebView2ContextMenuRequestedEventArgs args)
+    {
+        if (SettingsHelper.GetSetting("AdvancedCTX") != "true")
+        {
+            MenuFlyout flyout;
+            if (args.ContextMenuTarget.Kind == CoreWebView2ContextMenuTargetKind.SelectedText)
+            {
+                flyout = (MenuFlyout)Resources["TextContextMenu"];
+                SelectionText = args.ContextMenuTarget.SelectionText;
+            }
+
+            else if (args.ContextMenuTarget.Kind == CoreWebView2ContextMenuTargetKind.Image)
+                flyout = null;
+
+            else if (args.ContextMenuTarget.HasLinkUri)
+            {
+                flyout = (MenuFlyout)Resources["LinkContextMenu"];
+                SelectionText = args.ContextMenuTarget.LinkText;
+                LinkUri = args.ContextMenuTarget.LinkUri;
+            }
+
+            else if (args.ContextMenuTarget.IsEditable)
+                flyout = null;
+
+            else
+                flyout = (MenuFlyout)Resources["BrowserMenuFlyout"];
+
+            if (flyout != null)
+            {
+                FlyoutBase.SetAttachedFlyout(WebViewControl, flyout);
+                var wv2flyout = FlyoutBase.GetAttachedFlyout(WebViewControl);
+                var options = new FlyoutShowOptions()
+                {
+                    Position = args.Location,
+                };
+                wv2flyout?.ShowAt(WebViewControl, options);
+                args.Handled = true;
+            }
+        }
+    }
+
+    private void CoreWebView2_IsDocumentPlayingAudioChanged(CoreWebView2 sender, object args)
+    {
+        switch (sender.IsDocumentPlayingAudio)
+        {
+            case true:
+                MuteBtn.Visibility = Visibility.Visible;
+                break;
+            case false:
+                MuteBtn.Visibility = Visibility.Collapsed;
+                break;
+        }
+    }
+
+    private void CoreWebView2_IsMutedChanged(CoreWebView2 sender, object args)
+    {
+        if (sender.IsMuted)
+        {
+            MuteBtn.Content = new FontIcon { FontFamily = new FontFamily("Segoe MDL2 Assets"), Glyph = "\uE74F" };
+            return;
+        }
+        if (!sender.IsMuted)
+        {
+            MuteBtn.Content = new FontIcon { FontFamily = new FontFamily("Segoe MDL2 Assets"), Glyph = "\uE767" };
+        }
+    }
+
+    private void CoreWebView2_DocumentTitleChanged(CoreWebView2 sender, object args)
+    {
+        myTab.Title = sender.DocumentTitle;
+    }
+
+    private void CoreWebView2_FaviconChanged(CoreWebView2 sender, object args)
+    {
+        //myTab.Icon = new Uri(sender.FaviconUri);
+    }
+
+    private void CoreWebView2_ContainsFullScreenElementChanged(CoreWebView2 sender, object args)
+    {
+        bool fs = WindowHelper.IsWindowInFullScreen();
+        if (!fs)
+        {
+            WindowHelper.SetFullScreen(true);
+            UrlBoxWrapper.Visibility = Visibility.Collapsed;
+            Sidebar.Visibility = Visibility.Collapsed;
+        }
+        else
+        {
+            WindowHelper.SetFullScreen(false);
+            UrlBoxWrapper.Visibility = Visibility.Visible;
+            Sidebar.Visibility = Visibility.Visible;
+        }
+    }
+
+    private async void AppBarButton_Click(object sender, RoutedEventArgs e)
+    {
+        switch ((sender as MenuFlyoutItem).Tag)
+        {
+            // general context menu
+            case "Back":
+                if (WebViewControl.CanGoBack)
+                    WebViewControl.GoBack();
+                break;
+            case "Refresh":
+                WebViewControl.Reload();
+                break;
+            case "Forward":
+                if (WebViewControl.CanGoForward)
+                    WebViewControl.GoForward();
+                break;
+            case "CopyPageLink":
+                ClipboardHelper.CopyTextToClipboard(WebViewControl.CoreWebView2.Source);
+                break;
+            case "SelectAll":
+                await WebViewControl.CoreWebView2.ExecuteScriptAsync("document.execCommand(\"selectAll\");");
+                break;
+            case "Print":
+                WebViewControl.CoreWebView2.ShowPrintUI(CoreWebView2PrintDialogKind.Browser);
+                break;
+            case "Save":
+                await WebViewControl.CoreWebView2.ShowSaveAsUIAsync();
+                break;
+            // text context menu
+            case "OpenLnkInNewTab":
+                WindowHelper.CreateNewTabInMainWindow("New tab", LinkUri);
+                break;
+            case "Copy":
+                ClipboardHelper.CopyTextToClipboard(LinkUri);
+                break;
+            case "CopyText":
+                ClipboardHelper.CopyTextToClipboard(SelectionText);
+                break;
+            // link context menu
+            case "Search":
+                string link = SettingsHelper.CurrentSearchUrl + SelectionText;
+                WindowHelper.CreateNewTabInMainWindow("New tab", link);
+                break;
+            case "DevTools":
+                WebViewControl.CoreWebView2.OpenDevToolsWindow();
+                break;
+            case "TaskManager":
+                WebViewControl.CoreWebView2.OpenTaskManagerWindow();
+                break;
+        }
+        var flyout = FlyoutBase.GetAttachedFlyout(WebViewControl);
+        flyout.Hide();
+    }
+
+    private void UrlBox_KeyDown(object sender, KeyRoutedEventArgs e)
+    {
+        if (e.Key == WS.VirtualKey.Enter)
+        {
+            string input = UrlBox.Text;
+            string inputtype = UrlHelper.GetInputType(input);
+            if (inputtype == "urlNOProtocol")
+                NavigateToUrl("https://" + input.Trim());
+            else if (inputtype == "url")
+                NavigateToUrl(input.Trim());
+            else
+            {
+                string query = SettingsHelper.CurrentSearchUrl + input;
+                NavigateToUrl(query);
+            }
+        }
+    }
+
+    private void UrlBox_GotFocus(object sender, RoutedEventArgs e)
+    {
+        UrlBox.SelectAll();
+    }
+
+    private void NavigateToUrl(string uri)
+    {
+        WebViewControl.CoreWebView2.Navigate(uri);
+    }
+
+    byte[] QrCode;
+
+    private async void SidebarButton_Click(object sender, RoutedEventArgs e)
+    {
+        switch ((sender as Button).Tag)
+        {
+            case "Back":
+                WebViewControl.GoBack();
+                break;
+            case "Refresh":
+                WebViewControl.Reload();
+                break;
+            case "ToggleUrlBox":
+                UrlBoxWrapper.Visibility = UrlBoxWrapper.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+                UrlBox.Focus(FocusState.Keyboard);
+                break;
+            case "Forward":
+                WebViewControl.GoForward();
+                break;
+            case "ReadingMode":
+                string jscript = await Modules.Readability.ReadabilityHelper.GetReadabilityScriptAsync();
+                await WebViewControl.CoreWebView2.ExecuteScriptAsync(jscript);
+                break;
+            case "Translate":
+                string url = WebViewControl.CoreWebView2.Source;
+                WebViewControl.CoreWebView2.Navigate("https://translate.google.com/translate?hl&u=" + url);
+                break;
+            case "AddFavoriteFlyout":
+                FavoriteTitle.Text = WebViewControl.CoreWebView2.DocumentTitle;
+                FavoriteUrl.Text = WebViewControl.CoreWebView2.Source;
+                break;
+            case "Downloads":
+                WebViewControl.CoreWebView2.OpenDefaultDownloadDialog();
+                break;
+            case "GenQRCode":
+                QrCode = await Modules.QRCodeGen.QRCodeHelper.GenerateQRCodeFromUrlAsync(WebViewControl.CoreWebView2.Source);
+                if (QrCode == null)
+                {
+                    //await UI.ShowDialog("Error", "An error occured while trying to create a qr code for this website");
+                    break;
+                }
+                BitmapImage QrCodeImage = await Modules.QRCodeGen.QRCodeHelper.ConvertBitmapBytesToImage(QrCode);
+                QRCodeImage.Source = QrCodeImage;
+                QRCodeFlyout.ShowAt(sender as Button);
+                break;
+            case "Mute":
+                WebViewControl.CoreWebView2.IsMuted = !WebViewControl.CoreWebView2.IsMuted;
+                break;
+        }
+    }
+
+    private void AddFavoriteButton_Click(object sender, RoutedEventArgs e)
+    {
+        FavoritesHelper.AddFavorite(FavoriteTitle.Text, FavoriteUrl.Text);
+        AddFavoriteFlyout.Hide();
+    }
+
+    private async void QRCodeButton_Click(object sender, RoutedEventArgs e)
+    {
+        await FileHelper.SaveBytesAsFileAsync("QRCode", QrCode, "Bitmap", ".bmp");
+    }
+}

@@ -1,0 +1,19 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="ARM64" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="external/QRCoder/QRCoder.csproj" />
+  <Project Path="package/Horizon.Package/Horizon.Package.wapproj" Type="c7167f0d-bc9f-4e6e-afe1-012c56b48db5" Id="b6778c81-1666-4c6a-90d2-2dffe9002500">
+    <Deploy />
+  </Project>
+  <Project Path="src/Horizon.csproj">
+    <Platform Solution="*|Any CPU" Project="x64" />
+    <Platform Solution="*|ARM64" Project="ARM64" />
+    <Platform Solution="*|x64" Project="x64" />
+    <Platform Solution="*|x86" Project="x86" />
+    <Deploy />
+  </Project>
+</Solution>
