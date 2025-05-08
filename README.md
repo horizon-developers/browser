@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/HeroImage.jpg" alt="Horizon screenshot" />
+  <img src="https://store-images.s-microsoft.com/image/apps.58485.14199299454065324.49bf96ae-f30a-4763-bcc4-b4641154db7e.88b9ef73-49d3-4dc5-b4b4-bda274b30b3b" alt="Horizon screenshot" />
 </p>
 
 <p align="center">
