@@ -22,12 +22,6 @@ public sealed partial class WebViewPage : Page
         IsSplitTab = parameters.IsSplitTab;
     }
 
-    private void UrlBox_Loaded(object sender, RoutedEventArgs e)
-    {
-        UrlBox.Focus(FocusState.Programmatic);
-
-    }
-
     private async void WebViewControl_Loaded(object sender, RoutedEventArgs e)
     {
         if ((sender as WebView2).CoreWebView2 == null)
@@ -63,7 +57,7 @@ public sealed partial class WebViewPage : Page
         }
     }
 
-    private void WebViewControl_CoreWebView2Initialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
+    private async void WebViewControl_CoreWebView2Initialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
     {
         // WebViewEvents
         sender.CoreWebView2.NavigationStarting += CoreWebView2_NavigationStarting;
@@ -77,6 +71,9 @@ public sealed partial class WebViewPage : Page
             sender.CoreWebView2.DocumentTitleChanged += CoreWebView2_DocumentTitleChanged;
         //sender.CoreWebView2.FaviconChanged += CoreWebView2_FaviconChanged;
         sender.CoreWebView2.ContainsFullScreenElementChanged += CoreWebView2_ContainsFullScreenElementChanged;
+        sender.CoreWebView2.WebMessageReceived += CoreWebView2_WebMessageReceived;
+        string mainscript = "document.addEventListener(\"keydown\",function(e){e.ctrlKey&&\"l\"===e.key&&(e.preventDefault(),window.chrome.webview.postMessage(\"ControlL\"))});";
+        await sender.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(mainscript);
         sender.Source = new Uri(launchurl);
     }
 
@@ -198,6 +195,19 @@ public sealed partial class WebViewPage : Page
         }
     }
 
+    #region Keyboard shortcuts
+    private void CoreWebView2_WebMessageReceived(CoreWebView2 sender, CoreWebView2WebMessageReceivedEventArgs args)
+    {
+        // this input has been treated as VERY unsecure input
+        // DO NOT add anything which could be slighly insecure
+        if (args.TryGetWebMessageAsString() == "ControlL")
+        {
+            ToggleUrlBox();
+            return;
+        }
+    }
+    #endregion
+
     private async void AppBarButton_Click(object sender, RoutedEventArgs e)
     {
         switch ((sender as MenuFlyoutItem).Tag)
@@ -252,9 +262,17 @@ public sealed partial class WebViewPage : Page
         flyout.Hide();
     }
 
-    private void UrlBox_KeyDown(object sender, KeyRoutedEventArgs e)
+
+    private void UrlBoxKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
     {
-        if (e.Key == WS.VirtualKey.Enter)
+        if (args.KeyboardAccelerator.Key == WS.VirtualKey.Escape)
+        {
+            UrlBoxWrapper.Visibility = Visibility.Collapsed;
+            WebViewControl.Focus(FocusState.Keyboard);
+            args.Handled = true;
+            return;
+        }
+        if (args.KeyboardAccelerator.Key == WS.VirtualKey.Enter)
         {
             string input = UrlBox.Text;
             string inputtype = UrlHelper.GetInputType(input);
@@ -267,6 +285,9 @@ public sealed partial class WebViewPage : Page
                 string query = SettingsHelper.CurrentSearchUrl + input;
                 NavigateToUrl(query);
             }
+            UrlBoxWrapper.Visibility = Visibility.Collapsed;
+            args.Handled = true;
+            return;
         }
     }
 
@@ -293,8 +314,7 @@ public sealed partial class WebViewPage : Page
                 WebViewControl.Reload();
                 break;
             case "ToggleUrlBox":
-                UrlBoxWrapper.Visibility = UrlBoxWrapper.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
-                UrlBox.Focus(FocusState.Keyboard);
+                ToggleUrlBox();
                 break;
             case "Forward":
                 WebViewControl.GoForward();
@@ -340,5 +360,21 @@ public sealed partial class WebViewPage : Page
     private async void QRCodeButton_Click(object sender, RoutedEventArgs e)
     {
         await FileHelper.SaveBytesAsFileAsync("QRCode", QrCode, "Bitmap", ".bmp");
+    }
+
+    private void ToggleUrlBox()
+    {
+        switch(UrlBoxWrapper.Visibility)
+        {
+            case Visibility.Visible:
+                UrlBoxWrapper.Visibility = Visibility.Collapsed;
+                WebViewControl.Focus(FocusState.Keyboard);
+                break;
+
+            case Visibility.Collapsed:
+                UrlBoxWrapper.Visibility = Visibility.Visible;
+                UrlBox.Focus(FocusState.Keyboard);
+                break;
+        }
     }
 }

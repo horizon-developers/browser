@@ -46,9 +46,12 @@
                     Grid.Row="1"
                     Width="450"
                     IsSpellCheckEnabled="False"
-                    KeyDown="UrlBox_KeyDown"
                     Loaded="UrlBox_Loaded"
-                    PlaceholderText="Type here to search or enter url" />
+                    PlaceholderText="Type here to search or enter url">
+                    <TextBox.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="Enter" Invoked="UrlBoxKeyboardAccelerator_Invoked" />
+                    </TextBox.KeyboardAccelerators>
+                </TextBox>
             </Grid>
         </Grid>
     </Grid>

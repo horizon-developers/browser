@@ -15,9 +15,7 @@ public sealed partial class NewTabPage : Page
 
         if (e.Parameter != null)
         {
-            var parameters = (XAMLTabCreationParams)e.Parameter;
-
-            myTab = parameters.myTab;
+            myTab = (Tab)e.Parameter;
         }
     }
 
@@ -26,22 +24,16 @@ public sealed partial class NewTabPage : Page
         (sender as TextBox).Focus(FocusState.Programmatic);
     }
 
-    private void UrlBox_KeyDown(object sender, KeyRoutedEventArgs e)
+    private void UrlBoxKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
     {
-        if (e.Key == WS.VirtualKey.Enter)
+        if (args.KeyboardAccelerator.Key == WS.VirtualKey.Enter)
         {
-            string input = (sender as TextBox).Text;
+            string input = UrlBox.Text;
             if (!string.IsNullOrEmpty(input))
             {
                 ProcessQueryAndGo(input);
             }
         }
-    }
-
-    private void NavigateToUrl(string query)
-    {
-        WebTabCreationParams parameters = new() { LaunchURL = query, myTab = myTab };
-        Frame.Navigate(typeof(WebViewPage), parameters, new DrillInNavigationTransitionInfo());
     }
 
     private void ProcessQueryAndGo(string input)
@@ -56,5 +48,11 @@ public sealed partial class NewTabPage : Page
             string query = SettingsHelper.CurrentSearchUrl + input;
             NavigateToUrl(query);
         }
+    }
+
+    private void NavigateToUrl(string query)
+    {
+        WebTabCreationParams parameters = new() { LaunchURL = query, myTab = myTab };
+        Frame.Navigate(typeof(WebViewPage), parameters, new DrillInNavigationTransitionInfo());
     }
 }

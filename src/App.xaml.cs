@@ -14,7 +14,6 @@ public partial class App : Application
         this.InitializeComponent();
         SettingsHelper.LoadSettingsOnStartup();
         UnhandledException += App_UnhandledException;
-        System.Diagnostics.Debug.WriteLine("NEW APP INSTANCE!!");
     }
 
     private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
@@ -29,7 +28,7 @@ public partial class App : Application
         {
             WV2RuntimeVersion = "NOT INSTALLED";
         }
-        string dotnetver = System.Environment.Version.ToString();
+        string dotnetver = Environment.Version.ToString();
         string apparch = RuntimeInformation.ProcessArchitecture.ToString();
         string BRI =
             $"Horizon version: {AppVersion}\n" +

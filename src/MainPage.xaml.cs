@@ -50,11 +50,7 @@ public sealed partial class MainPage : Page
         }
         else
         {
-            XAMLTabCreationParams paramsXAML = new()
-            {
-                myTab = tab
-            };
-            frame.Navigate(page, paramsXAML, new DrillInNavigationTransitionInfo());
+            frame.Navigate(page, tab, new DrillInNavigationTransitionInfo());
         }
         SettingsViewModel.SettingsVM.Tabs.Add(tab);
         TabListView.SelectedItem = tab;
@@ -241,4 +237,14 @@ public sealed partial class MainPage : Page
         FavoritesContextMenu.Hide();
     }
     #endregion
+
+    /*private void TabListView_ItemClick(object sender, ItemClickEventArgs e)
+    {
+        Tab clickedTab = e.ClickedItem as Tab; 
+
+        if (clickedTab == SelectedTab && ((SelectedTab.Content as Frame).Content is WebViewPage))
+        {
+            ((SelectedTab.Content as Frame).Content as WebViewPage).UrlBoxWrapper.Visibility = ((SelectedTab.Content as Frame).Content as WebViewPage).UrlBoxWrapper.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+        }
+    }*/
 }

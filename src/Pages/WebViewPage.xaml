@@ -98,9 +98,12 @@
             </MenuFlyoutItem>
             <MenuFlyoutItem
                 Click="AppBarButton_Click"
-                Icon="Save"
                 Tag="Save"
-                Text="Save" />
+                Text="Save as">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE792;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
             <MenuFlyoutItem
                 Click="AppBarButton_Click"
                 Icon="Print"
@@ -269,29 +272,41 @@
                 <FontIcon FontSize="16" Glyph="&#xE767;" />
             </Button.Content>
         </Button>
-        <Grid
-            x:Name="UrlBoxWrapper"
-            Grid.Column="1"
-            Height="32"
-            MinWidth="300"
-            MaxWidth="600"
-            Margin="10"
-            VerticalAlignment="Bottom"
-            Background="{StaticResource SystemControlAcrylicElementMediumHighBrush}"
-            CornerRadius="5">
-            <TextBox
-                x:Name="UrlBox"
-                Grid.Column="0"
-                GotFocus="UrlBox_GotFocus"
-                IsSpellCheckEnabled="False"
-                KeyDown="UrlBox_KeyDown"
-                PlaceholderText="Type here to search or enter url" />
-        </Grid>
         <ProgressBar
             x:Name="LoadingBar"
             Grid.Column="1"
             VerticalAlignment="Top"
             HorizontalContentAlignment="Stretch"
             IsIndeterminate="True" />
+        <Grid
+            x:Name="UrlBoxWrapper"
+            Grid.Column="1"
+            Width="500"
+            Height="80"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            x:FieldModifier="public"
+            Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+            CornerRadius="5"
+            Visibility="Collapsed">
+            <Grid
+                BorderBrush="{StaticResource ControlElevationBorderBrush}"
+                BorderThickness="2"
+                CornerRadius="5">
+                <TextBox
+                    x:Name="UrlBox"
+                    Height="32"
+                    Margin="15"
+                    GotFocus="UrlBox_GotFocus"
+                    IsSpellCheckEnabled="False"
+                    PlaceholderText="Type here to search or enter url">
+                    <TextBox.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="Enter" Invoked="UrlBoxKeyboardAccelerator_Invoked" />
+                        <KeyboardAccelerator Key="Escape" Invoked="UrlBoxKeyboardAccelerator_Invoked" />
+                    </TextBox.KeyboardAccelerators>
+                </TextBox>
+            </Grid>
+        </Grid>
+
     </Grid>
 </Page>
