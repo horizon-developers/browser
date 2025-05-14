@@ -27,13 +27,20 @@ public sealed partial class ExtensionsPage : Page
         };*/
     }
 
+    public void DisposeHeadless()
+    {
+        HeadlessWebViewInstance.Close();
+    }
+
     private async Task<IReadOnlyList<CoreWebView2BrowserExtension>> GetExtensionListAsync()
     {
         IReadOnlyList<CoreWebView2BrowserExtension> extensions = await HeadlessWebViewInstance.CoreWebView2.Profile.GetBrowserExtensionsAsync();
+#if DEBUG
         foreach (CoreWebView2BrowserExtension extension in extensions)
         {
             System.Diagnostics.Debug.WriteLine(extension.Name + ": " + extension.Id);
         }
+#endif
         return extensions;
     }
 

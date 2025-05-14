@@ -224,27 +224,11 @@
                         </Button.Content>
                         <Button.Flyout>
                             <MenuFlyout>
-                                <!--<MenuFlyoutItem
-                            Click="ToolbarFlyoutItem_Click"
-                            Tag="Extensions"
-                            Text="Extensions">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xEA86;" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>-->
                                 <MenuFlyoutItem
                                     Click="ToolbarFlyoutItem_Click"
                                     Icon="Setting"
                                     Tag="Settings"
                                     Text="Settings" />
-                                <!--<MenuFlyoutItem
-                            Click="ToolbarFlyoutItem_Click"
-                            Tag="DumpDebugInfo"
-                            Text="Dump debug info">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE730;" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>-->
                             </MenuFlyout>
                         </Button.Flyout>
                     </Button>

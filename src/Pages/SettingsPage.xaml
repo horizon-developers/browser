@@ -39,8 +39,17 @@
                     </ComboBox>
                 </toolkitc:SettingsCard>
                 <!--  Data  -->
-                <!--<TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Data" />
-                <toolkitc:SettingsCard x:Uid="ClearData">
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Data" />
+                <toolkitc:SettingsCard
+                    x:Name="SetDownloadFolderSettingsCard"
+                    Description="Loading.."
+                    Header="Download folder">
+                    <toolkitc:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE74E;" />
+                    </toolkitc:SettingsCard.HeaderIcon>
+                    <Button Click="SetDownloadFolderButton_Click" Content="Set download folder" />
+                </toolkitc:SettingsCard>
+                <!--<toolkitc:SettingsCard x:Uid="ClearData">
                     <toolkitc:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE74E;" />
                     </toolkitc:SettingsCard.HeaderIcon>

@@ -2,21 +2,13 @@ namespace Horizon;
 
 public sealed partial class MainPage : Page
 {
-#pragma warning disable IDE0044 // Add readonly modifier
-    //public ObservableCollection<Tab> Tabs = [];
-#pragma warning restore IDE0044 // Add readonly modifier
-
     public MainPage()
     {
         this.InitializeComponent();
-        //TabListView.ItemsSource = Tabs;
-
         GetFavorites();
-        //Window wind = WindowHelper.GetWindowForElement(this);
-
     }
 
-    public async void GetFavorites()
+    public static async void GetFavorites()
     {
         SettingsViewModel.SettingsVM.FavoritesList = await FavoritesHelper.GetFavoritesListAsync();
 #if DEBUG
@@ -28,7 +20,7 @@ public sealed partial class MainPage : Page
 #endif
     }
 
-    public async void CreateTab(string title, Type page, string launchurl = null)
+    public void CreateTab(string title, Type page, string launchurl = null)
     {
         Frame frame = new();
 
@@ -84,6 +76,14 @@ public sealed partial class MainPage : Page
             {
                 ((tab.Content as Frame).Content as SplitTabPage).CloseWebViews();
             }
+            if ((tab.Content as Frame).Content is ExtensionsPage)
+            {
+                ((tab.Content as Frame).Content as ExtensionsPage).DisposeHeadless();
+            }
+            if ((tab.Content as Frame).Content is SettingsPage)
+            {
+                ((tab.Content as Frame).Content as SettingsPage).DisposeHeadless();
+            }
             tab.Content = null;
             if (index == 0)
                 TabListView.SelectedIndex = 1;
@@ -126,10 +126,6 @@ public sealed partial class MainPage : Page
             case "History":
                 CreateWebTab("History", "edge://history");
                 break;
-                /*case "NewWindow":
-                    Window n_window = WindowHelper.CreateWindow();
-                    n_window.Activate();
-                    break;*/
         }
     }
 
@@ -143,24 +139,6 @@ public sealed partial class MainPage : Page
             case "Settings":
                 CreateTab("Settings", typeof(SettingsPage));
                 break;
-                /*case "DumpDebugInfo":
-                    string dotnetver = Environment.Version.ToString();
-                    string appver = AppVersionHelper.GetAppVersion();
-                    string apparch = RuntimeInformation.ProcessArchitecture.ToString();
-
-
-                    ushort WinAppSdkMajorVersion = Microsoft.WindowsAppSDK.Release.Major;
-                    ushort WinAppSdkMinorVersion = Microsoft.WindowsAppSDK.Release.Minor;
-                    ushort WinAppSdkPatchVersion = Microsoft.WindowsAppSDK.Release.Patch;
-
-                    string wv2version = CoreWebView2Environment.GetAvailableBrowserVersionString();
-
-                    string debugCombinedString = $"DotNet: {dotnetver}\nWinAppSdk: {WinAppSdkMajorVersion}.{WinAppSdkMinorVersion}.{WinAppSdkPatchVersion}\nWebView2Runtime: {wv2version}";
-
-                    var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(App.WindowHelper.MainWindow);
-
-                    Win32Helper.ShowMessageBox($"Horizon NewMoon ({appver}|{apparch})", $"Process debug information:\n" + debugCombinedString, hWnd);
-                    break;*/
         }
     }
 
@@ -237,14 +215,4 @@ public sealed partial class MainPage : Page
         FavoritesContextMenu.Hide();
     }
     #endregion
-
-    /*private void TabListView_ItemClick(object sender, ItemClickEventArgs e)
-    {
-        Tab clickedTab = e.ClickedItem as Tab; 
-
-        if (clickedTab == SelectedTab && ((SelectedTab.Content as Frame).Content is WebViewPage))
-        {
-            ((SelectedTab.Content as Frame).Content as WebViewPage).UrlBoxWrapper.Visibility = ((SelectedTab.Content as Frame).Content as WebViewPage).UrlBoxWrapper.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
-        }
-    }*/
 }

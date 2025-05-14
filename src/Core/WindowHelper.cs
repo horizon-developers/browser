@@ -54,9 +54,6 @@ public static class WindowHelper
         WindowMainPage = new MainPage();
         MainWindow.Content = WindowMainPage;
         MainWindow.SetTitleBar(WindowMainPage.TitleBarControl);
-
-
-
     }
 
     static public void ActivateMainWindow()

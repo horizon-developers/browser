@@ -2,9 +2,12 @@ namespace Horizon.Pages;
 
 public sealed partial class SettingsPage : Page
 {
+    private WebView2 HeadlessWebViewInstance = new();
+
     public SettingsPage()
     {
         this.InitializeComponent();
+        InitHeadless();
     }
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -43,6 +46,23 @@ public sealed partial class SettingsPage : Page
         AdvancedCTXToggle.Toggled += AdvancedCTXToggle_Toggled;
     }
 
+    private async void InitHeadless()
+    {
+        CoreWebView2EnvironmentOptions options = new()
+        {
+            AreBrowserExtensionsEnabled = true,
+            ScrollBarStyle = CoreWebView2ScrollbarStyle.FluentOverlay
+        };
+        CoreWebView2Environment environment = await CoreWebView2Environment.CreateWithOptionsAsync(null, null, options);
+        await HeadlessWebViewInstance.EnsureCoreWebView2Async(environment);
+        UpdateSetDownloadFolderSettingsCardDescription();
+    }
+
+    public void DisposeHeadless()
+    {
+        HeadlessWebViewInstance.Close();
+    }
+
     private void SetAsDefaultButton_Click(object sender, RoutedEventArgs e)
     {
 
@@ -52,6 +72,46 @@ public sealed partial class SettingsPage : Page
     {
         SearchEngine engine = e.AddedItems[0] as SearchEngine;
         SearchEngineHelper.SetSearchEngine(engine);
+    }
+
+    private void UpdateSetDownloadFolderSettingsCardDescription()
+    {
+        CoreWebView2Profile profile = HeadlessWebViewInstance.CoreWebView2.Profile;
+        SetDownloadFolderSettingsCard.Description = profile.DefaultDownloadFolderPath;
+    }
+
+    private async void SetDownloadFolderButton_Click(object sender, RoutedEventArgs e)
+    {
+        //disable the button to avoid double-clicking
+        var senderButton = sender as Button;
+        senderButton.IsEnabled = false;
+
+        // Create a folder picker
+        FolderPicker openPicker = new FolderPicker();
+
+        // Retrieve the window handle (HWND) of the current WinUI 3 window.
+        var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(WindowHelper.MainWindow);
+
+        // Initialize the folder picker with the window handle (HWND).
+        WinRT.Interop.InitializeWithWindow.Initialize(openPicker, hWnd);
+
+        // Set options for your folder picker
+        openPicker.SuggestedStartLocation = PickerLocationId.Desktop;
+        openPicker.FileTypeFilter.Add("*");
+
+        // Open the picker for the user to pick a folder
+        StorageFolder folder = await openPicker.PickSingleFolderAsync();
+        if (folder != null)
+        {
+            CoreWebView2Profile profile = HeadlessWebViewInstance.CoreWebView2.Profile;
+            profile.DefaultDownloadFolderPath = folder.Path;
+        }
+
+        //re-enable the button
+        senderButton.IsEnabled = true;
+
+        UpdateSetDownloadFolderSettingsCardDescription();
+
     }
 
     private void BackdropTypeSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
