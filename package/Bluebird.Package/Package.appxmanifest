@@ -11,7 +11,7 @@
   <Identity
     Name="57443TechFireX.BlueBirdBrowser"
     Publisher="CN=787233D4-4D29-47D2-B29A-AD3E99C44FE7"
-    Version="8.3.0.0" />
+    Version="8.4.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="d802fa1e-c8a5-4556-8ef4-26818b13fddd"
     PhonePublisherId="00000000-0000-0000-0000-000000000000" />
