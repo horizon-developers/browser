@@ -2,18 +2,10 @@
 
 public static class WebView2ProfileHelper
 {
-    public static async Task ClearAllProfileDataAsync()
+    public static async Task ClearAllProfileDataAsync(WebView2 wv2)
     {
-        /*if (WindowHelper.MainWindow.MainWebView.CoreWebView2 != null)
-        {
-            CoreWebView2Profile profile = MainPageContent.MainWebView.CoreWebView2.Profile;
-            await profile.ClearBrowsingDataAsync();
-        }
-        else
-        {
-            NotificationHelper.NotifyUser("Error", "An error occurred while trying to clear user profile data");
-        }*/
-
+        CoreWebView2Profile profile = wv2.CoreWebView2.Profile;
+        await profile.ClearBrowsingDataAsync();
         await FileHelper.DeleteLocalFile("Favorites.json");
         SettingsViewModel.SettingsVM.FavoritesList.Clear();
     }
