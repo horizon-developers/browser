@@ -1,5 +1,8 @@
 ﻿namespace Horizon.Core;
 
+/// <summary>
+/// A helper class for Win32 api calls which have not yet been migrated to CsWin32
+/// </summary>
 internal class Win32Helper
 {
     [DllImport("user32.dll", CharSet = CharSet.Unicode)]

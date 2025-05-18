@@ -2,6 +2,10 @@
 
 namespace Horizon.Core;
 
+/// <summary>
+/// A common helper for Window operations
+/// It allows for easy creation of new windows, modifing, accessing and closing them
+/// </summary>
 public static class WindowHelper
 {
     public static void SetFullScreen(bool fs)
