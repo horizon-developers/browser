@@ -1,11 +1,10 @@
 ﻿namespace Horizon.Core;
 
-internal class WindowsHelloHelper
+public class WindowsHelloHelper
 {
-    private static async Task<bool> CheckSec()
+    public static async Task<bool> CheckSec()
     {
-        UserConsentVerifierAvailability availability = await UserConsentVerifier.CheckAvailabilityAsync();
-        if (availability == UserConsentVerifierAvailability.Available)
+        if (await CheckAvailability() == UserConsentVerifierAvailability.Available)
         {
             UserConsentVerificationResult consent = await UserConsentVerifier.RequestVerificationAsync(string.Empty);
             if (consent == UserConsentVerificationResult.Verified)
@@ -16,4 +15,11 @@ internal class WindowsHelloHelper
         }
         return true;
     }
+
+    public static async Task<UserConsentVerifierAvailability> CheckAvailability()
+    {
+        UserConsentVerifierAvailability availability = await UserConsentVerifier.CheckAvailabilityAsync();
+        return availability;
+    }
+
 }

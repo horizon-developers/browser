@@ -40,10 +40,16 @@ public sealed partial class SettingsPage : Page
             AdvancedCTXToggle.IsOn = true;
         }
 
+        if (SettingsHelper.GetSetting("IsAppLockEnabled") == "true")
+        {
+            WindowsHelloToggle.IsOn = true;
+        }
+
         // Set event handlers
         SearchEngineSelector.SelectionChanged += SearchEngineSelector_SelectionChanged;
         BackdropTypeSelector.SelectionChanged += BackdropTypeSelector_SelectionChanged;
         AdvancedCTXToggle.Toggled += AdvancedCTXToggle_Toggled;
+        WindowsHelloToggle.Toggled += WindowsHelloLockToggle_Toggled;
     }
 
     private async void InitHeadless()
@@ -128,6 +134,30 @@ public sealed partial class SettingsPage : Page
                 break;
             case false:
                 SettingsHelper.SetSetting("AdvancedCTX", "false");
+                break;
+        }
+    }
+
+    private async void WindowsHelloLockToggle_Toggled(object sender, RoutedEventArgs e)
+    {
+        switch ((sender as ToggleSwitch).IsOn)
+        {
+            case true:
+                UserConsentVerifierAvailability IsWinHelloAvailable = await WindowsHelloHelper.CheckAvailability();
+                if (IsWinHelloAvailable == UserConsentVerifierAvailability.Available)
+                {
+                    SettingsHelper.SetSetting("IsAppLockEnabled", "true");
+                    return;
+                }
+                if (IsWinHelloAvailable == UserConsentVerifierAvailability.NotConfiguredForUser)
+                {
+                    Win32Helper.ShowMessageBox("Horizon", "An error occured while trying to setup App Lock using Windows Hello.\n\nPlease setup it in Windows Settings");
+                    (sender as ToggleSwitch).IsOn = false;
+                    break;
+                }
+                break;
+            case false:
+                SettingsHelper.SetSetting("IsAppLockEnabled", "false");
                 break;
         }
     }

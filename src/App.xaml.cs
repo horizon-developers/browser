@@ -118,9 +118,25 @@ public partial class App : Application
         // Otherwise, register for activation redirection
         AppInstance.GetCurrent().Activated += App_Activated;
 
-        WindowHelper.CreateMainWindow();
-        WindowHelper.ActivateMainWindow();
-
+        if (SettingsHelper.GetSetting("IsAppLockEnabled") == "true")
+        {
+            if (await WindowsHelloHelper.CheckSec())
+            {
+                WindowHelper.CreateMainWindow();
+                WindowHelper.ActivateMainWindow();
+            }
+            else
+            {
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
+                return;
+            }
+        }
+        else
+        {
+            WindowHelper.CreateMainWindow();
+            WindowHelper.ActivateMainWindow();
+        }
+        
         HandleUriActivation(appArgs);
     }
 
