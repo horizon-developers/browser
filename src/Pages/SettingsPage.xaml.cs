@@ -164,12 +164,13 @@ public sealed partial class SettingsPage : Page
 
     /*private async void ClearUserDataButton_Click(object sender, RoutedEventArgs e)
     {
+        // ShowDialogWithAction is no longer available, as PenguinApps.Core has never been updated to support WinAppSdk / WinUI
         var result = await UI.ShowDialogWithAction($"Question", "Do you really want to clear all user data?", "Yes", "No");
         if (result == ContentDialogResult.Primary)
         {
             ClearUserDataProgressRing.IsActive = true;
             ClearUserDataBtn.IsEnabled = false;
-            await WebView2ProfileDataHelper.ClearAllProfileDataAsync();
+            await WebView2ProfileDataHelper.ClearAllProfileDataAsync(HeadlessWebViewInstance);
             ClearUserDataProgressRing.IsActive = false;
             ClearUserDataBtn.IsEnabled = true;
             ContentDialog dialog = new()
@@ -180,6 +181,7 @@ public sealed partial class SettingsPage : Page
             };
 
             ContentDialogResult contentDialogResult = await dialog.ShowAsync();
+            // This doesn't work for WinAppSdk apps, we have to find another way
             if (contentDialogResult == ContentDialogResult.Primary)
             {
                 var appRestart = await CoreApplication.RequestRestartAsync(string.Empty);

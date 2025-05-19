@@ -165,6 +165,12 @@ public partial class App : Application
             {
                 (WindowHelper.MainWindow.Content as MainPage).CreateWebTab("New tab", uri);
             });
+            return;
         }
+
+        _ = WindowHelper.MainWindow.DispatcherQueue.TryEnqueue(() =>
+        {
+            (WindowHelper.MainWindow.Content as MainPage).UrlBoxWrapper.Visibility = Visibility.Visible;
+        });
     }
 }

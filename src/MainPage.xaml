@@ -241,6 +241,37 @@
         ResizeBehavior="BasedOnAlignment"
         ResizeDirection="Columns" />-->
         </Grid>
+        <Grid
+            x:Name="UrlBoxWrapper"
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Width="500"
+            Height="80"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            x:FieldModifier="public"
+            Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+            CornerRadius="5"
+            Visibility="Collapsed">
+            <Grid
+                BorderBrush="{StaticResource ControlElevationBorderBrush}"
+                BorderThickness="2"
+                CornerRadius="5">
+                <TextBox
+                    x:Name="UrlBox"
+                    Height="32"
+                    Margin="15"
+                    x:FieldModifier="public"
+                    GotFocus="UrlBox_GotFocus"
+                    IsSpellCheckEnabled="False"
+                    PlaceholderText="Type here to search or enter url">
+                    <TextBox.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="Enter" Invoked="UrlBoxKeyboardAccelerator_Invoked" />
+                        <KeyboardAccelerator Key="Escape" Invoked="UrlBoxKeyboardAccelerator_Invoked" />
+                    </TextBox.KeyboardAccelerators>
+                </TextBox>
+            </Grid>
+        </Grid>
     </Grid>
 
 </Page>
