@@ -170,7 +170,7 @@ public partial class App : Application
 
         _ = WindowHelper.MainWindow.DispatcherQueue.TryEnqueue(() =>
         {
-            (WindowHelper.MainWindow.Content as MainPage).UrlBoxWrapper.Visibility = Visibility.Visible;
+            (WindowHelper.MainWindow.Content as MainPage).CreateWebTab("New tab", string.Empty);
         });
     }
 }

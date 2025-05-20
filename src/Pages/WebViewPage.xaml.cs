@@ -28,7 +28,6 @@ public sealed partial class WebViewPage : Page
         {
             try
             {
-                System.Diagnostics.Debug.WriteLine("WebView instance init");
                 CoreWebView2EnvironmentOptions options = new()
                 {
                     AreBrowserExtensionsEnabled = true,
@@ -74,7 +73,15 @@ public sealed partial class WebViewPage : Page
         sender.CoreWebView2.WebMessageReceived += CoreWebView2_WebMessageReceived;
         string mainscript = "document.addEventListener(\"keydown\",function(e){e.ctrlKey&&\"l\"===e.key&&(e.preventDefault(),window.chrome.webview.postMessage(\"ControlL\"))});";
         await sender.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(mainscript);
-        sender.Source = new Uri(launchurl);
+        if (launchurl != string.Empty && launchurl != null)
+        {
+            sender.Source = new Uri(launchurl);
+            UrlBoxWrapper.Visibility = Visibility.Collapsed;
+            WebViewControl.Visibility = Visibility.Visible;
+            return;
+        }
+        sender.NavigateToString(ModernAboutBlank.MinifiedModernBlackPageHTML);
+        UrlBox.Focus(FocusState.Keyboard);
     }
 
     private void CoreWebView2_NavigationStarting(CoreWebView2 sender, CoreWebView2NavigationStartingEventArgs args)
@@ -274,6 +281,8 @@ public sealed partial class WebViewPage : Page
         }
         if (args.KeyboardAccelerator.Key == WS.VirtualKey.Enter)
         {
+            if (WebViewControl.Visibility != Visibility.Visible)
+                WebViewControl.Visibility = Visibility.Visible;
             string input = UrlBox.Text;
             string inputtype = UrlHelper.GetInputType(input);
             if (inputtype == "urlNOProtocol")

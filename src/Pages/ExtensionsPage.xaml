@@ -47,8 +47,8 @@
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="wv2core:CoreWebView2BrowserExtension">
                             <StackPanel Margin="-2,8,0,8">
-                                <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-                                <TextBlock Text="{x:Bind Id, Mode=OneWay}" />
+                                <TextBlock Text="{x:Bind Name, Mode=OneTime}" />
+                                <TextBlock Text="{x:Bind Id, Mode=OneTime}" />
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>

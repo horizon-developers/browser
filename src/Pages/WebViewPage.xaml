@@ -191,7 +191,8 @@
                 x:Name="WebViewControl"
                 x:FieldModifier="public"
                 CoreWebView2Initialized="WebViewControl_CoreWebView2Initialized"
-                Loaded="WebViewControl_Loaded" />
+                Loaded="WebViewControl_Loaded"
+                Visibility="Collapsed" />
         </Grid>
         <StackPanel
             x:Name="Sidebar"
@@ -287,8 +288,7 @@
             VerticalAlignment="Center"
             x:FieldModifier="public"
             Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
-            CornerRadius="5"
-            Visibility="Collapsed">
+            CornerRadius="5">
             <Grid
                 BorderBrush="{StaticResource ControlElevationBorderBrush}"
                 BorderThickness="2"

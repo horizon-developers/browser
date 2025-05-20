@@ -7,7 +7,7 @@ public sealed partial class SplitTabPage : Page
         this.InitializeComponent();
         WebTabCreationParams parameters = new()
         {
-            LaunchURL = "https://Horizon-developers.github.io/ntp/",
+            LaunchURL = string.Empty,
             IsSplitTab = true
         };
         LeftFrame.Navigate(typeof(WebViewPage), parameters);
