@@ -20,6 +20,11 @@ public sealed partial class WebViewPage : Page
         launchurl = parameters.LaunchURL;
         myTab = parameters.myTab;
         IsSplitTab = parameters.IsSplitTab;
+
+        if (launchurl == string.Empty)
+        {
+            UrlBoxWrapper.Visibility = Visibility.Visible;
+        }
     }
 
     private async void WebViewControl_Loaded(object sender, RoutedEventArgs e)
@@ -76,22 +81,22 @@ public sealed partial class WebViewPage : Page
         if (launchurl != string.Empty && launchurl != null)
         {
             sender.Source = new Uri(launchurl);
-            UrlBoxWrapper.Visibility = Visibility.Collapsed;
             WebViewControl.Visibility = Visibility.Visible;
             return;
         }
-        sender.NavigateToString(ModernAboutBlank.MinifiedModernBlackPageHTML);
         UrlBox.Focus(FocusState.Keyboard);
     }
 
     private void CoreWebView2_NavigationStarting(CoreWebView2 sender, CoreWebView2NavigationStartingEventArgs args)
     {
+        LoadingBar.IsIndeterminate = true;
         LoadingBar.Visibility = Visibility.Visible;
     }
 
     private void CoreWebView2_NavigationCompleted(CoreWebView2 sender, CoreWebView2NavigationCompletedEventArgs args)
     {
         LoadingBar.Visibility = Visibility.Collapsed;
+        LoadingBar.IsIndeterminate = false;
     }
 
     private void CoreWebView2_SourceChanged(CoreWebView2 sender, CoreWebView2SourceChangedEventArgs args)

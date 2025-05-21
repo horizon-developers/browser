@@ -278,7 +278,7 @@
             Grid.Column="1"
             VerticalAlignment="Top"
             HorizontalContentAlignment="Stretch"
-            IsIndeterminate="True" />
+            Visibility="Collapsed" />
         <Grid
             x:Name="UrlBoxWrapper"
             Grid.Column="1"
@@ -288,7 +288,8 @@
             VerticalAlignment="Center"
             x:FieldModifier="public"
             Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
-            CornerRadius="5">
+            CornerRadius="5"
+            Visibility="Collapsed">
             <Grid
                 BorderBrush="{StaticResource ControlElevationBorderBrush}"
                 BorderThickness="2"

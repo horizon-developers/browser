@@ -115,8 +115,7 @@ public sealed partial class MainPage : Page
         switch ((sender as Button).Tag)
         {
             case "NewTab":
-                UrlBoxWrapper.Visibility = Visibility.Visible;
-                UrlBox.Focus(FocusState.Keyboard);
+                CreateWebTab("New tab", string.Empty);
                 break;
             case "NewSplitTab":
                 CreateTab("New split tab", typeof(SplitTabPage));
@@ -172,41 +171,6 @@ public sealed partial class MainPage : Page
         }
 
 
-    }
-
-    private void UrlBox_GotFocus(object sender, RoutedEventArgs e)
-    {
-        UrlBox.SelectAll();
-    }
-
-    private void UrlBoxKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
-    {
-        if (args.KeyboardAccelerator.Key == WS.VirtualKey.Escape)
-        {
-            UrlBoxWrapper.Visibility = Visibility.Collapsed;
-            UrlBox.Text = null;
-            TabContentPresenter.Focus(FocusState.Keyboard);
-            args.Handled = true;
-            return;
-        }
-        if (args.KeyboardAccelerator.Key == WS.VirtualKey.Enter)
-        {
-            string input = UrlBox.Text;
-            string inputtype = UrlHelper.GetInputType(input);
-            if (inputtype == "urlNOProtocol")
-                CreateWebTab("New tab", "https://" + input.Trim());
-            else if (inputtype == "url")
-                CreateWebTab("New tab", input.Trim());
-            else
-            {
-                string query = SettingsHelper.CurrentSearchUrl + input;
-                CreateWebTab("New tab", query);
-            }
-            UrlBoxWrapper.Visibility = Visibility.Collapsed;
-            UrlBox.Text = null;
-            args.Handled = true;
-            return;
-        }
     }
 
     #region Favorites flyout
