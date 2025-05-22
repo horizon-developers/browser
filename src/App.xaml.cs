@@ -42,64 +42,11 @@ public partial class App : Application
         e.Handled = true;
     }
 
-    /*protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
-    {
-        var eventargs = AppInstance.GetCurrent().GetActivatedEventArgs();
-        if (eventargs.Kind is ExtendedActivationKind.Protocol && eventargs.Data is ProtocolActivatedEventArgs)
-        {
-            ProtocolActivatedEventArgs ProtocolArgs = eventargs.Data as ProtocolActivatedEventArgs;
-            string uri = ProtocolArgs.Uri.ToString();
-            if (WindowHelper.ActiveWindows.Count > 0)
-            {
-                WindowHelper.MainWindow = WindowHelper.CreateWindow();
-                WindowHelper.MainWindow.Activate();
-            }
-            System.Diagnostics.Debug.WriteLine(uri);
-            ((WindowHelper.ActiveWindows[0].Content as Frame).Content as MainPage).CreateWebTab("New tab", "\uEC6C", uri);
-        }
-        else
-        {
-            
-        }
-
-        var eventargs = AppInstance.GetCurrent().GetActivatedEventArgs();
-        if (eventargs.Kind is ExtendedActivationKind.Protocol)
-        {
-            //ProtocolActivatedEventArgs ProtocolArgs = eventargs.Data as ProtocolActivatedEventArgs;
-            IProtocolActivatedEventArgs ProtocolArgs = eventargs.Data as IProtocolActivatedEventArgs;
-            string uri = ProtocolArgs.Uri.ToString();
-            if (WindowHelper.ActiveWindows.Count == 0)
-            {
-                System.Diagnostics.Debug.WriteLine("NEW WIND ON START!!");
-                WindowHelper.MainWindow = WindowHelper.CreateWindow();
-                WindowHelper.MainWindow.Activate();
-            }
-            //((WindowHelper.ActiveWindows[0].Content as Frame).Content as MainPage).CreateWebTab("New tab", uri);
-            (WindowHelper.ActiveWindows[0].Content as MainPage).CreateWebTab("New tab", uri);
-            System.Diagnostics.Debug.WriteLine(WindowHelper.ActiveWindows.Count);
-            return;
-        }
-
-        if (!await CheckSec())
-        {
-            Application.Current.Exit();
-            return;
-        }
-        WindowHelper.MainWindow = WindowHelper.CreateWindow();
-        WindowHelper.MainWindow.Activate();
-        //((WindowHelper.MainWindow.Content as Frame).Content as MainPage).CreateTab("New tab", typeof(NewTabPage));
-        (WindowHelper.MainWindow.Content as MainPage).CreateTab("New tab", typeof(NewTabPage));
-        //System.Diagnostics.Debug.WriteLine(WindowHelper.ActiveWindows.Count);
-
-
-
-    }*/
-
     /// <summary>
     /// Invoked when the application is launched.
     /// </summary>
     /// <param name="args">Details about the launch request and process.</param>
-    protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
+    protected override async void OnLaunched(LaunchActivatedEventArgs args)
     {
         var appArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
         var mainInstance = AppInstance.FindOrRegisterForKey("HorizonSingleInstance");
@@ -144,9 +91,6 @@ public partial class App : Application
     {
         HandleUriActivation(e);
         // starting from here, the Microsoft.Windows.CsWin32 package has to referenced, as well as the following methods to NativeMethods.txt
-        // ShowWindow
-        // SetForegroundWindow
-        // otherwise the required source is not going to be generated
         var hwnd = (Windows.Win32.Foundation.HWND)WinRT.Interop.WindowNative.GetWindowHandle(WindowHelper.MainWindow);
         Windows.Win32.PInvoke.ShowWindow(hwnd, Windows.Win32.UI.WindowsAndMessaging.SHOW_WINDOW_CMD.SW_RESTORE);
         Windows.Win32.PInvoke.SetForegroundWindow(hwnd);
@@ -154,23 +98,12 @@ public partial class App : Application
 
     private static void HandleUriActivation(AppActivationArguments args)
     {
-        string uri = "about:blank";
-        if (args.Kind is ExtendedActivationKind.Protocol && args.Data != null)
+        string uri = string.Empty;
+        if (args.Data != null && args.Kind is ExtendedActivationKind.Protocol)
         {
             WAMA.IProtocolActivatedEventArgs ProtocolArgs = args.Data.As<WAMA.IProtocolActivatedEventArgs>();
             uri = ProtocolArgs.Uri.ToString();
-            System.Diagnostics.Debug.WriteLine(uri);
-
-            _ = WindowHelper.MainWindow.DispatcherQueue.TryEnqueue(() =>
-            {
-                (WindowHelper.MainWindow.Content as MainPage).CreateWebTab("New tab", uri);
-            });
-            return;
         }
-
-        _ = WindowHelper.MainWindow.DispatcherQueue.TryEnqueue(() =>
-        {
-            (WindowHelper.MainWindow.Content as MainPage).CreateWebTab("New tab", string.Empty);
-        });
+        WindowHelper.CreateNewTabInMainWindow("New tab", uri);
     }
 }
