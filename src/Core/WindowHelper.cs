@@ -58,6 +58,10 @@ public static class WindowHelper
         WindowMainPage = new MainPage();
         MainWindow.Content = WindowMainPage;
         MainWindow.SetTitleBar(WindowMainPage.TitleBarControl);
+        if (SettingsHelper.GetSetting("IsScreencaptureBlocked") == "true")
+        {
+            BlockScreencaptureForMainWindow(true);
+        }
     }
 
     static public void ActivateMainWindow()
@@ -96,6 +100,20 @@ public static class WindowHelper
         {
             presenter.PreferredMinimumWidth = 800;
             presenter.PreferredMinimumHeight = 500;
+        }
+    }
+
+    static public void BlockScreencaptureForMainWindow(bool b)
+    {
+        var hwnd = (Windows.Win32.Foundation.HWND)WinRT.Interop.WindowNative.GetWindowHandle(MainWindow);
+        switch (b)
+        {
+            case true:
+                Windows.Win32.PInvoke.SetWindowDisplayAffinity(hwnd, Windows.Win32.UI.WindowsAndMessaging.WINDOW_DISPLAY_AFFINITY.WDA_MONITOR);
+                break;
+            case false:
+                Windows.Win32.PInvoke.SetWindowDisplayAffinity(hwnd, Windows.Win32.UI.WindowsAndMessaging.WINDOW_DISPLAY_AFFINITY.WDA_NONE);
+                break;
         }
     }
 

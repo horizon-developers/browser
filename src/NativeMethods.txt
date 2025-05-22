@@ -1,2 +1,3 @@
 ﻿﻿﻿SetForegroundWindow
+SetWindowDisplayAffinity
 ShowWindow

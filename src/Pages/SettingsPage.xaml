@@ -81,6 +81,12 @@
                 </toolkitc:SettingsCard>
                 <!--  Advanced features  -->
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Advanced features" />
+                <toolkitc:SettingsCard Description="" Header="Block screencapture">
+                    <toolkitc:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE678;" />
+                    </toolkitc:SettingsCard.HeaderIcon>
+                    <ToggleSwitch x:Name="BlockCaptureToggle" />
+                </toolkitc:SettingsCard>
                 <toolkitc:SettingsCard Description="" Header="Lock with Windows Hello">
                     <toolkitc:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE72E;" />

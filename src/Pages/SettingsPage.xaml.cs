@@ -40,6 +40,11 @@ public sealed partial class SettingsPage : Page
             AdvancedCTXToggle.IsOn = true;
         }
 
+        if (SettingsHelper.GetSetting("IsScreencaptureBlocked") == "true")
+        {
+            BlockCaptureToggle.IsOn = true;
+        }
+
         if (SettingsHelper.GetSetting("IsAppLockEnabled") == "true")
         {
             WindowsHelloToggle.IsOn = true;
@@ -49,6 +54,7 @@ public sealed partial class SettingsPage : Page
         SearchEngineSelector.SelectionChanged += SearchEngineSelector_SelectionChanged;
         BackdropTypeSelector.SelectionChanged += BackdropTypeSelector_SelectionChanged;
         AdvancedCTXToggle.Toggled += AdvancedCTXToggle_Toggled;
+        BlockCaptureToggle.Toggled += BlockCaptureToggle_Toggled;
         WindowsHelloToggle.Toggled += WindowsHelloLockToggle_Toggled;
     }
 
@@ -150,6 +156,21 @@ public sealed partial class SettingsPage : Page
                 break;
             case false:
                 SettingsHelper.SetSetting("AdvancedCTX", "false");
+                break;
+        }
+    }
+
+    private void BlockCaptureToggle_Toggled(object sender, RoutedEventArgs e)
+    {
+        switch ((sender as ToggleSwitch).IsOn)
+        {
+            case true:
+                SettingsHelper.SetSetting("IsScreencaptureBlocked", "true");
+                WindowHelper.BlockScreencaptureForMainWindow(true);
+                break;
+            case false:
+                SettingsHelper.SetSetting("IsScreencaptureBlocked", "false");
+                WindowHelper.BlockScreencaptureForMainWindow(false);
                 break;
         }
     }
