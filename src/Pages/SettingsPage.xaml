@@ -80,7 +80,7 @@
                     <ToggleSwitch x:Name="AdvancedCTXToggle" />
                 </toolkitc:SettingsCard>
                 <!--  Advanced features  -->
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Advanced features" />
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Privacy" />
                 <toolkitc:SettingsCard Description="" Header="Block screencapture">
                     <toolkitc:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE678;" />
@@ -93,6 +93,7 @@
                     </toolkitc:SettingsCard.HeaderIcon>
                     <ToggleSwitch x:Name="WindowsHelloToggle" />
                 </toolkitc:SettingsCard>
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Advanced features" />
                 <toolkitc:SettingsCard
                     Click="SettingsCardClickHandler"
                     Description="Add/remove web extensions"
