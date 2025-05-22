@@ -76,7 +76,7 @@ public sealed partial class WebViewPage : Page
         //sender.CoreWebView2.FaviconChanged += CoreWebView2_FaviconChanged;
         sender.CoreWebView2.ContainsFullScreenElementChanged += CoreWebView2_ContainsFullScreenElementChanged;
         sender.CoreWebView2.WebMessageReceived += CoreWebView2_WebMessageReceived;
-        string mainscript = "document.addEventListener(\"keydown\",function(e){e.ctrlKey&&\"l\"===e.key&&(e.preventDefault(),window.chrome.webview.postMessage(\"ControlL\"))});";
+        string mainscript = "document.addEventListener(\"keydown\",function(e){e.ctrlKey&&\"l\"===e.key&&(e.preventDefault(),window.chrome.webview.postMessage(\"ControlL\")),e.ctrlKey&&\"t\"===e.key&&(e.preventDefault(),window.chrome.webview.postMessage(\"ControlT\"))});";
         await sender.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(mainscript);
         if (launchurl != string.Empty && launchurl != null)
         {
@@ -109,7 +109,6 @@ public sealed partial class WebViewPage : Page
         args.Handled = true;
         WindowHelper.CreateNewTabInMainWindow("New tab", args.Uri);
     }
-
 
     string SelectionText;
     string LinkUri;
@@ -185,10 +184,10 @@ public sealed partial class WebViewPage : Page
         myTab.Title = sender.DocumentTitle;
     }
 
-    private void CoreWebView2_FaviconChanged(CoreWebView2 sender, object args)
+    /*private void CoreWebView2_FaviconChanged(CoreWebView2 sender, object args)
     {
-        //myTab.Icon = new Uri(sender.FaviconUri);
-    }
+        myTab.Icon = new Uri(sender.FaviconUri);
+    }*/
 
     private void CoreWebView2_ContainsFullScreenElementChanged(CoreWebView2 sender, object args)
     {
@@ -215,6 +214,11 @@ public sealed partial class WebViewPage : Page
         if (args.TryGetWebMessageAsString() == "ControlL")
         {
             ToggleUrlBox();
+            return;
+        }
+        if (args.TryGetWebMessageAsString() == "ControlT")
+        {
+            WindowHelper.CreateNewTabInMainWindow("New tab", string.Empty);
             return;
         }
     }
