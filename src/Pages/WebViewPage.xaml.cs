@@ -195,14 +195,10 @@ public sealed partial class WebViewPage : Page
         if (!fs)
         {
             WindowHelper.SetFullScreen(true);
-            UrlBoxWrapper.Visibility = Visibility.Collapsed;
-            Sidebar.Visibility = Visibility.Collapsed;
         }
         else
         {
             WindowHelper.SetFullScreen(false);
-            UrlBoxWrapper.Visibility = Visibility.Visible;
-            Sidebar.Visibility = Visibility.Visible;
         }
     }
 

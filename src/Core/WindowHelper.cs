@@ -14,9 +14,19 @@ public static class WindowHelper
         {
             case true:
                 MainAppWindow.SetPresenter(AppWindowPresenterKind.FullScreen);
+                _ = MainWindow.DispatcherQueue.TryEnqueue(() =>
+                {
+                    (MainWindow.Content as MainPage).TabContentPresenter.Margin = new Thickness(-42, -34, -192, -7);
+                    (MainWindow.Content as MainPage).Sidebar.Visibility = Visibility.Collapsed;
+                });
                 break;
             case false:
                 MainAppWindow.SetPresenter(AppWindowPresenterKind.Default);
+                _ = MainWindow.DispatcherQueue.TryEnqueue(() =>
+                {
+                    (MainWindow.Content as MainPage).TabContentPresenter.Margin = new Thickness(0);
+                    (MainWindow.Content as MainPage).Sidebar.Visibility = Visibility.Visible;
+                });
                 break;
         }
     }

@@ -102,11 +102,15 @@
                     MinWidth="185"
                     MaxWidth="400" />
             </Grid.ColumnDefinitions>
-            <ContentPresenter x:Name="TabContentPresenter" Grid.Column="0" />
+            <ContentPresenter
+                x:Name="TabContentPresenter"
+                Grid.Column="0"
+                x:FieldModifier="public" />
             <Grid
                 x:Name="Sidebar"
                 Grid.Column="1"
-                Margin="0,-1,5,3">
+                Margin="0,-1,5,3"
+                x:FieldModifier="public">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
