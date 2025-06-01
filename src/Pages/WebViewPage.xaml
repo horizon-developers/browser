@@ -300,7 +300,8 @@
                     Margin="15"
                     GotFocus="UrlBox_GotFocus"
                     IsSpellCheckEnabled="False"
-                    PlaceholderText="Type here to search or enter url">
+                    PlaceholderText="Type here to search or enter url"
+                    Text="{x:Bind WebViewControl.Source, Mode=OneWay}">
                     <TextBox.KeyboardAccelerators>
                         <KeyboardAccelerator Key="Enter" Invoked="UrlBoxKeyboardAccelerator_Invoked" />
                         <KeyboardAccelerator Key="Escape" Invoked="UrlBoxKeyboardAccelerator_Invoked" />

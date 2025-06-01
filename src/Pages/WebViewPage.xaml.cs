@@ -66,7 +66,6 @@ public sealed partial class WebViewPage : Page
         // WebViewEvents
         sender.CoreWebView2.NavigationStarting += CoreWebView2_NavigationStarting;
         sender.CoreWebView2.NavigationCompleted += CoreWebView2_NavigationCompleted;
-        sender.CoreWebView2.SourceChanged += CoreWebView2_SourceChanged;
         sender.CoreWebView2.NewWindowRequested += CoreWebView2_NewWindowRequested;
         sender.CoreWebView2.ContextMenuRequested += CoreWebView2_ContextMenuRequested;
         sender.CoreWebView2.IsDocumentPlayingAudioChanged += CoreWebView2_IsDocumentPlayingAudioChanged;
@@ -97,11 +96,6 @@ public sealed partial class WebViewPage : Page
     {
         LoadingBar.Visibility = Visibility.Collapsed;
         LoadingBar.IsIndeterminate = false;
-    }
-
-    private void CoreWebView2_SourceChanged(CoreWebView2 sender, CoreWebView2SourceChangedEventArgs args)
-    {
-        UrlBox.Text = sender.Source;
     }
 
     private void CoreWebView2_NewWindowRequested(CoreWebView2 sender, CoreWebView2NewWindowRequestedEventArgs args)
