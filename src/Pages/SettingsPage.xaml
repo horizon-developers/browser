@@ -94,6 +94,12 @@
                     <ToggleSwitch x:Name="WindowsHelloToggle" />
                 </toolkitc:SettingsCard>
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Advanced features" />
+                <toolkitc:SettingsCard Header="Always on top">
+                    <toolkitc:SettingsCard.HeaderIcon>
+                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE718;" />
+                    </toolkitc:SettingsCard.HeaderIcon>
+                    <ToggleSwitch x:Name="AlwaysOnTopToggle" />
+                </toolkitc:SettingsCard>
                 <toolkitc:SettingsCard
                     Click="SettingsCardClickHandler"
                     Description="Add/remove web extensions"

@@ -34,4 +34,5 @@ global using Windows.Storage.Pickers;
 global using Windows.Storage.Provider;
 global using Windows.Storage.Streams;
 global using WS = Windows.System;
+global using Windows.Win32.UI.WindowsAndMessaging;
 global using WinRT;

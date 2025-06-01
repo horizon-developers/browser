@@ -42,6 +42,7 @@ public static class WindowHelper
     static public void CreateMainWindow()
     {
         MainWindow = new();
+        MainAppWindow = MainWindow.AppWindow;
         MainWindow.Title = "Horizon";
         MainWindow.ExtendsContentIntoTitleBar = true;
         SetMinWindowSize();
@@ -61,16 +62,16 @@ public static class WindowHelper
                 MainWindow.SystemBackdrop = new MicaBackdrop();
                 break;
         }
-
-        MainAppWindow = MainWindow.AppWindow;
-        //MainAppWindow.SetIcon("Horizon.ico");
-        //MainAppWindow.TitleBar.PreferredTheme = TitleBarTheme.UseDefaultAppMode;
         WindowMainPage = new MainPage();
         MainWindow.Content = WindowMainPage;
         MainWindow.SetTitleBar(WindowMainPage.TitleBarControl);
         if (SettingsHelper.GetSetting("IsScreencaptureBlocked") == "true")
         {
             BlockScreencaptureForMainWindow(true);
+        }
+        if (SettingsHelper.GetSetting("IsAlwaysOnTopEnabled") == "true")
+        {
+            SetMainWindowAlwaysOnTop(true);
         }
     }
 
@@ -102,11 +103,7 @@ public static class WindowHelper
 
     static public void SetMinWindowSize()
     {
-        var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(MainWindow);
-        var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hwnd);
-        var appWindow = AppWindow.GetFromWindowId(windowId);
-
-        if (appWindow.Presenter is OverlappedPresenter presenter)
+        if (MainAppWindow.Presenter is OverlappedPresenter presenter)
         {
             presenter.PreferredMinimumWidth = 800;
             presenter.PreferredMinimumHeight = 500;
@@ -119,11 +116,19 @@ public static class WindowHelper
         switch (b)
         {
             case true:
-                Windows.Win32.PInvoke.SetWindowDisplayAffinity(hwnd, Windows.Win32.UI.WindowsAndMessaging.WINDOW_DISPLAY_AFFINITY.WDA_MONITOR);
+                Windows.Win32.PInvoke.SetWindowDisplayAffinity(hwnd, WINDOW_DISPLAY_AFFINITY.WDA_MONITOR);
                 break;
             case false:
-                Windows.Win32.PInvoke.SetWindowDisplayAffinity(hwnd, Windows.Win32.UI.WindowsAndMessaging.WINDOW_DISPLAY_AFFINITY.WDA_NONE);
+                Windows.Win32.PInvoke.SetWindowDisplayAffinity(hwnd, WINDOW_DISPLAY_AFFINITY.WDA_NONE);
                 break;
+        }
+    }
+
+    static public void SetMainWindowAlwaysOnTop(bool t)
+    {
+        if (MainAppWindow.Presenter is OverlappedPresenter presenter)
+        {
+            presenter.IsAlwaysOnTop = t;
         }
     }
 

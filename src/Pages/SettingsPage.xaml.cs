@@ -50,12 +50,18 @@ public sealed partial class SettingsPage : Page
             WindowsHelloToggle.IsOn = true;
         }
 
+        if (SettingsHelper.GetSetting("IsAlwaysOnTopEnabled") == "true")
+        {
+            AlwaysOnTopToggle.IsOn = true;
+        }
+
         // Set event handlers
         SearchEngineSelector.SelectionChanged += SearchEngineSelector_SelectionChanged;
         BackdropTypeSelector.SelectionChanged += BackdropTypeSelector_SelectionChanged;
         AdvancedCTXToggle.Toggled += AdvancedCTXToggle_Toggled;
         BlockCaptureToggle.Toggled += BlockCaptureToggle_Toggled;
         WindowsHelloToggle.Toggled += WindowsHelloLockToggle_Toggled;
+        AlwaysOnTopToggle.Toggled += AlwaysOnTopToggle_Toggled;
     }
 
     private async void InitHeadless()
@@ -195,6 +201,21 @@ public sealed partial class SettingsPage : Page
                 break;
             case false:
                 SettingsHelper.SetSetting("IsAppLockEnabled", "false");
+                break;
+        }
+    }
+
+    private void AlwaysOnTopToggle_Toggled(object sender, RoutedEventArgs e)
+    {
+        switch ((sender as ToggleSwitch).IsOn)
+        {
+            case true:
+                WindowHelper.SetMainWindowAlwaysOnTop(true);
+                SettingsHelper.SetSetting("IsAlwaysOnTopEnabled", "false");
+                break;
+            case false:
+                WindowHelper.SetMainWindowAlwaysOnTop(false);
+                SettingsHelper.SetSetting("IsAlwaysOnTopEnabled", "false");
                 break;
         }
     }
