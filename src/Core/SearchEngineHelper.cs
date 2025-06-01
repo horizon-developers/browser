@@ -19,8 +19,9 @@ public class SearchEngineHelper
         new("DuckDuckGo", "https://www.duckduckgo.com?q="),
         new("Ecosia", "https://www.ecosia.org/search?q="),
         new("Google", "https://www.google.com/search?q="),
-        new("Startpage", "https://www.startpage.com/search?q="),
+        new("Kagi", "https://kagi.com/search?q="),
         new("Qwant", "https://www.qwant.com/?q="),
+        new("Startpage", "https://www.startpage.com/search?q="),
         new("Unduck", "https://unduck.link?q="),
         new("Yahoo!", "https://search.yahoo.com/search?p="),
         new("Yandex", "https://yandex.com/search/?text=")
