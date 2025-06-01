@@ -35,11 +35,6 @@
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 
-	<!-- App Icon Assets -->
-	<ItemGroup>
-		<Content Include="Horizon.ico" />
-	</ItemGroup>
-
 	<ItemGroup>
 		<Compile Include="$(PkgMicrosoft_WindowsAppSDK)\include\WindowsAppSDK-VersionInfo.cs" />
 	</ItemGroup>

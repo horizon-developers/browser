@@ -153,7 +153,7 @@
                 </toolkitc:SettingsExpander>
                 <toolkitc:SettingsExpander Description="Your next-gen browser, brought to you by Pinguin2001" Header="Horizon">
                     <toolkitc:SettingsExpander.HeaderIcon>
-                        <BitmapIcon ShowAsMonochrome="False" UriSource="Horizon.ico" />
+                        <BitmapIcon ShowAsMonochrome="False" UriSource="/Assets/AppIcons/Square44x44Logo.png" />
                     </toolkitc:SettingsExpander.HeaderIcon>
                     <TextBlock
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"

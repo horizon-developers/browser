@@ -91,7 +91,7 @@
             Grid.Row="0"
             x:FieldModifier="public">
             <TitleBar.IconSource>
-                <ImageIconSource ImageSource="Horizon.ico" />
+                <ImageIconSource ImageSource="/Assets/AppIcons/Square44x44Logo.png" />
             </TitleBar.IconSource>
         </TitleBar>
         <Grid Grid.Row="1">
