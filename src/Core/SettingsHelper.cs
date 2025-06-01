@@ -22,8 +22,8 @@ public static class SettingsHelper
     }
 
     // Settings
-    public static string DefaultSearchUrl = "https://www.duckduckgo.com?q=";
-    public static string DefaultBackdrop = "Mica";
+    public static readonly string DefaultSearchUrl = "https://www.duckduckgo.com?q=";
+    public static readonly string DefaultBackdrop = "Mica";
 
     public static string CurrentSearchUrl { get; set; }
     public static string CurrentBackdrop { get; set; }

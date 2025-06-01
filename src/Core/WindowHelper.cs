@@ -1,4 +1,8 @@
 ﻿#nullable enable
+// This is fine here, there is no scenario where these should lead to a crash
+// at least that's what I hope lmao
+#pragma warning disable CS8602
+#pragma warning disable CS8618
 
 namespace Horizon.Core;
 

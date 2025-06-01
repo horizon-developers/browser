@@ -2,15 +2,15 @@
 
 public class ReadabilityHelper
 {
-    public static string jscript { private set; get; }
+    public static string JScript { private set; get; }
 
     public static async Task<string> GetReadabilityScriptAsync()
     {
-        if (jscript == null)
+        if (JScript == null)
         {
             StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/JS/readability.js"));
-            jscript = await FileIO.ReadTextAsync(file);
+            JScript = await FileIO.ReadTextAsync(file);
         }
-        return jscript;
+        return JScript;
     }
 }

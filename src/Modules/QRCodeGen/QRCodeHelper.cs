@@ -2,7 +2,7 @@
 
 public static class QRCodeHelper
 {
-    public static QRCodeGenerator SingletonQrGenerator = new();
+    public static readonly QRCodeGenerator SingletonQrGenerator = new();
     public static Task<byte[]> GenerateQRCodeFromUrlAsync(string url)
     {
         try

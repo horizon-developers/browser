@@ -8,15 +8,4 @@ public static class ClipboardHelper
         package.SetText(text);
         Clipboard.SetContent(package);
     }
-
-    public static async Task<string> PasteTextFromClipboardAsync()
-    {
-        var package = Clipboard.GetContent();
-        if (package.Contains(StandardDataFormats.Text))
-        {
-            var text = await package.GetTextAsync();
-            return text;
-        }
-        return string.Empty;
-    }
 }

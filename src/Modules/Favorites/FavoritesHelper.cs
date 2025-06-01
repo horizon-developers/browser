@@ -56,7 +56,7 @@ public class FavoritesHelper
         var fileData = await localFolder.TryGetItemAsync("Favorites.json");
         if (fileData == null)
         {
-            ObservableCollection<FavoriteItem> placeholderItems = new();
+            ObservableCollection<FavoriteItem> placeholderItems = [];
             return placeholderItems;
         }
         else
@@ -84,7 +84,7 @@ public class FavoritesHelper
             // Convert list to json
             string newJson = JsonSerializer.Serialize(SettingsViewModel.SettingsVM.FavoritesList, FavoriteItemSerializerContext.Default.ObservableCollectionFavoriteItem);
             // Write json to json file
-            await FileIO.WriteTextAsync((IStorageFile)fileData, newJson);
+            await FileIO.WriteTextAsync(fileData, newJson);
         }
     }
 }
