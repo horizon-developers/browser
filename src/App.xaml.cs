@@ -90,10 +90,7 @@ public partial class App : Application
     private void App_Activated(object sender, AppActivationArguments e)
     {
         HandleUriActivation(e);
-        // starting from here, the Microsoft.Windows.CsWin32 package has to referenced, as well as the following methods to NativeMethods.txt
-        var hwnd = (Windows.Win32.Foundation.HWND)WinRT.Interop.WindowNative.GetWindowHandle(WindowHelper.MainWindow);
-        Windows.Win32.PInvoke.ShowWindow(hwnd, Windows.Win32.UI.WindowsAndMessaging.SHOW_WINDOW_CMD.SW_RESTORE);
-        Windows.Win32.PInvoke.SetForegroundWindow(hwnd);
+        WindowHelper.RestoreMainWindow();
     }
 
     private static void HandleUriActivation(AppActivationArguments args)

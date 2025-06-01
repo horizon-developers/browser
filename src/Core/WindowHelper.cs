@@ -80,6 +80,14 @@ public static class WindowHelper
         MainWindow.Activate();
     }
 
+    static public void RestoreMainWindow()
+    {
+        if (MainAppWindow.Presenter is OverlappedPresenter presenter)
+        {
+            presenter.Restore();
+        }
+    }
+
     static public void CloseMainWindow()
     {
         MainWindow.Close();
