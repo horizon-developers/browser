@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 namespace Horizon.Pages;
 
 public sealed partial class WebViewPage : Page

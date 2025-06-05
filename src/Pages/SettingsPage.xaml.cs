@@ -1,7 +1,3 @@
-using Microsoft.UI.Xaml.Controls;
-using System.IO;
-using Windows.System;
-
 namespace Horizon.Pages;
 
 public sealed partial class SettingsPage : Page
@@ -98,7 +94,7 @@ public sealed partial class SettingsPage : Page
 
     private async void OpenProfileFolder_Click(object sender, RoutedEventArgs e)
     {
-        await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
+        await WS.Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
     }
 
     private void UpdateSetDownloadFolderSettingsCardDescription()
