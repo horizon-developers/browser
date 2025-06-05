@@ -40,6 +40,12 @@
                 </toolkitc:SettingsCard>
                 <!--  Data  -->
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Data" />
+                <toolkitc:SettingsCard Header="Profile">
+                    <toolkitc:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xEC25;" />
+                    </toolkitc:SettingsCard.HeaderIcon>
+                    <Button Click="OpenProfileFolder_Click" Content="Open profile folder" />
+                </toolkitc:SettingsCard>
                 <toolkitc:SettingsCard
                     x:Name="SetDownloadFolderSettingsCard"
                     Description="Loading.."

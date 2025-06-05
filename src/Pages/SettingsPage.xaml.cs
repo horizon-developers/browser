@@ -1,3 +1,7 @@
+using Microsoft.UI.Xaml.Controls;
+using System.IO;
+using Windows.System;
+
 namespace Horizon.Pages;
 
 public sealed partial class SettingsPage : Page
@@ -90,6 +94,11 @@ public sealed partial class SettingsPage : Page
     {
         SearchEngine engine = e.AddedItems[0] as SearchEngine;
         SearchEngineHelper.SetSearchEngine(engine);
+    }
+
+    private async void OpenProfileFolder_Click(object sender, RoutedEventArgs e)
+    {
+        await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
     }
 
     private void UpdateSetDownloadFolderSettingsCardDescription()
