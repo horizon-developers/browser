@@ -120,7 +120,7 @@
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <ItemGroup>
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3240.44" IncludeAssets="none" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3296.44" IncludeAssets="none" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4188" PrivateAssets="all" />
   </ItemGroup>
   <ItemGroup>
