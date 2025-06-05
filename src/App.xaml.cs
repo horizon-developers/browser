@@ -85,6 +85,11 @@ public partial class App : Application
         }
         
         HandleUriActivation(appArgs);
+
+        if (Environment.IsPrivilegedProcess)
+        {
+            Win32Helper.ShowMessageBox("Horizon - Warning", "Warning!\nThis instance of Horizon is running elevated, which isn't recommened due to possible security issues.");
+        }
     }
 
     private void App_Activated(object sender, AppActivationArguments e)
