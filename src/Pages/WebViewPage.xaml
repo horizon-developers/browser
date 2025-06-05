@@ -239,6 +239,14 @@
                                 <FontIcon Glyph="&#xE8C8;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            Click="AppBarButton_Click"
+                            Tag="OpenLinkFromClipboard"
+                            Text="Open link from clipboard">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE630;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
                         <!--<MenuFlyoutItem
                             Click="AppBarButton_Click"
                             Tag="CopyCleanPageLink"

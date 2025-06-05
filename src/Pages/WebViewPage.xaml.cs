@@ -235,6 +235,10 @@ public sealed partial class WebViewPage : Page
             case "CopyPageLink":
                 ClipboardHelper.CopyTextToClipboard(WebViewControl.CoreWebView2.Source);
                 break;
+            case "OpenLinkFromClipboard":
+                string PastedURI = await ClipboardHelper.PasteUriAsStringFromClipboardAsync();
+                ProcessQueryAndGo(PastedURI);
+                break;
             // TODO: Implement tracking parameter removal
             case "CopyCleanPageLink":
                 ClipboardHelper.CopyTextToClipboard(WebViewControl.CoreWebView2.Source);
@@ -288,20 +292,24 @@ public sealed partial class WebViewPage : Page
         {
             if (WebViewControl.Visibility != Visibility.Visible)
                 WebViewControl.Visibility = Visibility.Visible;
-            string input = UrlBox.Text;
-            string inputtype = UrlHelper.GetInputType(input);
-            if (inputtype == "urlNOProtocol")
-                NavigateToUrl("https://" + input.Trim());
-            else if (inputtype == "url")
-                NavigateToUrl(input.Trim());
-            else
-            {
-                string query = SettingsHelper.CurrentSearchUrl + input;
-                NavigateToUrl(query);
-            }
+            ProcessQueryAndGo(UrlBox.Text);
             UrlBoxWrapper.Visibility = Visibility.Collapsed;
             args.Handled = true;
             return;
+        }
+    }
+
+    private void ProcessQueryAndGo(string input)
+    {
+        string inputtype = UrlHelper.GetInputType(input);
+        if (inputtype == "urlNOProtocol")
+            NavigateToUrl("https://" + input.Trim());
+        else if (inputtype == "url")
+            NavigateToUrl(input.Trim());
+        else
+        {
+            string query = SettingsHelper.CurrentSearchUrl + input;
+            NavigateToUrl(query);
         }
     }
 
