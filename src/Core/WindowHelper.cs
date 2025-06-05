@@ -1,7 +1,6 @@
 ﻿#nullable enable
 // This is fine here, there is no scenario where these should lead to a crash
 // at least that's what I hope lmao
-#pragma warning disable CS8602
 #pragma warning disable CS8618
 
 namespace Horizon.Core;
@@ -20,16 +19,16 @@ public static class WindowHelper
                 MainAppWindow.SetPresenter(AppWindowPresenterKind.FullScreen);
                 _ = MainWindow.DispatcherQueue.TryEnqueue(() =>
                 {
-                    (MainWindow.Content as MainPage).TabContentPresenter.Margin = new Thickness(-42, -34, -192, -7);
-                    (MainWindow.Content as MainPage).Sidebar.Visibility = Visibility.Collapsed;
+                    MainWindow.TabContentPresenter.Margin = new Thickness(-42, -34, -192, -7);
+                    MainWindow.Sidebar.Visibility = Visibility.Collapsed;
                 });
                 break;
             case false:
                 MainAppWindow.SetPresenter(AppWindowPresenterKind.Default);
                 _ = MainWindow.DispatcherQueue.TryEnqueue(() =>
                 {
-                    (MainWindow.Content as MainPage).TabContentPresenter.Margin = new Thickness(0);
-                    (MainWindow.Content as MainPage).Sidebar.Visibility = Visibility.Visible;
+                    MainWindow.TabContentPresenter.Margin = new Thickness(0);
+                    MainWindow.Sidebar.Visibility = Visibility.Visible;
                 });
                 break;
         }
@@ -66,9 +65,7 @@ public static class WindowHelper
                 MainWindow.SystemBackdrop = new MicaBackdrop();
                 break;
         }
-        WindowMainPage = new MainPage();
-        MainWindow.Content = WindowMainPage;
-        MainWindow.SetTitleBar(WindowMainPage.TitleBarControl);
+        MainWindow.SetTitleBar(MainWindow.TitleBarControl);
         if (SettingsHelper.GetSetting("IsScreencaptureBlocked") == "true")
         {
             BlockScreencaptureForMainWindow(true);
@@ -101,7 +98,7 @@ public static class WindowHelper
     {
         _ = MainWindow.DispatcherQueue.TryEnqueue(() =>
         {
-            (MainWindow.Content as MainPage).CreateWebTab(title, uri);
+            MainWindow.CreateWebTab(title, uri);
         });
     }
 
@@ -109,7 +106,7 @@ public static class WindowHelper
     {
         _ = MainWindow.DispatcherQueue.TryEnqueue(() =>
         {
-            (MainWindow.Content as MainPage).CreateTab(title, page);
+            MainWindow.CreateTab(title, page);
         });
     }
 
@@ -144,7 +141,6 @@ public static class WindowHelper
         }
     }
 
-    public static Window MainWindow { get; set; }
+    public static WindowChrome MainWindow { get; set; }
     public static AppWindow MainAppWindow { get; private set; }
-    public static MainPage WindowMainPage { get; private set; }
 }

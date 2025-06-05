@@ -1,10 +1,13 @@
 namespace Horizon;
 
-public sealed partial class MainPage : Page
+/// <summary>
+/// The main WindowChrome of the app. It displays the titlebar, the tab bar and the sidebar, as well as the the WebContent
+/// </summary>
+public sealed partial class WindowChrome : Window
 {
-    public MainPage()
+    public WindowChrome()
     {
-        this.InitializeComponent();
+        InitializeComponent();
         GetFavorites();
     }
 

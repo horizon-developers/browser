@@ -42,4 +42,10 @@
 	<ItemGroup>
 		<ProjectReference Include="..\external\QRCoder\QRCoder.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="WindowChrome.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
 </Project>
