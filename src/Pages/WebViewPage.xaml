@@ -229,6 +229,26 @@
                 Tag="ToggleUrlBox"
                 ToolTipService.ToolTip="Toggle url bar">
                 <FontIcon FontSize="16" Glyph="&#xE721;" />
+                <Button.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem
+                            Click="AppBarButton_Click"
+                            Tag="CopyPageLink"
+                            Text="Copy link">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE8C8;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <!--<MenuFlyoutItem
+                            Click="AppBarButton_Click"
+                            Tag="CopyCleanPageLink"
+                            Text="Copy link (clean)">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE8C8;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>-->
+                    </MenuFlyout>
+                </Button.ContextFlyout>
             </Button>
             <Button
                 Click="SidebarButton_Click"
@@ -283,14 +303,13 @@
             x:Name="UrlBoxWrapper"
             Grid.Column="1"
             Width="500"
-            Height="80"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             x:FieldModifier="public"
             Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
             CornerRadius="5"
             Visibility="Collapsed">
-            <Grid
+            <StackPanel
                 BorderBrush="{StaticResource ControlElevationBorderBrush}"
                 BorderThickness="2"
                 CornerRadius="5">
@@ -307,7 +326,30 @@
                         <KeyboardAccelerator Key="Escape" Invoked="UrlBoxKeyboardAccelerator_Invoked" />
                     </TextBox.KeyboardAccelerators>
                 </TextBox>
-            </Grid>
+                <!--  UrlBox Margin="15,15,15,5"  -->
+                <!--<TextBlock Margin="15,0,15,0" Text="Suggested actions" />
+                <StackPanel
+                    Margin="15,4,10,15"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <Button Click="OpenUrlFromClipboard_Click">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <FontIcon Glyph="&#xE630;" />
+                                <TextBlock Text="Paste from clipboard" />
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                    <Button Click="RestoreClosedTab_Click">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <FontIcon Glyph="&#xE7A7;" />
+                                <TextBlock Text="Restore closed tab" />
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>-->
+            </StackPanel>
         </Grid>
 
     </Grid>

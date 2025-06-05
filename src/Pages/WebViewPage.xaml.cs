@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace Horizon.Pages;
 
 public sealed partial class WebViewPage : Page
@@ -233,6 +235,10 @@ public sealed partial class WebViewPage : Page
             case "CopyPageLink":
                 ClipboardHelper.CopyTextToClipboard(WebViewControl.CoreWebView2.Source);
                 break;
+            // TODO: Implement tracking parameter removal
+            case "CopyCleanPageLink":
+                ClipboardHelper.CopyTextToClipboard(WebViewControl.CoreWebView2.Source);
+                break;
             case "SelectAll":
                 await WebViewControl.CoreWebView2.ExecuteScriptAsync("document.execCommand(\"selectAll\");");
                 break;
@@ -265,7 +271,7 @@ public sealed partial class WebViewPage : Page
                 break;
         }
         var flyout = FlyoutBase.GetAttachedFlyout(WebViewControl);
-        flyout.Hide();
+        flyout?.Hide();
     }
 
 
@@ -380,9 +386,24 @@ public sealed partial class WebViewPage : Page
                 break;
 
             case Visibility.Collapsed:
+                if (UrlBox.Text.Length < 1 && WebViewControl.CoreWebView2.Source != "about:blank")
+                {
+                    UrlBox.Text = WebViewControl.CoreWebView2.Source;
+                }
                 UrlBoxWrapper.Visibility = Visibility.Visible;
                 UrlBox.Focus(FocusState.Keyboard);
                 break;
         }
     }
+
+    /*private async void OpenUrlFromClipboard_Click(object sender, RoutedEventArgs e)
+    {
+        UrlBox.Text = await ClipboardHelper.PasteUriAsStringFromClipboardAsync();
+        UrlBox.Focus(FocusState.Keyboard);
+    }
+
+    private void RestoreClosedTab_Click(object sender, RoutedEventArgs e)
+    {
+
+    }*/
 }
