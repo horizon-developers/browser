@@ -61,13 +61,8 @@ public class FavoritesHelper
         }
         else
         {
-            System.Diagnostics.Debug.WriteLine("LOADED FAVORITES");
             string filecontent = await FileIO.ReadTextAsync((IStorageFile)fileData);
             ObservableCollection<FavoriteItem> Items = JsonSerializer.Deserialize(filecontent, FavoriteItemSerializerContext.Default.ObservableCollectionFavoriteItem);
-            foreach (FavoriteItem item in Items)
-            {
-                System.Diagnostics.Debug.WriteLine(item.Url);
-            }
             return Items;
         }
     }
