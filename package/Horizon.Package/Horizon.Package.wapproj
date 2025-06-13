@@ -69,11 +69,6 @@
     <Content Include="Assets\AppIcons\SmallTile.scale-150.png" />
     <Content Include="Assets\AppIcons\SmallTile.scale-200.png" />
     <Content Include="Assets\AppIcons\SmallTile.scale-400.png" />
-    <Content Include="Assets\AppIcons\SplashScreen.scale-100.png" />
-    <Content Include="Assets\AppIcons\SplashScreen.scale-125.png" />
-    <Content Include="Assets\AppIcons\SplashScreen.scale-150.png" />
-    <Content Include="Assets\AppIcons\SplashScreen.scale-200.png" />
-    <Content Include="Assets\AppIcons\SplashScreen.scale-400.png" />
     <Content Include="Assets\AppIcons\Square150x150Logo.scale-100.png" />
     <Content Include="Assets\AppIcons\Square150x150Logo.scale-125.png" />
     <Content Include="Assets\AppIcons\Square150x150Logo.scale-150.png" />
@@ -109,7 +104,6 @@
     <Content Include="Assets\AppIcons\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\AppIcons\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\AppIcons\Wide310x150Logo.scale-400.png" />
-    <Content Include="Assets\FileIcons\document.png" />
     <Content Include="Assets\FileIcons\link.png" />
     <Content Include="Assets\Icons\DevSanx.png" />
     <Content Include="Assets\Icons\paypal.png" />

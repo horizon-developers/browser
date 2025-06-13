@@ -17,7 +17,18 @@
 		<SelfContained>true</SelfContained>
 		<PublishTrimmed>true</PublishTrimmed>
 		<LangVersion>preview</LangVersion>
+		<AppVersion>11.4.100.0</AppVersion>
 	</PropertyGroup>
+
+	<Target Name="GetGitCommit" BeforeTargets="BeforeBuild">
+		<Exec Command="git rev-parse --short HEAD" ConsoleToMSBuild="true" ContinueOnError="true">
+			<Output TaskParameter="ConsoleOutput" PropertyName="GitCommitHash" />
+		</Exec>
+		<PropertyGroup>
+			<GitCommitHash Condition="'$(GitCommitHash)' == ''">unknown</GitCommitHash>
+			<Version>$(AppVersion)-$(GitCommitHash)</Version>
+		</PropertyGroup>
+	</Target>
 
 	<!-- Nuget packages-->
 	<ItemGroup>
@@ -41,11 +52,5 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\external\QRCoder\QRCoder.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Page Update="WindowChrome.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
 	</ItemGroup>
 </Project>
