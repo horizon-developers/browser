@@ -38,7 +38,7 @@ public sealed partial class WindowChrome : Window
             WebTabCreationParams parameters = new()
             {
                 LaunchURL = launchurl,
-                myTab = tab
+                MyTab = tab
             };
 
             frame.Navigate(page, parameters, new DrillInNavigationTransitionInfo());

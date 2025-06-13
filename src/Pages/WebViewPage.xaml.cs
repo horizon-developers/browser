@@ -3,7 +3,7 @@ namespace Horizon.Pages;
 public sealed partial class WebViewPage : Page
 {
     string launchurl;
-    private Tab myTab { get; set; }
+    private Tab MyTab { get; set; }
     private bool IsSplitTab { get; set; }
 
     public WebViewPage()
@@ -18,7 +18,7 @@ public sealed partial class WebViewPage : Page
         var parameters = (WebTabCreationParams)e.Parameter;
 
         launchurl = parameters.LaunchURL;
-        myTab = parameters.myTab;
+        MyTab = parameters.MyTab;
         IsSplitTab = parameters.IsSplitTab;
 
         if (launchurl == string.Empty)
@@ -176,12 +176,12 @@ public sealed partial class WebViewPage : Page
 
     private void CoreWebView2_DocumentTitleChanged(CoreWebView2 sender, object args)
     {
-        myTab.Title = sender.DocumentTitle;
+        MyTab.Title = sender.DocumentTitle;
     }
 
     /*private void CoreWebView2_FaviconChanged(CoreWebView2 sender, object args)
     {
-        myTab.Icon = new Uri(sender.FaviconUri);
+        MyTab.Icon = new Uri(sender.FaviconUri);
     }*/
 
     private void CoreWebView2_ContainsFullScreenElementChanged(CoreWebView2 sender, object args)
