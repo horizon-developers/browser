@@ -32,6 +32,7 @@
 
 	<!-- Nuget packages-->
 	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Common" Version="8.4.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.250402" />
 		<!--<PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.2.250402" />-->
