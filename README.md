@@ -75,6 +75,7 @@ A donation would be highly appreciated, and it helps me out a lot. Thanks :)
 ## Building from source
 
 ### 1. Prerequisites
+- Git for Windows (included in PATH)
 - Visual Studio 2022, version 17.13 or newer
 - Windows 11 SDK (10.0.26100.0)
 - .NET 9 SDK
