@@ -18,11 +18,11 @@ public static class WindowHelper
             Title = "Horizon",
             ExtendsContentIntoTitleBar = true
         };
-        RestoreWindowState();
+        //RestoreWindowState();
         SetMinWindowSize();
         SetupBackdrop();
         MainWindow.SetTitleBar(MainWindow.TitleBarControl);
-        MainWindow.AppWindow.Closing += AppWindow_Closing;
+        //MainWindow.AppWindow.Closing += AppWindow_Closing;
         ApplyWindowSettings();
     }
 
