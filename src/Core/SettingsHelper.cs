@@ -7,7 +7,7 @@ public static class SettingsHelper
     public static string GetSetting(string Setting)
     {
         string SettingValue = localSettings.Values[Setting] as string;
-        return SettingValue;
+        return SettingValue ?? string.Empty;
     }
 
     public static void SetSetting(string Setting, string SettingValue)

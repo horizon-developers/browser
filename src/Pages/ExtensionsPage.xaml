@@ -9,8 +9,6 @@
     xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
     xmlns:wv2core="using:Microsoft.Web.WebView2.Core"
     mc:Ignorable="d">
-
-    <Page.Resources />
     <Grid Style="{StaticResource PageBorder}">
         <ScrollViewer
             MaxWidth="1000"
