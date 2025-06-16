@@ -14,18 +14,22 @@
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="32" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TitleBar
+        <StackPanel
             x:Name="TitleBarControl"
-            Title="Horizon"
             Grid.Row="0"
-            x:FieldModifier="public">
-            <TitleBar.IconSource>
-                <ImageIconSource ImageSource="/Assets/AppIcons/Square44x44Logo.png" />
-            </TitleBar.IconSource>
-        </TitleBar>
+            x:FieldModifier="public"
+            Orientation="Horizontal"
+            Spacing="5">
+            <Image
+                Width="25"
+                Height="25"
+                Margin="8,2,0,0"
+                Source="/Assets/AppIcons/Square44x44Logo.png" />
+            <TextBlock VerticalAlignment="Center" Text="Horizon" />
+        </StackPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
