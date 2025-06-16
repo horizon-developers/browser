@@ -136,8 +136,8 @@ public sealed partial class WindowChrome : Window
     {
         switch ((sender as MenuFlyoutItem).Tag)
         {
-            case "Extensions":
-                CreateTab("Extensions", typeof(ExtensionsPage));
+            case "WhatsNew":
+                CreateTab("Release notes", typeof(WhatsNewPage));
                 break;
             case "Settings":
                 CreateTab("Settings", typeof(SettingsPage));

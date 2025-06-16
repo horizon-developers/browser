@@ -232,6 +232,14 @@
                             <MenuFlyout>
                                 <MenuFlyoutItem
                                     Click="ToolbarFlyoutItem_Click"
+                                    Tag="WhatsNew"
+                                    Text="What's new?">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xF133;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem
+                                    Click="ToolbarFlyoutItem_Click"
                                     Icon="Setting"
                                     Tag="Settings"
                                     Text="Settings" />

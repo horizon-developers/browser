@@ -10,4 +10,12 @@ public static class AppVersionHelper
 
         return string.Format("{0}.{1}.{2}", version.Major, version.Minor, version.Build);
     }
+
+    public static int GetAppBuild()
+    {
+        WAM.Package package = WAM.Package.Current;
+        WAM.PackageId packageId = package.Id;
+        WAM.PackageVersion version = packageId.Version;
+        return version.Build;
+    }
 }
