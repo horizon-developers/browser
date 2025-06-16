@@ -17,19 +17,22 @@
             <RowDefinition Height="32" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel
+        <Grid
             x:Name="TitleBarControl"
             Grid.Row="0"
-            x:FieldModifier="public"
-            Orientation="Horizontal"
-            Spacing="5">
+            x:FieldModifier="public">
             <Image
-                Width="25"
-                Height="25"
-                Margin="8,2,0,0"
+                Width="24"
+                Height="24"
+                Margin="9,1,0,0"
+                HorizontalAlignment="Left"
                 Source="/Assets/AppIcons/Square44x44Logo.png" />
-            <TextBlock VerticalAlignment="Center" Text="Horizon" />
-        </StackPanel>
+            <TextBlock
+                Margin="40,0,0,0"
+                VerticalAlignment="Center"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="Horizon" />
+        </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
