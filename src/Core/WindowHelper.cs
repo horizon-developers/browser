@@ -174,7 +174,13 @@ public static class WindowHelper
 
         var json = JsonSerializer.Serialize(state, WindowStateSerializerContext.Default.WindowState);
 
-        SettingsHelper.SetSetting("WindowSettings", json);
+        if (!string.IsNullOrEmpty(json))
+        {
+            SettingsHelper.SetSetting("WindowSettings", json);
+        }
+#if DEBUG
+        System.Diagnostics.Debug.WriteLine(json);
+#endif
     }
 
     private static void RestoreWindowState()
@@ -185,26 +191,30 @@ public static class WindowHelper
             return;
         }
 
-        WindowState? settings = JsonSerializer.Deserialize(WindowSettingsJson, WindowStateSerializerContext.Default.WindowState);
+        WindowState? Settings = JsonSerializer.Deserialize(WindowSettingsJson, WindowStateSerializerContext.Default.WindowState);
 
-        if (MainWindow.AppWindow != null)
+        if (Settings == null)
         {
-            if (settings != null! && !settings.IsMaximized)
-            {
-                MainWindow.AppWindow.Resize(new SizeInt32(settings.Width, settings.Height));
+            return;
+        }
 
-                if (settings.X > -1000 && settings.Y > -1000)
-                {
-                    MainWindow.AppWindow.Move(new PointInt32(settings.X, settings.Y));
-                }
-                return;
-            }
-
+        if (Settings.IsMaximized)
+        {
             if (MainWindow.AppWindow.Presenter is OverlappedPresenter presenter)
             {
                 presenter.Maximize();
             }
+            return;
         }
+
+        RectInt32 windowRect = new(
+            Settings.X,
+            Settings.Y,
+            Settings.Width,
+            Settings.Height
+        );
+
+        MainWindow.AppWindow.MoveAndResize(windowRect);
     }
 
     public static WindowChrome MainWindow { get; private set; }
