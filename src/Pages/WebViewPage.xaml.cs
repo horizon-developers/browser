@@ -41,22 +41,10 @@ public sealed partial class WebViewPage : Page
                 CoreWebView2Environment environment = await CoreWebView2Environment.CreateWithOptionsAsync(null, null, options);
                 await (sender as WebView2).EnsureCoreWebView2Async(environment);
             }
-            catch
+            catch (Exception ex)
             {
-                ContentDialog dialog = new()
-                {
-                    Title = "Error",
-                    Content = "WebView2 Runtime is not installed which is required to display webpages",
-                    DefaultButton = ContentDialogButton.Primary,
-                    PrimaryButtonText = "Download WebView2 Runtime",
-                    CloseButtonText = "Close App",
-                    XamlRoot = XamlRoot
-                };
-                var result = await dialog.ShowAsync();
-                if (result == ContentDialogResult.Primary)
-                    await WS.Launcher.LaunchUriAsync(new Uri("https://go.microsoft.com/fwlink/p/?LinkId=2124703"));
-                else
-                    Application.Current.Exit();
+                WebViewControl?.Close();
+                Frame.Navigate(typeof(WebViewErrorPage), new WebView2Error(ex.StackTrace), new DrillInNavigationTransitionInfo());
             }
         }
     }
