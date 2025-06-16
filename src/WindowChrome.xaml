@@ -22,13 +22,13 @@
             Grid.Row="0"
             x:FieldModifier="public">
             <Image
-                Width="24"
-                Height="24"
-                Margin="9,1,0,0"
+                Width="22"
+                Height="22"
+                Margin="9,0,0,0"
                 HorizontalAlignment="Left"
                 Source="/Assets/AppIcons/Square44x44Logo.png" />
             <TextBlock
-                Margin="40,0,0,0"
+                Margin="36,0,0,0"
                 VerticalAlignment="Center"
                 Style="{StaticResource CaptionTextBlockStyle}"
                 Text="Horizon" />
