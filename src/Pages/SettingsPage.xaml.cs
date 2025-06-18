@@ -155,6 +155,9 @@ public sealed partial class SettingsPage : Page
                     Kind = Microsoft.UI.Composition.SystemBackdrops.MicaKind.BaseAlt
                 };
                 break;
+            case "None":
+                WindowHelper.MainWindow.SystemBackdrop = null;
+                break;
         }
     }
 

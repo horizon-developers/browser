@@ -67,6 +67,7 @@ public static class WindowHelper
             {
                 Kind = Microsoft.UI.Composition.SystemBackdrops.MicaKind.BaseAlt
             },
+            "None" => null,
             _ => new MicaBackdrop(),
         };
     }

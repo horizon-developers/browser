@@ -6,5 +6,6 @@ public static class Backdrops
         "Acrylic",
         "Mica",
         "Mica Alt",
+        "None"
     };
 }
