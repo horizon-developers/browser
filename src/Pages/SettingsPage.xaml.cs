@@ -112,13 +112,10 @@ public sealed partial class SettingsPage : Page
         senderButton.IsEnabled = false;
 
         // Create a folder picker
-        FolderPicker openPicker = new FolderPicker();
-
-        // Retrieve the window handle (HWND) of the current WinUI 3 window.
-        var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(WindowHelper.MainWindow);
+        FolderPicker openPicker = new();
 
         // Initialize the folder picker with the window handle (HWND).
-        WinRT.Interop.InitializeWithWindow.Initialize(openPicker, hWnd);
+        InitializeWithWindow.Initialize(openPicker, WindowHelper.HWND);
 
         // Set options for your folder picker
         openPicker.SuggestedStartLocation = PickerLocationId.Desktop;

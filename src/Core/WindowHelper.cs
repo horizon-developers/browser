@@ -11,6 +11,9 @@ namespace Horizon.Core;
 /// </summary>
 public static class WindowHelper
 {
+    public static WindowChrome MainWindow { get; private set; }
+    public static nint HWND { get; private set; }
+
     static public void CreateMainWindow()
     {
         MainWindow = new()
@@ -18,6 +21,7 @@ public static class WindowHelper
             Title = "Horizon",
             ExtendsContentIntoTitleBar = true
         };
+        HWND = WindowNative.GetWindowHandle(MainWindow);
         //RestoreWindowState();
         SetMinWindowSize();
         SetupBackdrop();
@@ -217,6 +221,4 @@ public static class WindowHelper
 
         MainWindow.AppWindow.MoveAndResize(windowRect);
     }
-
-    public static WindowChrome MainWindow { get; private set; }
 }
