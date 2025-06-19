@@ -138,14 +138,13 @@ public static class WindowHelper
 
     static public void BlockScreencaptureForMainWindow(bool b)
     {
-        var hwnd = (Windows.Win32.Foundation.HWND)WindowNative.GetWindowHandle(MainWindow);
         switch (b)
         {
             case true:
-                Windows.Win32.PInvoke.SetWindowDisplayAffinity(hwnd, WINDOW_DISPLAY_AFFINITY.WDA_MONITOR);
+                Windows.Win32.PInvoke.SetWindowDisplayAffinity((Windows.Win32.Foundation.HWND)HWND, WINDOW_DISPLAY_AFFINITY.WDA_MONITOR);
                 break;
             case false:
-                Windows.Win32.PInvoke.SetWindowDisplayAffinity(hwnd, WINDOW_DISPLAY_AFFINITY.WDA_NONE);
+                Windows.Win32.PInvoke.SetWindowDisplayAffinity((Windows.Win32.Foundation.HWND)HWND, WINDOW_DISPLAY_AFFINITY.WDA_NONE);
                 break;
         }
     }

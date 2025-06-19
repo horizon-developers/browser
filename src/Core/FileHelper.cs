@@ -18,12 +18,8 @@ public class FileHelper
         // See the sample code below for how to make the window accessible from the App class.
         var window = WindowHelper.MainWindow;
 
-        // Retrieve the window handle (HWND) of the current WinUI 3 window.
-        var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
-
         // Initialize the file picker with the window handle (HWND).
-        WinRT.Interop.InitializeWithWindow.Initialize(savePicker, hWnd);
-
+        InitializeWithWindow.Initialize(savePicker, WindowHelper.HWND);
 
         // Dropdown of file types the user can save the file as
         savePicker.FileTypeChoices.Add(filetypefriendlyname, new List<string>() { filetype });

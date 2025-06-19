@@ -52,11 +52,8 @@ public sealed partial class ExtensionsPage : Page
         // See the sample code below for how to make the window accessible from the App class.
         var window = WindowHelper.MainWindow;
 
-        // Retrieve the window handle (HWND) of the current WinUI 3 window.
-        var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
-
         // Initialize the folder picker with the window handle (HWND).
-        WinRT.Interop.InitializeWithWindow.Initialize(openPicker, hWnd);
+        InitializeWithWindow.Initialize(openPicker, WindowHelper.HWND);
 
         // Set options for your folder picker
         openPicker.SuggestedStartLocation = PickerLocationId.Desktop;
