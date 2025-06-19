@@ -13,10 +13,7 @@ public sealed partial class SettingsPage : Page
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
         base.OnNavigatedFrom(e);
-        // Get settings and display them in the UI
         SearchEngineSelector.ItemsSource = SearchEngineHelper.SearchEngines;
-        string SearchEngine = SettingsHelper.GetSetting("EngineFriendlyName");
-
         foreach (SearchEngine engine in SearchEngineHelper.SearchEngines)
         {
             if (engine.SearchUrl == SettingsHelper.CurrentSearchUrl)
@@ -27,7 +24,6 @@ public sealed partial class SettingsPage : Page
         }
 
         BackdropTypeSelector.ItemsSource = Backdrops.BackdropsList;
-        string Backdrop = SettingsHelper.GetSetting("OverrideBackdropType");
         foreach (string Backdp in Backdrops.BackdropsList)
         {
             if (Backdp == SettingsHelper.CurrentBackdrop)
@@ -37,25 +33,10 @@ public sealed partial class SettingsPage : Page
             }
         }
 
-        if (SettingsHelper.GetSetting("AdvancedCTX") == "true")
-        {
-            AdvancedCTXToggle.IsOn = true;
-        }
-
-        if (SettingsHelper.GetSetting("IsScreencaptureBlocked") == "true")
-        {
-            BlockCaptureToggle.IsOn = true;
-        }
-
-        if (SettingsHelper.GetSetting("IsAppLockEnabled") == "true")
-        {
-            WindowsHelloToggle.IsOn = true;
-        }
-
-        if (SettingsHelper.GetSetting("IsAlwaysOnTopEnabled") == "true")
-        {
-            AlwaysOnTopToggle.IsOn = true;
-        }
+        AdvancedCTXToggle.IsOn = SettingsHelper.GetSetting("AdvancedCTX") == "true";
+        BlockCaptureToggle.IsOn = SettingsHelper.GetSetting("IsScreencaptureBlocked") == "true";
+        WindowsHelloToggle.IsOn = SettingsHelper.GetSetting("IsAppLockEnabled") == "true";
+        AlwaysOnTopToggle.IsOn = SettingsHelper.GetSetting("IsAlwaysOnTopEnabled") == "true";
 
         // Set event handlers
         SearchEngineSelector.SelectionChanged += SearchEngineSelector_SelectionChanged;
