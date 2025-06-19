@@ -22,6 +22,7 @@ public sealed partial class SettingsPage : Page
             if (engine.SearchUrl == SettingsHelper.CurrentSearchUrl)
             {
                 SearchEngineSelector.SelectedItem = engine;
+                break;
             }
         }
 
@@ -32,6 +33,7 @@ public sealed partial class SettingsPage : Page
             if (Backdp == SettingsHelper.CurrentBackdrop)
             {
                 BackdropTypeSelector.SelectedItem = Backdp;
+                break;
             }
         }
 
@@ -141,6 +143,7 @@ public sealed partial class SettingsPage : Page
     {
         string Selection = e.AddedItems[0].ToString();
         SettingsHelper.SetSetting("OverrideBackdropType", e.AddedItems[0].ToString());
+        SettingsHelper.CurrentBackdrop = Selection;
         switch (Selection)
         {
             case "Acrylic":
