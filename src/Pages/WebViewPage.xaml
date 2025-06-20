@@ -43,8 +43,8 @@
                     <Image
                         x:Name="QRCodeImage"
                         Grid.Row="0"
-                        Width="160"
-                        Height="160" />
+                        Width="220"
+                        Height="220" />
                 </Grid>
                 <StackPanel
                     Grid.Row="1"
