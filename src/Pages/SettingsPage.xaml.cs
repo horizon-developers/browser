@@ -200,7 +200,7 @@ public sealed partial class SettingsPage : Page
         {
             case true:
                 WindowHelper.SetMainWindowAlwaysOnTop(true);
-                SettingsHelper.SetSetting("IsAlwaysOnTopEnabled", "false");
+                SettingsHelper.SetSetting("IsAlwaysOnTopEnabled", "true");
                 break;
             case false:
                 WindowHelper.SetMainWindowAlwaysOnTop(false);
