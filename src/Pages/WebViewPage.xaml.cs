@@ -280,8 +280,6 @@ public sealed partial class WebViewPage : Page
         }
         if (args.KeyboardAccelerator.Key == WS.VirtualKey.Enter)
         {
-            if (WebViewControl.Visibility != Visibility.Visible)
-                WebViewControl.Visibility = Visibility.Visible;
             ProcessQueryAndGo(UrlBox.Text);
             UrlBoxWrapper.Visibility = Visibility.Collapsed;
             args.Handled = true;
@@ -291,6 +289,8 @@ public sealed partial class WebViewPage : Page
 
     private void ProcessQueryAndGo(string input)
     {
+        if (WebViewControl.Visibility != Visibility.Visible)
+            WebViewControl.Visibility = Visibility.Visible;
         string inputtype = UrlHelper.GetInputType(input);
         if (inputtype == "urlNOProtocol")
             NavigateToUrl("https://" + input.Trim());
