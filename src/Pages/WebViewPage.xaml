@@ -120,6 +120,14 @@
             </MenuFlyoutItem>
             <MenuFlyoutItem
                 Click="AppBarButton_Click"
+                Tag="ViewSource"
+                Text="View page source">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE943;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem
+                Click="AppBarButton_Click"
                 Tag="TaskManager"
                 Text="Task Manager">
                 <MenuFlyoutItem.Icon>

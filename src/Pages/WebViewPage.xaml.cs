@@ -257,6 +257,9 @@ public sealed partial class WebViewPage : Page
             case "DevTools":
                 WebViewControl.CoreWebView2.OpenDevToolsWindow();
                 break;
+            case "ViewSource":
+                WindowHelper.CreateNewTabInMainWindow($"View source", $"view-source:{WebViewControl.CoreWebView2.Source}");
+                break;
             case "TaskManager":
                 WebViewControl.CoreWebView2.OpenTaskManagerWindow();
                 break;
