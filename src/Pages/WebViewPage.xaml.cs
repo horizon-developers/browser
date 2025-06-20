@@ -225,6 +225,7 @@ public sealed partial class WebViewPage : Page
             case "OpenLinkFromClipboard":
                 string PastedURI = await ClipboardHelper.PasteUriAsStringFromClipboardAsync();
                 ProcessQueryAndGo(PastedURI);
+                UrlBoxWrapper.Visibility = Visibility.Collapsed;
                 break;
             // TODO: Implement tracking parameter removal
             case "CopyCleanPageLink":
