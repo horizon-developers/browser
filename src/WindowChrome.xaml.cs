@@ -11,14 +11,10 @@ public sealed partial class WindowChrome : Window
         GetFavorites();
     }
 
-    public static async void GetFavorites()
+    public static void GetFavorites()
     {
-        SettingsViewModel.SettingsVM.FavoritesList = await FavoritesHelper.GetFavoritesListAsync();
+        SettingsViewModel.SettingsVM.FavoritesList = FavoritesHelper.GetFavoritesList();
 #if DEBUG
-        foreach (FavoriteItem item in SettingsViewModel.SettingsVM.FavoritesList)
-        {
-            System.Diagnostics.Debug.WriteLine(item.Url);
-        }
         System.Diagnostics.Debug.WriteLine("Favorites:" + SettingsViewModel.SettingsVM.FavoritesList.Count);
 #endif
     }

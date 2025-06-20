@@ -25,6 +25,7 @@ global using System.Text.Json;
 global using System.Text.Json.Serialization;
 global using System.Text.RegularExpressions;
 global using System.Threading.Tasks;
+global using System.IO;
 global using WAM = Windows.ApplicationModel;
 global using WAMA = Windows.ApplicationModel.Activation;
 global using Windows.ApplicationModel.DataTransfer;

@@ -2,47 +2,17 @@
 
 public class FavoritesHelper
 {
-    public static StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+    private static readonly string FavoritesFilePath = $"{ApplicationData.Current.LocalFolder.Path}\\Favorites.json";
 
-    public static async void LoadFavoritesOnStartup()
+    public static void AddFavorite(string title, string url)
     {
-        SettingsViewModel.SettingsVM.FavoritesList = await GetFavoritesListAsync();
-    }
-
-    public static async void CreateFirstFavorite(string title, string url)
-    {
-        // Generate json
-        string json = "[{\"Title\":\"" + title + "\"," + "\"Url\":\"" + url + "\"}]";
-        // create json file
-        var file = await localFolder.CreateFileAsync("Favorites.json", CreationCollisionOption.ReplaceExisting);
-        // write json to json file
-        await FileIO.WriteTextAsync(file, json);
-        // new historyitem
         FavoriteItem newFavoriteItem = new()
         {
             Title = title,
             Url = url
         };
-        // add item to favorites list
         SettingsViewModel.SettingsVM.FavoritesList.Insert(0, newFavoriteItem);
-    }
-
-    public static async void AddFavorite(string title, string url)
-    {
-        var fileData = await localFolder.TryGetItemAsync("Favorites.json");
-        if (fileData == null) CreateFirstFavorite(title, url);
-        else
-        {
-            // new historyitem
-            FavoriteItem newFavoriteItem = new()
-            {
-                Title = title,
-                Url = url
-            };
-            // add item to favorites list
-            SettingsViewModel.SettingsVM.FavoritesList.Insert(0, newFavoriteItem);
-            SaveListChangesToDisk();
-        }
+        SaveListChangesToDisk();
     }
 
     public static void RemoveFavorite(FavoriteItem item)
@@ -51,35 +21,32 @@ public class FavoritesHelper
         SaveListChangesToDisk();
     }
 
-    public static async Task<ObservableCollection<FavoriteItem>> GetFavoritesListAsync()
+    public static ObservableCollection<FavoriteItem> GetFavoritesList()
     {
-        var fileData = await localFolder.TryGetItemAsync("Favorites.json");
-        if (fileData == null)
+        bool DoFavsExist = File.Exists(FavoritesFilePath);
+        if (!DoFavsExist)
         {
             ObservableCollection<FavoriteItem> placeholderItems = [];
             return placeholderItems;
         }
         else
         {
-            string filecontent = await FileIO.ReadTextAsync((IStorageFile)fileData);
+            string filecontent = File.ReadAllText(FavoritesFilePath);
             ObservableCollection<FavoriteItem> Items = JsonSerializer.Deserialize(filecontent, FavoriteItemSerializerContext.Default.ObservableCollectionFavoriteItem);
             return Items;
         }
     }
 
-    private static async void SaveListChangesToDisk()
+    private static void SaveListChangesToDisk()
     {
-        var fileData = await localFolder.GetFileAsync("Favorites.json");
         if (SettingsViewModel.SettingsVM.FavoritesList.Count < 1)
         {
-            await fileData.DeleteAsync();
+            File.Delete(FavoritesFilePath);
         }
         else
         {
-            // Convert list to json
             string newJson = JsonSerializer.Serialize(SettingsViewModel.SettingsVM.FavoritesList, FavoriteItemSerializerContext.Default.ObservableCollectionFavoriteItem);
-            // Write json to json file
-            await FileIO.WriteTextAsync(fileData, newJson);
+            File.WriteAllText(FavoritesFilePath, newJson);
         }
     }
 }
