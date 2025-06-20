@@ -120,7 +120,7 @@ public sealed partial class WebViewPage : Page
                 flyout = null;
 
             else
-                flyout = (MenuFlyout)Resources["BrowserMenuFlyout"];
+                flyout = (MenuFlyout)Resources["ContextMenu"];
 
             if (flyout != null)
             {
@@ -203,7 +203,7 @@ public sealed partial class WebViewPage : Page
     }
     #endregion
 
-    private async void AppBarButton_Click(object sender, RoutedEventArgs e)
+    private async void ContextMenuItem_Click(object sender, RoutedEventArgs e)
     {
         switch ((sender as MenuFlyoutItem).Tag)
         {
