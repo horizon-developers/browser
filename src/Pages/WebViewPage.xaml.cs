@@ -348,15 +348,16 @@ public sealed partial class WebViewPage : Page
                 WebViewControl.CoreWebView2.OpenDefaultDownloadDialog();
                 break;
             case "GenQRCode":
-                QrCode = await Modules.QRCodeGen.QRCodeHelper.GenerateQRCodeFromUrlAsync(WebViewControl.CoreWebView2.Source);
-                if (QrCode == null)
+                _ = WindowHelper.MainWindow.DispatcherQueue.TryEnqueue(async () =>
                 {
-                    //await UI.ShowDialog("Error", "An error occured while trying to create a qr code for this website");
-                    break;
-                }
-                BitmapImage QrCodeImage = await Modules.QRCodeGen.QRCodeHelper.ConvertBitmapBytesToImage(QrCode);
-                QRCodeImage.Source = QrCodeImage;
-                QRCodeFlyout.ShowAt(sender as Button);
+                    QrCode = await Modules.QRCodeGen.QRCodeHelper.GenerateQRCodeFromUrlAsync(WebViewControl.CoreWebView2.Source);
+                    if (QrCode != null)
+                    {
+                        BitmapImage QrCodeImage = await Modules.QRCodeGen.QRCodeHelper.ConvertBitmapBytesToImage(QrCode);
+                        QRCodeImage.Source = QrCodeImage;
+                        QRCodeFlyout.ShowAt(sender as Button);
+                    }
+                });
                 break;
             case "Mute":
                 WebViewControl.CoreWebView2.IsMuted = !WebViewControl.CoreWebView2.IsMuted;
