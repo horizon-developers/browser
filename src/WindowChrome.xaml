@@ -20,15 +20,16 @@
         <Grid
             x:Name="TitleBarControl"
             Grid.Row="0"
-            x:FieldModifier="public">
+            x:FieldModifier="public"
+            Background="Transparent">
             <Image
-                Width="22"
-                Height="22"
-                Margin="9,0,0,0"
+                Width="26"
+                Height="26"
+                Margin="7,0,0,0"
                 HorizontalAlignment="Left"
                 Source="/Assets/AppIcons/Square44x44Logo.png" />
             <TextBlock
-                Margin="36,0,0,0"
+                Margin="36,-1,0,0"
                 VerticalAlignment="Center"
                 Style="{StaticResource CaptionTextBlockStyle}"
                 Text="Horizon" />
@@ -60,9 +61,39 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Height="40">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button
+                                Grid.Column="0"
+                                HorizontalAlignment="Right"
+                                HorizontalContentAlignment="Stretch"
+                                Click="ToolbarButton_Click"
+                                Style="{StaticResource QuietButton}"
+                                Tag="NewTab">
+                                <Button.Content>
+                                    <FontIcon FontSize="16" Glyph="&#xE710;" />
+                                </Button.Content>
+                            </Button>
+                            <AppBarSeparator Grid.Column="1" />
+                            <Button
+                                Grid.Column="2"
+                                HorizontalAlignment="Left"
+                                HorizontalContentAlignment="Stretch"
+                                Click="ToolbarButton_Click"
+                                Style="{StaticResource QuietButton}"
+                                Tag="NewSplitTab">
+                                <Button.Content>
+                                    <FontIcon FontSize="16" Glyph="&#xF57C;" />
+                                </Button.Content>
+                            </Button>
+                        </Grid>
                         <ListView
                             x:Name="TabListView"
-                            Grid.Row="0"
+                            Grid.Row="1"
                             AllowDrop="True"
                             CanDrag="True"
                             CanReorderItems="True"
@@ -102,36 +133,6 @@
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-                        <Grid Grid.Row="2" Height="40">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Button
-                                Grid.Column="0"
-                                HorizontalAlignment="Right"
-                                HorizontalContentAlignment="Stretch"
-                                Click="ToolbarButton_Click"
-                                Style="{StaticResource QuietButton}"
-                                Tag="NewTab">
-                                <Button.Content>
-                                    <FontIcon FontSize="16" Glyph="&#xE710;" />
-                                </Button.Content>
-                            </Button>
-                            <AppBarSeparator Grid.Column="1" />
-                            <Button
-                                Grid.Column="2"
-                                HorizontalAlignment="Left"
-                                HorizontalContentAlignment="Stretch"
-                                Click="ToolbarButton_Click"
-                                Style="{StaticResource QuietButton}"
-                                Tag="NewSplitTab">
-                                <Button.Content>
-                                    <FontIcon FontSize="16" Glyph="&#xF57C;" />
-                                </Button.Content>
-                            </Button>
-                        </Grid>
                     </Grid>
                 </ScrollViewer>
                 <StackPanel
