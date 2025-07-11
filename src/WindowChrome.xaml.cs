@@ -119,12 +119,6 @@ public sealed partial class WindowChrome : Window
             case "NewSplitTab":
                 CreateTab("New split tab", typeof(SplitTabPage));
                 break;
-            case "Downloads":
-                CreateWebTab("Downloads", "edge://downloads");
-                break;
-            case "History":
-                CreateWebTab("History", "edge://history");
-                break;
         }
     }
 
@@ -132,6 +126,12 @@ public sealed partial class WindowChrome : Window
     {
         switch ((sender as MenuFlyoutItem).Tag)
         {
+            case "Downloads":
+                CreateWebTab("Downloads", "edge://downloads");
+                break;
+            case "History":
+                CreateWebTab("History", "edge://history");
+                break;
             case "WhatsNew":
                 CreateTab("Release notes", typeof(WhatsNewPage));
                 break;

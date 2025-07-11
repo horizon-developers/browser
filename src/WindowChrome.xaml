@@ -49,97 +49,31 @@
             <Grid
                 x:Name="Sidebar"
                 Grid.Column="1"
-                Margin="0,-1,5,3"
+                Margin="2,-1,5,3"
                 x:FieldModifier="public">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Hidden">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row="0" Height="40">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Button
-                                Grid.Column="0"
-                                HorizontalAlignment="Right"
-                                HorizontalContentAlignment="Stretch"
-                                Click="ToolbarButton_Click"
-                                Style="{StaticResource QuietButton}"
-                                Tag="NewTab">
-                                <Button.Content>
-                                    <FontIcon FontSize="16" Glyph="&#xE710;" />
-                                </Button.Content>
-                            </Button>
-                            <AppBarSeparator Grid.Column="1" />
-                            <Button
-                                Grid.Column="2"
-                                HorizontalAlignment="Left"
-                                HorizontalContentAlignment="Stretch"
-                                Click="ToolbarButton_Click"
-                                Style="{StaticResource QuietButton}"
-                                Tag="NewSplitTab">
-                                <Button.Content>
-                                    <FontIcon FontSize="16" Glyph="&#xF57C;" />
-                                </Button.Content>
-                            </Button>
-                        </Grid>
-                        <ListView
-                            x:Name="TabListView"
-                            Grid.Row="1"
-                            AllowDrop="True"
-                            CanDrag="True"
-                            CanReorderItems="True"
-                            ItemsSource="{x:Bind viewmodels:SettingsViewModel.SettingsVM.Tabs, Mode=TwoWay}"
-                            SelectionChanged="TabListView_SelectionChanged">
-                            <ListView.ItemTemplate>
-                                <DataTemplate x:DataType="local:Tab">
-                                    <Grid PointerPressed="Grid_PointerPressed" ToolTipService.ToolTip="{x:Bind Title, Mode=OneWay}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock
-                                            Grid.Column="1"
-                                            Margin="-2,-2,0,0"
-                                            VerticalAlignment="Center"
-                                            Text="{x:Bind Title, Mode=OneWay}"
-                                            TextTrimming="CharacterEllipsis" />
-                                        <Button
-                                            Grid.Column="2"
-                                            Margin="0,0,-4,0"
-                                            HorizontalAlignment="Right"
-                                            Background="Transparent"
-                                            BorderBrush="Transparent"
-                                            Click="CloseTabButton_Click"
-                                            Style="{StaticResource SidebarButton}">
-                                            <Button.Content>
-                                                <FontIcon
-                                                    FontFamily="Segoe Fluent Icons"
-                                                    FontSize="16"
-                                                    Foreground="Gray"
-                                                    Glyph="&#xE711;" />
-                                            </Button.Content>
-                                        </Button>
-                                    </Grid>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </Grid>
-                </ScrollViewer>
-                <StackPanel
-                    Grid.Row="1"
-                    Margin="2,0,2,2"
-                    HorizontalAlignment="Center"
-                    Orientation="Horizontal">
+                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <Button
+                        Click="ToolbarButton_Click"
+                        Style="{StaticResource QuietButton}"
+                        Tag="NewTab">
+                        <Button.Content>
+                            <FontIcon FontSize="16" Glyph="&#xE710;" />
+                        </Button.Content>
+                    </Button>
+                    <AppBarSeparator />
+                    <Button
+                        Click="ToolbarButton_Click"
+                        Style="{StaticResource QuietButton}"
+                        Tag="NewSplitTab">
+                        <Button.Content>
+                            <FontIcon FontSize="16" Glyph="&#xF57C;" />
+                        </Button.Content>
+                    </Button>
+                    <AppBarSeparator />
                     <Button
                         x:Name="FavoritesBtn"
                         Click="FavoritesFlyoutButton_Click"
@@ -148,7 +82,7 @@
                             <FontIcon FontSize="16" Glyph="&#xE728;" />
                         </Button.Content>
                         <Button.Resources>
-                            <Flyout x:Name="FavoritesFlyout">
+                            <Flyout x:Name="FavoritesFlyout" Placement="Bottom">
                                 <Grid Height="300">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
@@ -218,26 +152,30 @@
                             </Flyout>
                         </Button.Resources>
                     </Button>
-                    <Button
-                        Click="ToolbarButton_Click"
-                        Style="{StaticResource QuietButton}"
-                        Tag="Downloads">
-                        <Button.Content>
-                            <FontIcon FontSize="16" Glyph="&#xE896;" />
-                        </Button.Content>
-                    </Button>
-                    <Button
-                        Click="ToolbarButton_Click"
-                        Style="{StaticResource QuietButton}"
-                        Tag="History">
-                        <FontIcon FontSize="16" Glyph="&#xE81C;" />
-                    </Button>
+                    <AppBarSeparator />
                     <Button x:Name="ToolbarMoreBtn" Style="{StaticResource QuietButton}">
                         <Button.Content>
                             <FontIcon FontSize="16" Glyph="&#xE712;" />
                         </Button.Content>
                         <Button.Flyout>
-                            <MenuFlyout>
+                            <MenuFlyout Placement="Bottom">
+                                <MenuFlyoutItem
+                                    Click="ToolbarFlyoutItem_Click"
+                                    Tag="Downloads"
+                                    Text="Downloads">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE896;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem
+                                    Click="ToolbarFlyoutItem_Click"
+                                    Tag="History"
+                                    Text="History">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE81C;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutSeparator />
                                 <MenuFlyoutItem
                                     Click="ToolbarFlyoutItem_Click"
                                     Tag="WhatsNew"
@@ -255,6 +193,50 @@
                         </Button.Flyout>
                     </Button>
                 </StackPanel>
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
+                    <ListView
+                        x:Name="TabListView"
+                        Grid.Row="1"
+                        AllowDrop="True"
+                        CanDrag="True"
+                        CanReorderItems="True"
+                        ItemsSource="{x:Bind viewmodels:SettingsViewModel.SettingsVM.Tabs, Mode=TwoWay}"
+                        SelectionChanged="TabListView_SelectionChanged">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="local:Tab">
+                                <Grid PointerPressed="Grid_PointerPressed" ToolTipService.ToolTip="{x:Bind Title, Mode=OneWay}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Margin="-2,-2,0,0"
+                                        VerticalAlignment="Center"
+                                        Text="{x:Bind Title, Mode=OneWay}"
+                                        TextTrimming="CharacterEllipsis" />
+                                    <Button
+                                        Grid.Column="2"
+                                        Margin="0,0,-4,0"
+                                        HorizontalAlignment="Right"
+                                        Background="Transparent"
+                                        BorderBrush="Transparent"
+                                        Click="CloseTabButton_Click"
+                                        Style="{StaticResource SidebarButton}">
+                                        <Button.Content>
+                                            <FontIcon
+                                                FontFamily="Segoe Fluent Icons"
+                                                FontSize="16"
+                                                Foreground="Gray"
+                                                Glyph="&#xE711;" />
+                                        </Button.Content>
+                                    </Button>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </ScrollViewer>
             </Grid>
             <!--<toolkitc:GridSplitter
         Grid.Column="1"
