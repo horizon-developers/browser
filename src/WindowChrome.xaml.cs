@@ -133,7 +133,7 @@ public sealed partial class WindowChrome : Window
                 CreateWebTab("History", "edge://history");
                 break;
             case "WhatsNew":
-                CreateTab("Release notes", typeof(WhatsNewPage));
+                CreateWebTab("Release notes", "https://github.com/horizon-developers/browser/releases/latest");
                 break;
             case "Settings":
                 CreateTab("Settings", typeof(SettingsPage));
