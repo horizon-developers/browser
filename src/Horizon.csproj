@@ -17,7 +17,7 @@
 		<SelfContained>true</SelfContained>
 		<PublishTrimmed>true</PublishTrimmed>
 		<LangVersion>preview</LangVersion>
-		<AppVersion>11.5.124.0</AppVersion>
+		<AppVersion>12.0.137.0</AppVersion>
 	</PropertyGroup>
 
 	<Target Name="GetGitCommit" BeforeTargets="BeforeBuild">
