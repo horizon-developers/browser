@@ -198,7 +198,7 @@
                                 <HyperlinkButton Content="Mozilla Readability" NavigateUri="https://github.com/mozilla/readability" />
                                 <HyperlinkButton Content="QRCoder" NavigateUri="https://github.com/codebude/QRCoder" />
                                 <HyperlinkButton Content="Windows Community Toolkit" NavigateUri="https://github.com/CommunityToolkit/Windows" />
-                                <HyperlinkButton Content="Windows UI Library" NavigateUri="https://aka.ms/winui" />
+                                <HyperlinkButton Content="Windows UI Library" NavigateUri="https://aka.ms/winui3" />
                             </StackPanel>
                         </toolkitc:SettingsCard>
                         <toolkitc:SettingsCard
