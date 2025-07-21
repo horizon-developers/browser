@@ -161,18 +161,18 @@
                             <MenuFlyout Placement="Bottom">
                                 <MenuFlyoutItem
                                     Click="ToolbarFlyoutItem_Click"
-                                    Tag="Downloads"
-                                    Text="Downloads">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE896;" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem
-                                    Click="ToolbarFlyoutItem_Click"
                                     Tag="History"
                                     Text="History">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE81C;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem
+                                    Click="ToolbarFlyoutItem_Click"
+                                    Tag="Downloads"
+                                    Text="Downloads">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE896;" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutSeparator />
