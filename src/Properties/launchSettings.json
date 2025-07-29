@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "Horizon (MSIX)": {
+      "commandName": "MsixPackage"
+    }
+  }
+}

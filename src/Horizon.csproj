@@ -5,21 +5,93 @@
 		<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
 		<RootNamespace>Horizon</RootNamespace>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
-		<Platforms>x64;ARM64</Platforms>
-		<RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
-		<PublishProfile>win-$(Platform).pubxml</PublishProfile>
 		<UseWinUI>true</UseWinUI>
 		<ApplicationIcon>Horizon.ico</ApplicationIcon>
+		<LangVersion>preview</LangVersion>
+		<AppVersion>12.0.137.0</AppVersion>
+	</PropertyGroup>
+
+	<!-- Publishing properties -->
+	<PropertyGroup>
+		<Platforms>x86;x64;ARM64</Platforms>
+		<RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+		<PublishProfile>win-$(Platform).pubxml</PublishProfile>
 		<PublishAot>true</PublishAot>
 		<SelfContained>true</SelfContained>
 		<Optimize>true</Optimize>
 		<OptimizationPreference>Speed</OptimizationPreference>
 		<SelfContained>true</SelfContained>
 		<PublishTrimmed>true</PublishTrimmed>
-		<LangVersion>preview</LangVersion>
-		<AppVersion>12.0.137.0</AppVersion>
 	</PropertyGroup>
-
+	
+	<!-- MSIX Packaging properties -->
+	<PropertyGroup>
+		<WindowsAppSdkSelfContained>true</WindowsAppSdkSelfContained>
+		<EnableMsixTooling>true</EnableMsixTooling>
+		<GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+		<AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
+		<AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+		<AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+		<GenerateTestArtifacts>False</GenerateTestArtifacts>
+		<AppxBundle>Never</AppxBundle>
+		<HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<Content Include="Assets\AppIcons\LargeTile.scale-100.png" />
+		<Content Include="Assets\AppIcons\LargeTile.scale-125.png" />
+		<Content Include="Assets\AppIcons\LargeTile.scale-150.png" />
+		<Content Include="Assets\AppIcons\LargeTile.scale-200.png" />
+		<Content Include="Assets\AppIcons\LargeTile.scale-400.png" />
+		<Content Include="Assets\AppIcons\SmallTile.scale-100.png" />
+		<Content Include="Assets\AppIcons\SmallTile.scale-125.png" />
+		<Content Include="Assets\AppIcons\SmallTile.scale-150.png" />
+		<Content Include="Assets\AppIcons\SmallTile.scale-200.png" />
+		<Content Include="Assets\AppIcons\SmallTile.scale-400.png" />
+		<Content Include="Assets\AppIcons\Square150x150Logo.scale-100.png" />
+		<Content Include="Assets\AppIcons\Square150x150Logo.scale-125.png" />
+		<Content Include="Assets\AppIcons\Square150x150Logo.scale-150.png" />
+		<Content Include="Assets\AppIcons\Square150x150Logo.scale-200.png" />
+		<Content Include="Assets\AppIcons\Square150x150Logo.scale-400.png" />
+		<Content Include="Assets\AppIcons\Square44x44Logo.altform-lightunplated_targetsize-16.png" />
+		<Content Include="Assets\AppIcons\Square44x44Logo.altform-lightunplated_targetsize-24.png" />
+		<Content Include="Assets\AppIcons\Square44x44Logo.altform-lightunplated_targetsize-256.png" />
+		<Content Include="Assets\AppIcons\Square44x44Logo.altform-lightunplated_targetsize-32.png" />
+		<Content Include="Assets\AppIcons\Square44x44Logo.altform-lightunplated_targetsize-48.png" />
+		<Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-16.png" />
+		<Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-256.png" />
+		<Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-32.png" />
+		<Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-48.png" />
+		<Content Include="Assets\AppIcons\Square44x44Logo.scale-100.png" />
+		<Content Include="Assets\AppIcons\Square44x44Logo.scale-125.png" />
+		<Content Include="Assets\AppIcons\Square44x44Logo.scale-150.png" />
+		<Content Include="Assets\AppIcons\Square44x44Logo.scale-200.png" />
+		<Content Include="Assets\AppIcons\Square44x44Logo.scale-400.png" />
+		<Content Include="Assets\AppIcons\Square44x44Logo.targetsize-16.png" />
+		<Content Include="Assets\AppIcons\Square44x44Logo.targetsize-24.png" />
+		<Content Include="Assets\AppIcons\Square44x44Logo.targetsize-24_altform-unplated.png" />
+		<Content Include="Assets\AppIcons\Square44x44Logo.targetsize-256.png" />
+		<Content Include="Assets\AppIcons\Square44x44Logo.targetsize-32.png" />
+		<Content Include="Assets\AppIcons\Square44x44Logo.targetsize-48.png" />
+		<Content Include="Assets\AppIcons\StoreLogo.scale-100.png" />
+		<Content Include="Assets\AppIcons\StoreLogo.scale-125.png" />
+		<Content Include="Assets\AppIcons\StoreLogo.scale-150.png" />
+		<Content Include="Assets\AppIcons\StoreLogo.scale-200.png" />
+		<Content Include="Assets\AppIcons\StoreLogo.scale-400.png" />
+		<Content Include="Assets\AppIcons\Wide310x150Logo.scale-100.png" />
+		<Content Include="Assets\AppIcons\Wide310x150Logo.scale-125.png" />
+		<Content Include="Assets\AppIcons\Wide310x150Logo.scale-150.png" />
+		<Content Include="Assets\AppIcons\Wide310x150Logo.scale-200.png" />
+		<Content Include="Assets\AppIcons\Wide310x150Logo.scale-400.png" />
+		<Content Include="Assets\FileIcons\link.png" />
+		<Content Include="Assets\Icons\DevSanx.png" />
+		<Content Include="Assets\Icons\paypal.png" />
+		<None Include="Package.StoreAssociation.xml" />
+		<None Include="Assets\JS\readability.js">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+	
 	<Target Name="GetGitCommit" BeforeTargets="BeforeBuild">
 		<Exec Command="git rev-parse --short HEAD" ConsoleToMSBuild="true" ContinueOnError="true">
 			<Output TaskParameter="ConsoleOutput" PropertyName="GitCommitHash" />
@@ -30,28 +102,42 @@
 		</PropertyGroup>
 	</Target>
 
+	<ItemGroup>
+	  <AppxManifest Include="Package.appxmanifest">
+	    <SubType>Designer</SubType>
+	  </AppxManifest>
+	</ItemGroup>
+
 	<!-- Nuget packages-->
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Common" Version="8.4.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.250402" />
 		<!--<PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.2.250402" />-->
-		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3351.48" />
+		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3415-prerelease" />
 		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.183">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.2.0" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250606001" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250702007-experimental4" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4654" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools.MSIX" Version="1.7.20250528.2">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Include="$(PkgMicrosoft_WindowsAppSDK)\include\WindowsAppSDK-VersionInfo.cs" />
+		<ProjectReference Include="..\external\QRCoder\QRCoder.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\external\QRCoder\QRCoder.csproj" />
+	<!--
+    Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
+    Tools extension to be activated for this project even if the Windows App SDK Nuget
+    package has not yet been restored.
+  -->
+	<ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+		<ProjectCapability Include="Msix" />
 	</ItemGroup>
 </Project>

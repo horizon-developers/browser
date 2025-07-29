@@ -275,10 +275,7 @@ public sealed partial class SettingsPage : Page
 
                 string wv2version = CoreWebView2Environment.GetAvailableBrowserVersionString();
 
-                string appsdkversion = $"{Microsoft.WindowsAppSDK.Release.Major}.{Microsoft.WindowsAppSDK.Release.Minor}.{Microsoft.WindowsAppSDK.Release.Patch}";
-                string appsdkchannel = Microsoft.WindowsAppSDK.Release.Channel;
-
-                string debugCombinedString = $"Horizon Version {appver}\n.NET Version: {dotnetver}\nAppArch: {apparch}\nSys: {sysversion}\nSysArch: {sysarch}\nWebView2Runtime version: {wv2version}\nWindowsAppSdk: {appsdkversion} ({appsdkchannel})\n";
+                string debugCombinedString = $"Horizon Version {appver}\n.NET Version: {dotnetver}\nAppArch: {apparch}\nSys: {sysversion}\nSysArch: {sysarch}\nWebView2Runtime version: {wv2version}\n";
 
 
                 Win32Helper.ShowMessageBox("Horizon", $"Build information (press Ctrl + C to copy):\n" + debugCombinedString);
