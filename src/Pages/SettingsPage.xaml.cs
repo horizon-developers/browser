@@ -49,24 +49,13 @@ public sealed partial class SettingsPage : Page
 
     private async void InitHeadless()
     {
-        CoreWebView2EnvironmentOptions options = new()
-        {
-            AreBrowserExtensionsEnabled = true,
-            ScrollBarStyle = CoreWebView2ScrollbarStyle.FluentOverlay
-        };
-        CoreWebView2Environment environment = await CoreWebView2Environment.CreateWithOptionsAsync(null, null, options);
-        await HeadlessWebViewInstance.EnsureCoreWebView2Async(environment);
+        await HeadlessWebViewInstance.EnsureCoreWebView2Async(await GlobalEnvironment.GetDefault());
         UpdateSetDownloadFolderSettingsCardDescription();
     }
 
     public void DisposeHeadless()
     {
         HeadlessWebViewInstance.Close();
-    }
-
-    private void SetAsDefaultButton_Click(object sender, RoutedEventArgs e)
-    {
-
     }
 
     private void SearchEngineSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)

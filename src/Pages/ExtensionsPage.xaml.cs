@@ -12,13 +12,7 @@ public sealed partial class ExtensionsPage : Page
 
     private async void InitHeadless()
     {
-        CoreWebView2EnvironmentOptions options = new()
-        {
-            AreBrowserExtensionsEnabled = true,
-            ScrollBarStyle = CoreWebView2ScrollbarStyle.FluentOverlay
-        };
-        CoreWebView2Environment environment = await CoreWebView2Environment.CreateWithOptionsAsync(null, null, options);
-        await HeadlessWebViewInstance.EnsureCoreWebView2Async(environment);
+        await HeadlessWebViewInstance.EnsureCoreWebView2Async(await GlobalEnvironment.GetDefault());
         /*HeadlessWebViewInstance.CoreWebView2.NewWindowRequested += (sender, args) =>
         {
             MainPage page = WindowHelper.GetMainPageContentForWindow(App.WindowHelper.MainWindow);

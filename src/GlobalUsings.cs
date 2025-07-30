@@ -1,6 +1,7 @@
 ﻿global using CommunityToolkit.Mvvm.ComponentModel;
 global using CommunityToolkit.WinUI.Controls;
 global using Horizon.Controls.Tabs;
+global using Horizon.Controls.WebContent;
 global using Horizon.Core;
 global using Horizon.Modules.Favorites;
 global using Horizon.Pages;

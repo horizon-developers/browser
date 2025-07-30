@@ -33,13 +33,7 @@ public sealed partial class WebViewPage : Page
         {
             try
             {
-                CoreWebView2EnvironmentOptions options = new()
-                {
-                    AreBrowserExtensionsEnabled = true,
-                    ScrollBarStyle = CoreWebView2ScrollbarStyle.FluentOverlay
-                };
-                CoreWebView2Environment environment = await CoreWebView2Environment.CreateWithOptionsAsync(null, null, options);
-                await (sender as WebView2).EnsureCoreWebView2Async(environment);
+                await (sender as WebView2).EnsureCoreWebView2Async(await GlobalEnvironment.GetDefault());
             }
             catch (Exception ex)
             {
