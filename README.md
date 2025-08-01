@@ -53,8 +53,6 @@ You have to get the dependencies for your architecture (either X86, X64 or ARM64
 
 ```powershell
 Add-AppxPackage ".\Microsoft.WindowsAppRuntime.1.7_7000.456.1632.0_arm64__8wekyb3d8bbwe.msix"
-Add-AppxPackage ".\Microsoft.VCLibs.140.00_14.0.33519.0_arm64__8wekyb3d8bbwe.appx"
-Add-AppxPackage ".\Microsoft.VCLibs.140.00.UWPDesktop_14.0.33728.0_arm64__8wekyb3d8bbwe.appx"
 Add-AppxPackage ".\HorizonBrowser_10.0.5.0.msixbundle"
 ```
 Be sure to replace them with the names of your packages according to your system and the latest versions
