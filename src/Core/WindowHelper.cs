@@ -127,6 +127,7 @@ public static class WindowHelper
         });
     }
 
+    [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(OverlappedPresenter))]
     static public void SetMinWindowSize()
     {
         if (MainWindow.AppWindow.Presenter is OverlappedPresenter presenter)
