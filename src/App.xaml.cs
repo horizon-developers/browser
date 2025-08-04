@@ -49,20 +49,7 @@ public partial class App : Application
     protected override async void OnLaunched(LaunchActivatedEventArgs args)
     {
         var appArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
-        var mainInstance = AppInstance.FindOrRegisterForKey("HorizonSingleInstance");
 
-        // If the main instance isn't this current instance
-        if (!mainInstance.IsCurrent)
-        {
-            // Redirect activation to that instance
-            await mainInstance.RedirectActivationToAsync(appArgs);
-
-            // And exit our instance and stop
-            System.Diagnostics.Process.GetCurrentProcess().Kill();
-            return;
-        }
-
-        // Otherwise, register for activation redirection
         AppInstance.GetCurrent().Activated += App_Activated;
 
         if (SettingsHelper.GetSetting("IsAppLockEnabled") == "true")

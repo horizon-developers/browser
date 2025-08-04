@@ -9,6 +9,7 @@
 		<ApplicationIcon>Horizon.ico</ApplicationIcon>
 		<LangVersion>preview</LangVersion>
 		<AppVersion>12.0.140.0</AppVersion>
+		<DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
 	</PropertyGroup>
 
 	<!-- Publishing properties -->
