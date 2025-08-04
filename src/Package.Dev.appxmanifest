@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="uap rescap">
+
+  <Identity
+    Name="Pinguin2001.HorizonBrowser.Dev"
+    Publisher="CN=AE1D0726-66DB-43AE-842B-D94A37F839FE"
+    Version="1000.0.1000.0" />
+
+  <mp:PhoneIdentity PhoneProductId="d802fa1e-c8a5-4556-8ef4-26818b13fddd" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+
+  <Properties>
+    <DisplayName>HorizonBrowser (DEV)</DisplayName>
+    <PublisherDisplayName>Pinguin2001</PublisherDisplayName>
+    <Logo>Assets\DevAppIcons\StoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26100.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="x-generate"/>
+  </Resources>
+
+  <Applications>
+    <Application Id="App"
+      Executable="$targetnametoken$.exe"
+      EntryPoint="$targetentrypoint$">
+      <uap:VisualElements
+        DisplayName="HorizonBrowser (DEV)"
+        Description="Horizon"
+        BackgroundColor="transparent"
+        Square150x150Logo="Assets\DevAppIcons\Square150x150Logo.png"
+        Square44x44Logo="Assets\DevAppIcons\Square44x44Logo.png">
+		  <uap:DefaultTile Wide310x150Logo="Assets\DevAppIcons\Wide310x150Logo.png" ShortName="Horizon (DEV)" Square71x71Logo="Assets\DevAppIcons\SmallTile.png" Square310x310Logo="Assets\DevAppIcons\LargeTile.png">
+			  <uap:ShowNameOnTiles>
+				  <uap:ShowOn Tile="square150x150Logo"/>
+				  <uap:ShowOn Tile="wide310x150Logo"/>
+				  <uap:ShowOn Tile="square310x310Logo"/>
+			  </uap:ShowNameOnTiles>
+		  </uap:DefaultTile>
+      </uap:VisualElements>
+		<Extensions>
+			<uap:Extension Category="windows.protocol">
+				<uap:Protocol Name="http">
+					<uap:DisplayName>HorizonDev</uap:DisplayName>
+					<uap:Logo>Assets/FileIcons/link.png</uap:Logo>
+				</uap:Protocol>
+			</uap:Extension>
+			<uap:Extension Category="windows.protocol">
+				<uap:Protocol Name="https">
+					<uap:DisplayName>HorizonDev</uap:DisplayName>
+					<uap:Logo>Assets/FileIcons/link.png</uap:Logo>
+				</uap:Protocol>
+			</uap:Extension>
+		</Extensions>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+</Package>

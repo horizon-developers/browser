@@ -37,8 +37,17 @@
 		<HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
 		<AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
 	</PropertyGroup>
-	
+
 	<ItemGroup>
+		<AppxManifest Include="Package.appxmanifest" Condition="'$(Configuration)' == 'Release'">
+			<SubType>Designer</SubType>
+		</AppxManifest>
+		<AppxManifest Include="Package.Dev.appxmanifest" Condition="'$(Configuration)' != 'Release'">
+			<SubType>Designer</SubType>
+		</AppxManifest>
+	</ItemGroup>
+	
+	<ItemGroup Condition="'$(Configuration)' == 'Release'">
 		<Content Include="Assets\AppIcons\LargeTile.scale-100.png" />
 		<Content Include="Assets\AppIcons\LargeTile.scale-125.png" />
 		<Content Include="Assets\AppIcons\LargeTile.scale-150.png" />
@@ -84,6 +93,9 @@
 		<Content Include="Assets\AppIcons\Wide310x150Logo.scale-150.png" />
 		<Content Include="Assets\AppIcons\Wide310x150Logo.scale-200.png" />
 		<Content Include="Assets\AppIcons\Wide310x150Logo.scale-400.png" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Content Include="Assets\FileIcons\link.png" />
 		<Content Include="Assets\Icons\DevSanx.png" />
 		<Content Include="Assets\Icons\paypal.png" />
@@ -102,12 +114,6 @@
 			<Version>$(AppVersion)-$(GitCommitHash)</Version>
 		</PropertyGroup>
 	</Target>
-
-	<ItemGroup>
-	  <AppxManifest Include="Package.appxmanifest">
-	    <SubType>Designer</SubType>
-	  </AppxManifest>
-	</ItemGroup>
 
 	<!-- Nuget packages-->
 	<ItemGroup>
