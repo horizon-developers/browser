@@ -1,6 +1,6 @@
 ﻿namespace Horizon.Core;
 
-[JsonSerializable(typeof(WindowState))]
+/*[JsonSerializable(typeof(WindowState))]
 public partial class WindowStateSerializerContext : JsonSerializerContext
 {
 }
@@ -13,3 +13,4 @@ public class WindowState
     public int Height { get; set; } = 720;
     public bool IsMaximized { get; set; } = false;
 }
+*/

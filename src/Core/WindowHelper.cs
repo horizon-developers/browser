@@ -88,10 +88,10 @@ public static class WindowHelper
         }
     }
 
-    private static void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
+    /*private static void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
     {
         SaveWindowState();
-    }
+    }*/
 
     static public void ActivateMainWindow()
     {
@@ -157,7 +157,7 @@ public static class WindowHelper
         }
     }
 
-    static public void SaveWindowState()
+    /*static public void SaveWindowState()
     {
         WindowState state = new()
         {
@@ -185,9 +185,9 @@ public static class WindowHelper
 #if DEBUG
         System.Diagnostics.Debug.WriteLine(json);
 #endif
-    }
+    }*/
 
-    private static void RestoreWindowState()
+    /*private static void RestoreWindowState()
     {
         string WindowSettingsJson = SettingsHelper.GetSetting("WindowSettings");
         if (string.IsNullOrEmpty(WindowSettingsJson))
@@ -219,5 +219,5 @@ public static class WindowHelper
         );
 
         MainWindow.AppWindow.MoveAndResize(windowRect);
-    }
+    }*/
 }
