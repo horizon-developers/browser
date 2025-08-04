@@ -133,6 +133,7 @@ public static class WindowHelper
         {
             presenter.PreferredMinimumWidth = 800;
             presenter.PreferredMinimumHeight = 500;
+            presenter.Maximize();
         }
     }
 
