@@ -25,17 +25,16 @@ public static class Program
 #pragma warning restore IDE0079
     static bool DecideRedirection()
     {
-        var appArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
         var mainInstance = AppInstance.FindOrRegisterForKey("HorizonSingleInstance");
 
         // If the main instance isn't this current instance
         if (!mainInstance.IsCurrent)
         {
             // Redirect activation to that instance
-            mainInstance.RedirectActivationToAsync(appArgs).AsTask().Wait();
+            mainInstance.RedirectActivationToAsync(AppInstance.GetCurrent().GetActivatedEventArgs()).AsTask().Wait();
 
             // And exit our instance and stop
-            System.Diagnostics.Process.GetCurrentProcess().Kill();
+            Environment.Exit(0);
             return true;
         }
         return false;
