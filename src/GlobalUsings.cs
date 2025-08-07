@@ -6,6 +6,7 @@ global using Horizon.Core;
 global using Horizon.Modules.Favorites;
 global using Horizon.Pages;
 global using Horizon.ViewModels;
+global using Microsoft.UI;
 global using Microsoft.UI.Windowing;
 global using Microsoft.UI.Xaml;
 global using Microsoft.UI.Xaml.Controls;

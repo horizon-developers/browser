@@ -136,7 +136,8 @@ public sealed partial class WindowChrome : Window
                 CreateWebTab("Release notes", "https://github.com/horizon-developers/browser/releases/latest");
                 break;
             case "Settings":
-                CreateTab("Settings", typeof(SettingsPage));
+                //CreateTab("Settings", typeof(SettingsPage));
+                _ = new Modules.Settings.SettingsWindow();
                 break;
         }
     }

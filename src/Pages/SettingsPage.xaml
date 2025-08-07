@@ -113,7 +113,7 @@
                     IsClickEnabled="True"
                     Tag="Extensions">
                     <toolkitc:SettingsCard.ActionIcon>
-                        <FontIcon Glyph="&#xE8A7;" />
+                        <FontIcon Glyph="&#xE76C;" />
                     </toolkitc:SettingsCard.ActionIcon>
                     <toolkitc:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xEA86;" />

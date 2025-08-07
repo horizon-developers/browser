@@ -15,6 +15,7 @@
 	<!-- Publishing properties -->
 	<PropertyGroup>
 		<Platforms>x86;x64;ARM64</Platforms>
+		<DefineConstants Condition="'$(Platform)' == 'X64' Or '$(Platform)' == 'ARM64'">$(DefineConstants);Win64</DefineConstants>
 		<RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
 		<PublishProfile>win-$(Platform).pubxml</PublishProfile>
 		<PublishAot>true</PublishAot>

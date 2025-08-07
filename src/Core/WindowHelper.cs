@@ -159,6 +159,15 @@ public static class WindowHelper
         }
     }
 
+    static public void SetWindowOwner(nint OwnedHWND)
+    {
+#if Win64
+        _ = Windows.Win32.PInvoke.SetWindowLongPtr((Windows.Win32.Foundation.HWND)OwnedHWND, WINDOW_LONG_PTR_INDEX.GWL_HWNDPARENT, HWND);
+#else
+        _ = Windows.Win32.PInvoke.SetWindowLong((Windows.Win32.Foundation.HWND)OwnedHWND, WINDOW_LONG_PTR_INDEX.GWL_HWNDPARENT, (int)HWND);
+#endif
+    }
+
     /*static public void SaveWindowState()
     {
         WindowState state = new()

@@ -241,7 +241,8 @@ public sealed partial class SettingsPage : Page
         switch ((sender as SettingsCard).Tag)
         {
             case "Extensions":
-                WindowHelper.CreateNativeTabInMainWindow("Extensions", typeof(ExtensionsPage));
+                //WindowHelper.CreateNativeTabInMainWindow("Extensions", typeof(ExtensionsPage));
+                Frame.Navigate(typeof(ExtensionsPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
                 break;
             case "GNU":
                 await WS.Launcher.LaunchUriAsync(new Uri("https://raw.githubusercontent.com/horizon-developers/browser/refs/heads/main/LICENSE"));
