@@ -182,6 +182,10 @@ public sealed partial class WebViewPage : Page
     #region Keyboard shortcuts
     private void CoreWebView2_WebMessageReceived(CoreWebView2 sender, CoreWebView2WebMessageReceivedEventArgs args)
     {
+        if (WindowHelper.IsWindowInFullScreen())
+        {
+            return;
+        }
         // this input has been treated as VERY unsecure input
         // DO NOT add anything which could be slighly insecure
         if (args.TryGetWebMessageAsString() == "ControlL")
