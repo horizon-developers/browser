@@ -196,11 +196,11 @@
                 <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
                     <ListView
                         x:Name="TabListView"
-                        Grid.Row="1"
                         AllowDrop="True"
                         CanDrag="True"
                         CanReorderItems="True"
                         ItemsSource="{x:Bind viewmodels:SettingsViewModel.SettingsVM.Tabs, Mode=TwoWay}"
+                        RightTapped="TabListView_RightTapped"
                         SelectionChanged="TabListView_SelectionChanged">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="local:Tab">
@@ -235,6 +235,18 @@
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
+                        <ListView.ContextFlyout>
+                            <MenuFlyout x:Name="TabContextMenu" Placement="BottomEdgeAlignedLeft">
+                                <MenuFlyoutItem
+                                    Click="TabCTXItem_Click"
+                                    Tag="Duplicate"
+                                    Text="Duplicate tab">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE923;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </ListView.ContextFlyout>
                     </ListView>
                 </ScrollViewer>
             </Grid>

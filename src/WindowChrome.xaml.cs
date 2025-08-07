@@ -165,6 +165,29 @@ public sealed partial class WindowChrome : Window
 
     }
 
+    Tab CTXSelectedTab;
+    private void TabListView_RightTapped(object sender, RightTappedRoutedEventArgs e)
+    {
+        CTXSelectedTab = ((FrameworkElement)e.OriginalSource).DataContext as Tab;
+    }
+
+    private void TabCTXItem_Click(object sender, RoutedEventArgs e)
+    {
+        object TabContent = (CTXSelectedTab.Content as Frame).Content;
+        if (TabContent is not WebViewPage)
+        {
+            return;
+        }
+
+        switch ((sender as MenuFlyoutItem).Tag)
+        {
+            case "Duplicate":
+                string URL = (TabContent as WebViewPage).WebViewControl.CoreWebView2.Source;
+                CreateWebTab("New tab", URL);
+                break;
+        }
+    }
+
     #region Favorites flyout
     private void FavoritesFlyoutButton_Click(object sender, RoutedEventArgs e)
     {
@@ -183,10 +206,10 @@ public sealed partial class WindowChrome : Window
         }
     }
 
-    FavoriteItem selectedItem;
+    FavoriteItem FavSelectedItem;
     private void FavoritesListView_RightTapped(object sender, RightTappedRoutedEventArgs e)
     {
-        selectedItem = ((FrameworkElement)e.OriginalSource).DataContext as FavoriteItem;
+        FavSelectedItem = ((FrameworkElement)e.OriginalSource).DataContext as FavoriteItem;
     }
 
     private void FavContextItem_Click(object sender, RoutedEventArgs e)
@@ -194,14 +217,14 @@ public sealed partial class WindowChrome : Window
         switch ((sender as AppBarButton).Tag)
         {
             case "Copy":
-                ClipboardHelper.CopyTextToClipboard(selectedItem.Url);
+                ClipboardHelper.CopyTextToClipboard(FavSelectedItem.Url);
                 break;
             case "Delete":
                 FavoritesListView.SelectedItem = null;
-                FavoritesHelper.RemoveFavorite(selectedItem);
+                FavoritesHelper.RemoveFavorite(FavSelectedItem);
                 break;
             case "CopyText":
-                ClipboardHelper.CopyTextToClipboard(selectedItem.Title);
+                ClipboardHelper.CopyTextToClipboard(FavSelectedItem.Title);
                 break;
         }
         FavoritesContextMenu.Hide();
