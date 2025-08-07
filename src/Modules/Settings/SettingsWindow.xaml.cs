@@ -32,6 +32,7 @@ public sealed partial class SettingsWindow : Window
 
     private void ModalWindow_Closed(object sender, WindowEventArgs args)
     {
+        (SettingsHost.Content as SettingsPage)?.HeadlessWebViewInstance.Close();
         WindowHelper.MainWindow.Activate();
     }
 

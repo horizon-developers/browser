@@ -17,22 +17,16 @@
             <RowDefinition Height="32" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel
+        <Border
             x:Name="TitleBar"
-            Background="Transparent"
-            Orientation="Horizontal">
-            <Button
-                Click="BackButton_Click"
-                IsEnabled="{x:Bind SettingsHost.CanGoBack, Mode=OneWay}"
-                Style="{StaticResource QuietButton}">
-                <FontIcon Glyph="&#xE72B;" />
-            </Button>
+            Grid.Row="0"
+            Background="Transparent">
             <TextBlock
-                Margin="0,-2,0,0"
+                Margin="10,0,0,0"
                 VerticalAlignment="Center"
                 Style="{StaticResource CaptionTextBlockStyle}"
                 Text="Settings" />
-        </StackPanel>
+        </Border>
         <Frame
             x:Name="SettingsHost"
             Grid.Row="1"

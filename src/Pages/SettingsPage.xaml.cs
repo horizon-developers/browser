@@ -2,7 +2,7 @@ namespace Horizon.Pages;
 
 public sealed partial class SettingsPage : Page
 {
-    private WebView2 HeadlessWebViewInstance = new();
+    public readonly WebView2 HeadlessWebViewInstance = new();
 
     public SettingsPage()
     {
@@ -51,11 +51,6 @@ public sealed partial class SettingsPage : Page
     {
         await HeadlessWebViewInstance.EnsureCoreWebView2Async(await GlobalEnvironment.GetDefault());
         UpdateSetDownloadFolderSettingsCardDescription();
-    }
-
-    public void DisposeHeadless()
-    {
-        HeadlessWebViewInstance.Close();
     }
 
     private void SearchEngineSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -198,6 +193,112 @@ public sealed partial class SettingsPage : Page
         }
     }
 
+    #region Extensions
+    private async Task<IReadOnlyList<CoreWebView2BrowserExtension>> GetExtensionListAsync()
+    {
+        IReadOnlyList<CoreWebView2BrowserExtension> extensions = await HeadlessWebViewInstance.CoreWebView2.Profile.GetBrowserExtensionsAsync();
+#if DEBUG
+        foreach (CoreWebView2BrowserExtension extension in extensions)
+        {
+            System.Diagnostics.Debug.WriteLine(extension.Name + ": " + extension.Id);
+        }
+#endif
+        return extensions;
+    }
+
+    private async void InstallExButton_Click(object sender, RoutedEventArgs e)
+    {
+        // Create a folder picker
+        FolderPicker openPicker = new();
+
+        // Initialize the folder picker with the window handle (HWND).
+        InitializeWithWindow.Initialize(openPicker, WindowHelper.HWND);
+
+        // Set options for your folder picker
+        openPicker.SuggestedStartLocation = PickerLocationId.Desktop;
+        openPicker.FileTypeFilter.Add("*");
+
+        // Open the picker for the user to pick a folder
+        StorageFolder folder = await openPicker.PickSingleFolderAsync();
+        if (folder != null)
+        {
+            //StorageApplicationPermissions.FutureAccessList.AddOrReplace("PickedFolderToken", folder);
+            //PickFolderOutputTextBlock.Text = "Picked folder: " + folder.Name;
+            try
+            {
+                await HeadlessWebViewInstance.CoreWebView2.Profile.AddBrowserExtensionAsync(folder.Path);
+            }
+            catch (Exception ex)
+            {
+                Win32Helper.ShowMessageBox("Horizon", "Installation failed because:\n" + ex.Message);
+            }
+            RefreshExtensionsList();
+        }
+        else
+        {
+            //PickFolderOutputTextBlock.Text = "Operation cancelled.";
+        }
+
+
+    }
+
+    private void ListExtension_Click(object sender, RoutedEventArgs e)
+    {
+        RefreshExtensionsList();
+    }
+
+    private async void RefreshExtensionsList()
+    {
+        ExtensionsListView.SelectedItem = null;
+        ExtensionsListView.Items.Clear();
+        IReadOnlyList<CoreWebView2BrowserExtension> list = await GetExtensionListAsync();
+        foreach (CoreWebView2BrowserExtension extension in list)
+        {
+            ExtensionsListView.Items.Add(extension);
+        }
+    }
+
+    CoreWebView2BrowserExtension selectedItem;
+    private void ExtensionsListView_RightTapped(object sender, RightTappedRoutedEventArgs e)
+    {
+        selectedItem = ((FrameworkElement)e.OriginalSource).DataContext as CoreWebView2BrowserExtension;
+    }
+    #endregion
+
+    private async void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        switch ((sender as MenuFlyoutItem).Tag)
+        {
+            case "CopyID":
+                ClipboardHelper.CopyTextToClipboard(selectedItem.Id);
+                break;
+            case "Delete":
+                ContentDialog dialog = new()
+                {
+                    Title = "Remove?",
+                    PrimaryButtonText = "Remove",
+                    CloseButtonText = "Cancel",
+                    XamlRoot = XamlRoot,
+                    Content = "Do you really want to remove " + selectedItem.Name + "?"
+                };
+
+                var dialogResult = await dialog.ShowAsync();
+                if (dialogResult == ContentDialogResult.Primary)
+                {
+                    IReadOnlyList<CoreWebView2BrowserExtension> list = await GetExtensionListAsync();
+                    foreach (CoreWebView2BrowserExtension extension in list)
+                    {
+                        if (extension.Id == selectedItem.Id)
+                        {
+                            await extension.RemoveAsync();
+                        }
+                    }
+                    RefreshExtensionsList();
+                }
+                break;
+        }
+    }
+
     /*private async void ClearUserDataButton_Click(object sender, RoutedEventArgs e)
     {
         // ShowDialogWithAction is no longer available, as PenguinApps.Core has never been updated to support WinAppSdk / WinUI
@@ -240,10 +341,6 @@ public sealed partial class SettingsPage : Page
     {
         switch ((sender as SettingsCard).Tag)
         {
-            case "Extensions":
-                //WindowHelper.CreateNativeTabInMainWindow("Extensions", typeof(ExtensionsPage));
-                Frame.Navigate(typeof(ExtensionsPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
-                break;
             case "GNU":
                 await WS.Launcher.LaunchUriAsync(new Uri("https://raw.githubusercontent.com/horizon-developers/browser/refs/heads/main/LICENSE"));
                 break;

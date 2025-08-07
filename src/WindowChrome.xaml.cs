@@ -75,14 +75,6 @@ public sealed partial class WindowChrome : Window
             {
                 ((tab.Content as Frame).Content as SplitTabPage).CloseWebViews();
             }
-            if ((tab.Content as Frame).Content is ExtensionsPage)
-            {
-                ((tab.Content as Frame).Content as ExtensionsPage).DisposeHeadless();
-            }
-            if ((tab.Content as Frame).Content is SettingsPage)
-            {
-                ((tab.Content as Frame).Content as SettingsPage).DisposeHeadless();
-            }
             tab.Content = null;
             if (index == 0)
                 TabListView.SelectedIndex = 1;

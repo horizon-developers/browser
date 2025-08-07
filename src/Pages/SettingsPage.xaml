@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkitc="using:CommunityToolkit.WinUI.Controls"
+    xmlns:wv2core="using:Microsoft.Web.WebView2.Core"
     mc:Ignorable="d">
     <Grid Style="{StaticResource PageBorder}">
         <ScrollViewer
@@ -106,19 +107,61 @@
                     </toolkitc:SettingsCard.HeaderIcon>
                     <ToggleSwitch x:Name="AlwaysOnTopToggle" />
                 </toolkitc:SettingsCard>
-                <toolkitc:SettingsCard
-                    Click="SettingsCardClickHandler"
-                    Description="Add/remove web extensions"
-                    Header="Extensions"
-                    IsClickEnabled="True"
-                    Tag="Extensions">
-                    <toolkitc:SettingsCard.ActionIcon>
-                        <FontIcon Glyph="&#xE76C;" />
-                    </toolkitc:SettingsCard.ActionIcon>
-                    <toolkitc:SettingsCard.HeaderIcon>
+                <toolkitc:SettingsExpander Description="Add/remove web extensions" Header="Extensions">
+                    <toolkitc:SettingsExpander.HeaderIcon>
                         <FontIcon Glyph="&#xEA86;" />
-                    </toolkitc:SettingsCard.HeaderIcon>
-                </toolkitc:SettingsCard>
+                    </toolkitc:SettingsExpander.HeaderIcon>
+                    <toolkitc:SettingsExpander.Items>
+                        <StackPanel Spacing="{StaticResource SettingsCardSpacing}">
+                            <InfoBar
+                                Title="Notice"
+                                IsClosable="False"
+                                IsOpen="True"
+                                Message="Unpacked extensions do not support auto-updates"
+                                Severity="Warning" />
+                            <StackPanel
+                                Margin="0,5,0,5"
+                                Orientation="Horizontal"
+                                Spacing="8">
+                                <Button Click="InstallExButton_Click" Content="Load unpackaged extension.." />
+                                <Button Click="ListExtension_Click" Content="Load all installed extensions" />
+                            </StackPanel>
+                            <ListView
+                                x:Name="ExtensionsListView"
+                                RightTapped="ExtensionsListView_RightTapped"
+                                SelectionMode="None">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate x:DataType="wv2core:CoreWebView2BrowserExtension">
+                                        <StackPanel Margin="-2,8,0,8">
+                                            <TextBlock Text="{x:Bind Name, Mode=OneTime}" />
+                                            <TextBlock Text="{x:Bind Id, Mode=OneTime}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                                <ListView.ContextFlyout>
+                                    <MenuFlyout x:Name="ExtensionContextMenu" Placement="BottomEdgeAlignedLeft">
+                                        <MenuFlyoutItem
+                                            Click="MenuFlyoutItem_Click"
+                                            Tag="CopyID"
+                                            Text="Copy id">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon Glyph="&#xE16F;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem
+                                            Click="MenuFlyoutItem_Click"
+                                            Tag="Delete"
+                                            Text="Delete">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon Foreground="Red" Glyph="&#xE74D;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                    </MenuFlyout>
+                                </ListView.ContextFlyout>
+                            </ListView>
+                        </StackPanel>
+                    </toolkitc:SettingsExpander.Items>
+                </toolkitc:SettingsExpander>
                 <!--  About  -->
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="About" />
                 <toolkitc:SettingsCard
