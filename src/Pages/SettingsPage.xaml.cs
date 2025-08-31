@@ -242,7 +242,7 @@ public sealed partial class SettingsPage : Page
 
     }
 
-    private void ListExtension_Click(object sender, RoutedEventArgs e)
+    private void ExtensionsExpander_Expanded(object sender, EventArgs e)
     {
         RefreshExtensionsList();
     }
