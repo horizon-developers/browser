@@ -364,8 +364,17 @@ public sealed partial class SettingsPage : Page
 
                 string debugCombinedString = $"Horizon Version {appver}\n.NET Version: {dotnetver}\nAppArch: {apparch}\nSys: {sysversion}\nSysArch: {sysarch}\nWebView2Runtime version: {wv2version}\n";
 
+                //Win32Helper.ShowMessageBox("Horizon", $"Build information (press Ctrl + C to copy):\n" + debugCombinedString);
 
-                Win32Helper.ShowMessageBox("Horizon", $"Build information (press Ctrl + C to copy):\n" + debugCombinedString);
+                ContentDialog BuildInfoDialog = new()
+                {
+                    Title = "Horizon debug info",
+                    Content = new TextBlock { Text = debugCombinedString, IsTextSelectionEnabled = true },
+                    CloseButtonText = "Ok",
+                    DefaultButton = ContentDialogButton.Close,
+                    XamlRoot = XamlRoot
+                };
+                await BuildInfoDialog.ShowAsync();
                 break;
         }
     }
