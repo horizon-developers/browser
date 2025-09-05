@@ -22,6 +22,7 @@ public static class WindowHelper
             ExtendsContentIntoTitleBar = true
         };
         HWND = WindowNative.GetWindowHandle(MainWindow);
+        //RestoreTabs();
         //RestoreWindowState();
         SetMinWindowSize();
         SetupBackdrop();
@@ -29,6 +30,17 @@ public static class WindowHelper
         //MainWindow.AppWindow.Closing += AppWindow_Closing;
         ApplyWindowSettings();
     }
+
+    /*private static void RestoreTabs()
+    {
+        RestoreSessionTabs.RestoreTabsOnStartup();
+    }
+
+    private static async void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
+    {
+        await RestoreSessionTabs.SaveTabsOnExit().WaitAsync(new System.Threading.CancellationToken());
+        SaveWindowState();
+    }*/
 
     public static void SetFullScreen(bool fs)
     {
@@ -87,11 +99,6 @@ public static class WindowHelper
             SetMainWindowAlwaysOnTop(true);
         }
     }
-
-    /*private static void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
-    {
-        SaveWindowState();
-    }*/
 
     static public void ActivateMainWindow()
     {

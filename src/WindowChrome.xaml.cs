@@ -124,6 +124,21 @@ public sealed partial class WindowChrome : Window
             case "History":
                 CreateWebTab("History", "edge://history");
                 break;
+            case "Crashes":
+                CreateWebTab("Crashes", "edge://crashes");
+                break;
+            case "Flags":
+                CreateWebTab("Flags", "edge://flags");
+                break;
+            case "GPU":
+                CreateWebTab("GPU Internals", "edge://gpu");
+                break;
+            case "Inspect":
+                CreateWebTab("Inspect", "edge://inspect");
+                break;
+            case "Modules":
+                CreateWebTab("Inspect", "edge://modules");
+                break;
             case "WhatsNew":
                 CreateWebTab("Release notes", "https://github.com/horizon-developers/browser/releases/latest");
                 break;

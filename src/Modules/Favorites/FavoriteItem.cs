@@ -1,6 +1,7 @@
 ﻿namespace Horizon.Modules.Favorites;
 
 [JsonSerializable(typeof(ObservableCollection<FavoriteItem>))]
+//[JsonSerializable(typeof(List<FavoriteItem>))]
 public partial class FavoriteItemSerializerContext : JsonSerializerContext
 {
 }

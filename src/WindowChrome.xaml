@@ -176,6 +176,32 @@
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutSeparator />
+                                <MenuFlyoutSubItem Text="Developer">
+                                    <MenuFlyoutSubItem.Icon>
+                                        <FontIcon Glyph="&#xE943;" />
+                                    </MenuFlyoutSubItem.Icon>
+                                    <MenuFlyoutItem
+                                        Click="ToolbarFlyoutItem_Click"
+                                        Tag="Crashes"
+                                        Text="Crashes" />
+                                    <MenuFlyoutItem
+                                        Click="ToolbarFlyoutItem_Click"
+                                        Tag="Flags"
+                                        Text="Flags" />
+                                    <MenuFlyoutItem
+                                        Click="ToolbarFlyoutItem_Click"
+                                        Tag="GPU"
+                                        Text="GPU Internals" />
+                                    <MenuFlyoutItem
+                                        Click="ToolbarFlyoutItem_Click"
+                                        Tag="Inspect"
+                                        Text="Inspect" />
+                                    <MenuFlyoutItem
+                                        Click="ToolbarFlyoutItem_Click"
+                                        Tag="Modules"
+                                        Text="Modules" />
+                                </MenuFlyoutSubItem>
+                                <MenuFlyoutSeparator />
                                 <MenuFlyoutItem
                                     Click="ToolbarFlyoutItem_Click"
                                     Tag="WhatsNew"
