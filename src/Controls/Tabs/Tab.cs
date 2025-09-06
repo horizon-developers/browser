@@ -9,6 +9,13 @@ public partial class Tab : ObservableObject
         set => SetProperty(ref _title, value);
     }
 
+    private string _domain;
+    public string Domain
+    {
+        get => _domain;
+        set => SetProperty(ref _domain, value);
+    }
+
     /*private Uri _icon;
     public Uri Icon
     {

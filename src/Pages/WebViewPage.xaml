@@ -234,41 +234,6 @@
             <Button
                 Click="SidebarButton_Click"
                 Style="{StaticResource SidebarButton}"
-                Tag="ToggleUrlBox"
-                ToolTipService.ToolTip="Toggle url bar">
-                <FontIcon FontSize="16" Glyph="&#xE721;" />
-                <Button.ContextFlyout>
-                    <MenuFlyout>
-                        <MenuFlyoutItem
-                            Click="ContextMenuItem_Click"
-                            Tag="CopyPageLink"
-                            Text="Copy link">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE8C8;" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem
-                            Click="ContextMenuItem_Click"
-                            Tag="OpenLinkFromClipboard"
-                            Text="Open link from clipboard">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE630;" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <!--<MenuFlyoutItem
-                            Click="ContextMenuItem_Click"
-                            Tag="CopyCleanPageLink"
-                            Text="Copy link (clean)">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE8C8;" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>-->
-                    </MenuFlyout>
-                </Button.ContextFlyout>
-            </Button>
-            <Button
-                Click="SidebarButton_Click"
-                Style="{StaticResource SidebarButton}"
                 Tag="ReadingMode"
                 ToolTipService.ToolTip="Reading mode">
                 <FontIcon FontSize="16" Glyph="&#xE736;" />

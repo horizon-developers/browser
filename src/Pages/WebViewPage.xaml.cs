@@ -1,3 +1,5 @@
+using System.Data.SqlTypes;
+
 namespace Horizon.Pages;
 
 public sealed partial class WebViewPage : Page
@@ -52,6 +54,7 @@ public sealed partial class WebViewPage : Page
         sender.CoreWebView2.ContextMenuRequested += CoreWebView2_ContextMenuRequested;
         sender.CoreWebView2.IsDocumentPlayingAudioChanged += CoreWebView2_IsDocumentPlayingAudioChanged;
         sender.CoreWebView2.IsMutedChanged += CoreWebView2_IsMutedChanged;
+        sender.CoreWebView2.SourceChanged += CoreWebView2_SourceChanged;
         if (!IsSplitTab)
             sender.CoreWebView2.DocumentTitleChanged += CoreWebView2_DocumentTitleChanged;
         //sender.CoreWebView2.FaviconChanged += CoreWebView2_FaviconChanged;
@@ -156,6 +159,17 @@ public sealed partial class WebViewPage : Page
         }
     }
 
+    private void CoreWebView2_SourceChanged(CoreWebView2 sender, CoreWebView2SourceChangedEventArgs args)
+    {
+        MyTab.Domain = sender.DocumentTitle;
+        if (Uri.TryCreate(sender.Source, UriKind.Absolute, out Uri? uri))
+        {
+            MyTab.Domain = uri.Host;
+            return;
+        }
+        
+    }
+
     private void CoreWebView2_DocumentTitleChanged(CoreWebView2 sender, object args)
     {
         MyTab.Title = sender.DocumentTitle;
@@ -216,18 +230,6 @@ public sealed partial class WebViewPage : Page
             case "Forward":
                 if (WebViewControl.CanGoForward)
                     WebViewControl.GoForward();
-                break;
-            case "CopyPageLink":
-                ClipboardHelper.CopyTextToClipboard(WebViewControl.CoreWebView2.Source);
-                break;
-            case "OpenLinkFromClipboard":
-                string PastedURI = await ClipboardHelper.PasteUriAsStringFromClipboardAsync();
-                ProcessQueryAndGo(PastedURI);
-                UrlBoxWrapper.Visibility = Visibility.Collapsed;
-                break;
-            // TODO: Implement tracking parameter removal
-            case "CopyCleanPageLink":
-                ClipboardHelper.CopyTextToClipboard(WebViewControl.CoreWebView2.Source);
                 break;
             case "SelectAll":
                 await WebViewControl.CoreWebView2.ExecuteScriptAsync("document.execCommand(\"selectAll\");");
@@ -374,7 +376,7 @@ public sealed partial class WebViewPage : Page
         await FileHelper.SaveBytesAsFileAsync("QRCode", QrCode, "Bitmap", ".bmp");
     }
 
-    private void ToggleUrlBox()
+    public void ToggleUrlBox()
     {
         switch(UrlBoxWrapper.Visibility)
         {

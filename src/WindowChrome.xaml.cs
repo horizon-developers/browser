@@ -3,8 +3,14 @@ namespace Horizon;
 /// <summary>
 /// The main WindowChrome of the app. It displays the titlebar, the tab bar and the sidebar, as well as the the WebContent
 /// </summary>
-public sealed partial class WindowChrome : Window
+public sealed partial class WindowChrome : Window, INotifyPropertyChanged
 {
+    public event PropertyChangedEventHandler PropertyChanged;
+    private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
     public WindowChrome()
     {
         InitializeComponent();
@@ -56,6 +62,7 @@ public sealed partial class WindowChrome : Window
     {
         ListView listView = sender as ListView;
         Tab item = (Tab)listView.SelectedItem;
+        SelectedTab = item;
         UIElement tabContent = item?.Content;
         TabContentPresenter.Content = tabContent;
     }
@@ -88,16 +95,18 @@ public sealed partial class WindowChrome : Window
         }
     }
 
+    private Tab _selectedTab;
+
     public Tab SelectedTab
     {
-        get
-        {
-            Tab item = (Tab)TabListView.SelectedItem;
-            return item;
-        }
+        get => _selectedTab;
         set
         {
-            TabListView.SelectedItem = value;
+            if (_selectedTab != value)
+            {
+                _selectedTab = value;
+                OnPropertyChanged();
+            }
         }
     }
 
@@ -105,6 +114,9 @@ public sealed partial class WindowChrome : Window
     {
         switch ((sender as Button).Tag)
         {
+            case "CopyLink":
+                ClipboardHelper.CopyTextToClipboard(((SelectedTab.Content as Frame).Content as WebViewPage).WebViewControl.CoreWebView2.Source);
+                break;
             case "NewTab":
                 CreateWebTab("New tab", string.Empty);
                 break;
@@ -245,4 +257,12 @@ public sealed partial class WindowChrome : Window
         FavoritesContextMenu.Hide();
     }
     #endregion
+
+    private void UrlBoxButton_Click(object sender, RoutedEventArgs e)
+    {
+        if ((SelectedTab.Content as Frame)?.Content is WebViewPage webViewPage)
+        {
+            webViewPage.ToggleUrlBox();
+        }
+    }
 }

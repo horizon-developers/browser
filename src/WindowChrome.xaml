@@ -14,7 +14,7 @@
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="32" />
+            <RowDefinition Height="34" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid
@@ -53,9 +53,36 @@
                 x:FieldModifier="public">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40" />
+                    <RowDefinition Height="40" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <Grid
+                    Grid.Row="0"
+                    Background="{StaticResource ControlElevationBorderBrush}"
+                    CornerRadius="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Button
+                        Grid.Column="0"
+                        Height="32"
+                        Margin="5,0,0,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        Click="UrlBoxButton_Click"
+                        Content="{x:Bind SelectedTab.Domain, Mode=OneWay}" />
+                    <Button
+                        Grid.Column="1"
+                        Height="35"
+                        Margin="2,0,2,0"
+                        Click="ToolbarButton_Click"
+                        Style="{StaticResource QuietButton}"
+                        Tag="CopyLink">
+                        <FontIcon FontSize="16" Glyph="&#xE71B;" />
+                    </Button>
+                </Grid>
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
                     <Button
                         Click="ToolbarButton_Click"
                         Style="{StaticResource QuietButton}"
@@ -219,7 +246,7 @@
                         </Button.Flyout>
                     </Button>
                 </StackPanel>
-                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
+                <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Hidden">
                     <ListView
                         x:Name="TabListView"
                         AllowDrop="True"
