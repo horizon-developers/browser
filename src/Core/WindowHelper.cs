@@ -50,7 +50,7 @@ public static class WindowHelper
                 MainWindow.AppWindow.SetPresenter(AppWindowPresenterKind.FullScreen);
                 _ = MainWindow.DispatcherQueue.TryEnqueue(() =>
                 {
-                    MainWindow.TabContentPresenter.Margin = new Thickness(-42, -34, -192, -7);
+                    MainWindow.TabContentHost.Margin = new Thickness(-42, -34, -192, -7);
                     MainWindow.Sidebar.Visibility = Visibility.Collapsed;
                 });
                 break;
@@ -58,7 +58,7 @@ public static class WindowHelper
                 MainWindow.AppWindow.SetPresenter(AppWindowPresenterKind.Default);
                 _ = MainWindow.DispatcherQueue.TryEnqueue(() =>
                 {
-                    MainWindow.TabContentPresenter.Margin = new Thickness(0);
+                    MainWindow.TabContentHost.Margin = new Thickness(0);
                     MainWindow.Sidebar.Visibility = Visibility.Visible;
                 });
                 break;
@@ -122,15 +122,7 @@ public static class WindowHelper
     {
         _ = MainWindow.DispatcherQueue.TryEnqueue(() =>
         {
-            MainWindow.CreateWebTab(title, uri);
-        });
-    }
-
-    static public void CreateNativeTabInMainWindow(string title, Type page)
-    {
-        _ = MainWindow.DispatcherQueue.TryEnqueue(() =>
-        {
-            MainWindow.CreateTab(title, page);
+            MainWindow.CreateTab(title, uri);
         });
     }
 

@@ -43,7 +43,7 @@
                     MaxWidth="400" />
             </Grid.ColumnDefinitions>
             <ContentPresenter
-                x:Name="TabContentPresenter"
+                x:Name="TabContentHost"
                 Grid.Column="0"
                 x:FieldModifier="public" />
             <Grid
@@ -95,9 +95,9 @@
                     <Button
                         Click="ToolbarButton_Click"
                         Style="{StaticResource QuietButton}"
-                        Tag="NewSplitTab">
+                        Tag="NewPrivateTab">
                         <Button.Content>
-                            <FontIcon FontSize="16" Glyph="&#xF57C;" />
+                            <FontIcon FontSize="16" Glyph="&#xE727;" />
                         </Button.Content>
                     </Button>
                     <AppBarSeparator />

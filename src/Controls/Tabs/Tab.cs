@@ -23,10 +23,10 @@ public partial class Tab : ObservableObject
         set => SetProperty(ref _icon, value);
     }*/
 
-    private UIElement _content;
-    public UIElement Content
+    private WebViewPage _webcontentinstance;
+    public WebViewPage WebContentInstance
     {
-        get => _content;
-        set => SetProperty(ref _content, value);
+        get => _webcontentinstance;
+        set => SetProperty(ref _webcontentinstance, value);
     }
 }

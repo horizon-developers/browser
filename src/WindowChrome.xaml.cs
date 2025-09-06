@@ -25,37 +25,21 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
 #endif
     }
 
-    public void CreateTab(string title, Type page, string launchurl = null)
+    public void CreateTab(string title, string launchurl)
     {
-        Frame frame = new();
-
-        Tab tab = new()
+        Tab tab = new();
+        WebTabCreationParams parameters = new()
         {
-            Title = title,
-            Content = frame
+            LaunchURL = launchurl,
+            MyTab = tab
         };
 
-        if (launchurl != null)
-        {
-            WebTabCreationParams parameters = new()
-            {
-                LaunchURL = launchurl,
-                MyTab = tab
-            };
+        WebViewPage NewWCI = new(parameters);
 
-            frame.Navigate(page, parameters, new DrillInNavigationTransitionInfo());
-        }
-        else
-        {
-            frame.Navigate(page, tab, new DrillInNavigationTransitionInfo());
-        }
+        tab.Title = title;
+        tab.WebContentInstance = NewWCI;
         SettingsViewModel.SettingsVM.Tabs.Add(tab);
         TabListView.SelectedItem = tab;
-    }
-
-    public void CreateWebTab(string title, string launchurl)
-    {
-        CreateTab(title, typeof(WebViewPage), launchurl);
     }
 
     private void TabListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -63,8 +47,7 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
         ListView listView = sender as ListView;
         Tab item = (Tab)listView.SelectedItem;
         SelectedTab = item;
-        UIElement tabContent = item?.Content;
-        TabContentPresenter.Content = tabContent;
+        TabContentHost.Content = item.WebContentInstance;
     }
 
     private void CloseTabButton_Click(object sender, RoutedEventArgs e)
@@ -74,15 +57,8 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
             var button = (Button)sender;
             var tab = (Tab)button.DataContext;
             int index = SettingsViewModel.SettingsVM.Tabs.IndexOf(tab);
-            if ((tab.Content as Frame).Content is WebViewPage)
-            {
-                ((tab.Content as Frame).Content as WebViewPage).WebViewControl.Close();
-            }
-            if ((tab.Content as Frame).Content is SplitTabPage)
-            {
-                ((tab.Content as Frame).Content as SplitTabPage).CloseWebViews();
-            }
-            tab.Content = null;
+            tab.WebContentInstance.WebViewControl.Close();
+            tab.WebContentInstance = null;
             if (index == 0)
                 TabListView.SelectedIndex = 1;
             else
@@ -115,13 +91,13 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
         switch ((sender as Button).Tag)
         {
             case "CopyLink":
-                ClipboardHelper.CopyTextToClipboard(((SelectedTab.Content as Frame).Content as WebViewPage).WebViewControl.CoreWebView2.Source);
+                ClipboardHelper.CopyTextToClipboard(SelectedTab.WebContentInstance.WebViewControl.CoreWebView2.Source);
                 break;
             case "NewTab":
-                CreateWebTab("New tab", string.Empty);
+                CreateTab("New tab", string.Empty);
                 break;
-            case "NewSplitTab":
-                CreateTab("New split tab", typeof(SplitTabPage));
+            case "NewPrivateTab":
+                // TODO
                 break;
         }
     }
@@ -131,28 +107,28 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
         switch ((sender as MenuFlyoutItem).Tag)
         {
             case "Downloads":
-                CreateWebTab("Downloads", "edge://downloads");
+                CreateTab("Downloads", "edge://downloads");
                 break;
             case "History":
-                CreateWebTab("History", "edge://history");
+                CreateTab("History", "edge://history");
                 break;
             case "Crashes":
-                CreateWebTab("Crashes", "edge://crashes");
+                CreateTab("Crashes", "edge://crashes");
                 break;
             case "Flags":
-                CreateWebTab("Flags", "edge://flags");
+                CreateTab("Flags", "edge://flags");
                 break;
             case "GPU":
-                CreateWebTab("GPU Internals", "edge://gpu");
+                CreateTab("GPU Internals", "edge://gpu");
                 break;
             case "Inspect":
-                CreateWebTab("Inspect", "edge://inspect");
+                CreateTab("Inspect", "edge://inspect");
                 break;
             case "Modules":
-                CreateWebTab("Inspect", "edge://modules");
+                CreateTab("Inspect", "edge://modules");
                 break;
             case "WhatsNew":
-                CreateWebTab("Release notes", "https://github.com/horizon-developers/browser/releases/latest");
+                CreateTab("Release notes", "https://github.com/horizon-developers/browser/releases/latest");
                 break;
             case "Settings":
                 //CreateTab("Settings", typeof(SettingsPage));
@@ -172,11 +148,8 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
                 var button = (Grid)sender;
                 var tab = (Tab)button.DataContext;
                 int index = SettingsViewModel.SettingsVM.Tabs.IndexOf(tab);
-                if ((tab.Content as Frame).Content is WebViewPage)
-                {
-                    ((tab.Content as Frame).Content as WebViewPage).WebViewControl.Close();
-                }
-                tab.Content = null;
+                tab.WebContentInstance.WebViewControl.Close();
+                tab.WebContentInstance = null;
                 if (index == 0)
                     TabListView.SelectedIndex = 1;
                 else
@@ -200,17 +173,17 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
 
     private void TabCTXItem_Click(object sender, RoutedEventArgs e)
     {
-        object TabContent = (CTXSelectedTab.Content as Frame).Content;
-        if (TabContent is not WebViewPage)
+        if (CTXSelectedTab == null)
         {
             return;
         }
 
+        var ThisWCI = CTXSelectedTab.WebContentInstance;
         switch ((sender as MenuFlyoutItem).Tag)
         {
             case "Duplicate":
-                string URL = (TabContent as WebViewPage).WebViewControl.CoreWebView2.Source;
-                CreateWebTab("New tab", URL);
+                string URL = ThisWCI.WebViewControl.CoreWebView2.Source;
+                CreateTab("New tab", URL);
                 break;
         }
     }
@@ -228,7 +201,7 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
         if (listView.SelectedItem != null)
         {
             FavoriteItem item = (FavoriteItem)listView.SelectedItem;
-            CreateWebTab(item.Title, item.Url);
+            CreateTab(item.Title, item.Url);
             FavoritesFlyout.Hide();
         }
     }
@@ -260,9 +233,6 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
 
     private void UrlBoxButton_Click(object sender, RoutedEventArgs e)
     {
-        if ((SelectedTab.Content as Frame)?.Content is WebViewPage webViewPage)
-        {
-            webViewPage.ToggleUrlBox();
-        }
+        SelectedTab.WebContentInstance.ToggleUrlBox();
     }
 }

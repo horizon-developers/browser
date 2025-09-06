@@ -1,27 +1,20 @@
-using System.Data.SqlTypes;
-
 namespace Horizon.Pages;
 
 public sealed partial class WebViewPage : Page
 {
     string launchurl;
     private Tab MyTab { get; set; }
-    private bool IsSplitTab { get; set; }
 
-    public WebViewPage()
+    public WebViewPage(WebTabCreationParams parameters)
     {
         this.InitializeComponent();
+        ProcessParameters(parameters);
     }
 
-    protected override void OnNavigatedTo(NavigationEventArgs e)
+    private void ProcessParameters(WebTabCreationParams parameters)
     {
-        base.OnNavigatedTo(e);
-
-        var parameters = (WebTabCreationParams)e.Parameter;
-
         launchurl = parameters.LaunchURL;
         MyTab = parameters.MyTab;
-        IsSplitTab = parameters.IsSplitTab;
 
         if (launchurl == string.Empty)
         {
@@ -55,8 +48,7 @@ public sealed partial class WebViewPage : Page
         sender.CoreWebView2.IsDocumentPlayingAudioChanged += CoreWebView2_IsDocumentPlayingAudioChanged;
         sender.CoreWebView2.IsMutedChanged += CoreWebView2_IsMutedChanged;
         sender.CoreWebView2.SourceChanged += CoreWebView2_SourceChanged;
-        if (!IsSplitTab)
-            sender.CoreWebView2.DocumentTitleChanged += CoreWebView2_DocumentTitleChanged;
+        sender.CoreWebView2.DocumentTitleChanged += CoreWebView2_DocumentTitleChanged;
         //sender.CoreWebView2.FaviconChanged += CoreWebView2_FaviconChanged;
         sender.CoreWebView2.ContainsFullScreenElementChanged += CoreWebView2_ContainsFullScreenElementChanged;
         sender.CoreWebView2.WebMessageReceived += CoreWebView2_WebMessageReceived;
