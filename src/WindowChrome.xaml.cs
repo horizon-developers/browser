@@ -25,13 +25,14 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
 #endif
     }
 
-    public void CreateTab(string title, string launchurl)
+    public void CreateTab(string title, string launchurl, bool isinprivate = false)
     {
         Tab tab = new();
         WebTabCreationParams parameters = new()
         {
             LaunchURL = launchurl,
-            MyTab = tab
+            MyTab = tab,
+            IsInPrivate = isinprivate
         };
 
         WebViewPage NewWCI = new(parameters);
@@ -97,7 +98,7 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
                 CreateTab("New tab", string.Empty);
                 break;
             case "NewPrivateTab":
-                // TODO
+                CreateTab("New InPrivate tab", string.Empty, true);
                 break;
         }
     }

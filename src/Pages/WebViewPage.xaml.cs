@@ -4,6 +4,7 @@ public sealed partial class WebViewPage : Page
 {
     string launchurl;
     private Tab MyTab { get; set; }
+    private bool IsInPrivate { get; set; }
 
     public WebViewPage(WebTabCreationParams parameters)
     {
@@ -15,6 +16,7 @@ public sealed partial class WebViewPage : Page
     {
         launchurl = parameters.LaunchURL;
         MyTab = parameters.MyTab;
+        IsInPrivate = parameters.IsInPrivate;
 
         if (launchurl == string.Empty)
         {
@@ -28,7 +30,17 @@ public sealed partial class WebViewPage : Page
         {
             try
             {
-                await (sender as WebView2).EnsureCoreWebView2Async(await GlobalEnvironment.GetDefault());
+                CoreWebView2Environment environment = await GlobalEnvironment.GetDefault();
+
+                if (IsInPrivate)
+                {
+                    var options = environment.CreateCoreWebView2ControllerOptions();
+                    options.IsInPrivateModeEnabled = true;
+                    await (sender as WebView2).EnsureCoreWebView2Async(environment, options);
+                    return;
+                }
+
+                await (sender as WebView2).EnsureCoreWebView2Async(environment);
             }
             catch (Exception ex)
             {
@@ -164,6 +176,11 @@ public sealed partial class WebViewPage : Page
 
     private void CoreWebView2_DocumentTitleChanged(CoreWebView2 sender, object args)
     {
+        if (IsInPrivate)
+        {
+            MyTab.Title = $"InPrivate: {sender.DocumentTitle}";
+            return;
+        }
         MyTab.Title = sender.DocumentTitle;
     }
 
