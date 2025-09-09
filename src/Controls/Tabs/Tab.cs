@@ -23,8 +23,8 @@ public partial class Tab : ObservableObject
         set => SetProperty(ref _icon, value);
     }*/
 
-    private WebViewPage _webcontentinstance;
-    public WebViewPage WebContentInstance
+    private WebContentHost _webcontentinstance;
+    public WebContentHost WebContentInstance
     {
         get => _webcontentinstance;
         set => SetProperty(ref _webcontentinstance, value);

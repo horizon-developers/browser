@@ -1,8 +1,8 @@
 ﻿namespace Horizon.ViewModels;
 
-partial class SettingsViewModel : ObservableObject
+partial class MainViewModel : ObservableObject
 {
-    public static SettingsViewModel SettingsVM = new();
+    public static MainViewModel MainVM = new();
 
     [ObservableProperty]
     public partial ObservableCollection<FavoriteItem> FavoritesList { get; set; } = [];
@@ -10,7 +10,7 @@ partial class SettingsViewModel : ObservableObject
     [ObservableProperty]
     public partial ObservableCollection<Tab> Tabs { get; set; } = [];
 
-    public SettingsViewModel()
+    public MainViewModel()
     {
     }
 }

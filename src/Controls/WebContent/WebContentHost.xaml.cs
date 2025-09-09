@@ -1,18 +1,18 @@
-namespace Horizon.Pages;
+namespace Horizon.Controls.WebContent;
 
-public sealed partial class WebViewPage : Page
+public sealed partial class WebContentHost : Page
 {
     string launchurl;
     private Tab MyTab { get; set; }
     private bool IsInPrivate { get; set; }
 
-    public WebViewPage(WebTabCreationParams parameters)
+    public WebContentHost(TabCreationParams parameters)
     {
         this.InitializeComponent();
         ProcessParameters(parameters);
     }
 
-    private void ProcessParameters(WebTabCreationParams parameters)
+    private void ProcessParameters(TabCreationParams parameters)
     {
         launchurl = parameters.LaunchURL;
         MyTab = parameters.MyTab;
@@ -24,7 +24,7 @@ public sealed partial class WebViewPage : Page
         }
     }
 
-    private async void WebViewControl_Loaded(object sender, RoutedEventArgs e)
+    private async void WebContentControl_Loaded(object sender, RoutedEventArgs e)
     {
         if ((sender as WebView2).CoreWebView2 == null)
         {
@@ -41,11 +41,10 @@ public sealed partial class WebViewPage : Page
                 }
 
                 await (sender as WebView2).EnsureCoreWebView2Async(environment);
-                throw new NotImplementedException();
             }
             catch (Exception ex)
             {
-                WebViewControl?.Close();
+                WebContentControl?.Close();
                 TextBlock ErrorTextBlock = new()
                 {
                     Text = $"A crifical error occured while trying to load the content\n\n{ex.Message}\n\nStackTrace\n\n{ex.StackTrace}",
@@ -56,7 +55,7 @@ public sealed partial class WebViewPage : Page
         }
     }
 
-    private async void WebViewControl_CoreWebView2Initialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
+    private async void WebContentControl_CoreWebView2Initialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
     {
         // WebViewEvents
         sender.CoreWebView2.NavigationStarting += CoreWebView2_NavigationStarting;
@@ -76,7 +75,7 @@ public sealed partial class WebViewPage : Page
         if (launchurl != string.Empty && launchurl != null)
         {
             sender.Source = new Uri(launchurl);
-            WebViewControl.Visibility = Visibility.Visible;
+            WebContentControl.Visibility = Visibility.Visible;
             return;
         }
         UrlBox.Focus(FocusState.Keyboard);
@@ -131,13 +130,13 @@ public sealed partial class WebViewPage : Page
 
             if (flyout != null)
             {
-                FlyoutBase.SetAttachedFlyout(WebViewControl, flyout);
-                var wv2flyout = FlyoutBase.GetAttachedFlyout(WebViewControl);
+                FlyoutBase.SetAttachedFlyout(WebContentControl, flyout);
+                var wv2flyout = FlyoutBase.GetAttachedFlyout(WebContentControl);
                 var options = new FlyoutShowOptions()
                 {
                     Position = args.Location,
                 };
-                wv2flyout?.ShowAt(WebViewControl, options);
+                wv2flyout?.ShowAt(WebContentControl, options);
                 args.Handled = true;
             }
         }
@@ -236,24 +235,24 @@ public sealed partial class WebViewPage : Page
         {
             // general context menu
             case "Back":
-                if (WebViewControl.CanGoBack)
-                    WebViewControl.GoBack();
+                if (WebContentControl.CanGoBack)
+                    WebContentControl.GoBack();
                 break;
             case "Refresh":
-                WebViewControl.Reload();
+                WebContentControl.Reload();
                 break;
             case "Forward":
-                if (WebViewControl.CanGoForward)
-                    WebViewControl.GoForward();
+                if (WebContentControl.CanGoForward)
+                    WebContentControl.GoForward();
                 break;
             case "SelectAll":
-                await WebViewControl.CoreWebView2.ExecuteScriptAsync("document.execCommand(\"selectAll\");");
+                await WebContentControl.CoreWebView2.ExecuteScriptAsync("document.execCommand(\"selectAll\");");
                 break;
             case "Print":
-                WebViewControl.CoreWebView2.ShowPrintUI(CoreWebView2PrintDialogKind.Browser);
+                WebContentControl.CoreWebView2.ShowPrintUI(CoreWebView2PrintDialogKind.Browser);
                 break;
             case "Save":
-                await WebViewControl.CoreWebView2.ShowSaveAsUIAsync();
+                await WebContentControl.CoreWebView2.ShowSaveAsUIAsync();
                 break;
             // text context menu
             case "OpenLnkInNewTab":
@@ -271,16 +270,16 @@ public sealed partial class WebViewPage : Page
                 WindowHelper.CreateNewTabInMainWindow("New tab", link);
                 break;
             case "DevTools":
-                WebViewControl.CoreWebView2.OpenDevToolsWindow();
+                WebContentControl.CoreWebView2.OpenDevToolsWindow();
                 break;
             case "ViewSource":
-                WindowHelper.CreateNewTabInMainWindow($"View source", $"view-source:{WebViewControl.CoreWebView2.Source}");
+                WindowHelper.CreateNewTabInMainWindow($"View source", $"view-source:{WebContentControl.CoreWebView2.Source}");
                 break;
             case "TaskManager":
-                WebViewControl.CoreWebView2.OpenTaskManagerWindow();
+                WebContentControl.CoreWebView2.OpenTaskManagerWindow();
                 break;
         }
-        var flyout = FlyoutBase.GetAttachedFlyout(WebViewControl);
+        var flyout = FlyoutBase.GetAttachedFlyout(WebContentControl);
         flyout?.Hide();
     }
 
@@ -290,7 +289,7 @@ public sealed partial class WebViewPage : Page
         if (args.KeyboardAccelerator.Key == WS.VirtualKey.Escape)
         {
             UrlBoxWrapper.Visibility = Visibility.Collapsed;
-            WebViewControl.Focus(FocusState.Keyboard);
+            WebContentControl.Focus(FocusState.Keyboard);
             args.Handled = true;
             return;
         }
@@ -305,8 +304,8 @@ public sealed partial class WebViewPage : Page
 
     private void ProcessQueryAndGo(string input)
     {
-        if (WebViewControl.Visibility != Visibility.Visible)
-            WebViewControl.Visibility = Visibility.Visible;
+        if (WebContentControl.Visibility != Visibility.Visible)
+            WebContentControl.Visibility = Visibility.Visible;
         string inputtype = UrlHelper.GetInputType(input);
         if (inputtype == "urlNOProtocol")
             NavigateToUrl("https://" + input.Trim());
@@ -326,7 +325,7 @@ public sealed partial class WebViewPage : Page
 
     private void NavigateToUrl(string uri)
     {
-        WebViewControl.CoreWebView2.Navigate(uri);
+        WebContentControl.CoreWebView2.Navigate(uri);
     }
 
     byte[] QrCode;
@@ -336,46 +335,46 @@ public sealed partial class WebViewPage : Page
         switch ((sender as Button).Tag)
         {
             case "Back":
-                WebViewControl.GoBack();
+                WebContentControl.GoBack();
                 break;
             case "Refresh":
-                WebViewControl.Reload();
+                WebContentControl.Reload();
                 break;
             case "ToggleUrlBox":
                 ToggleUrlBox();
                 break;
             case "Forward":
-                WebViewControl.GoForward();
+                WebContentControl.GoForward();
                 break;
             case "ReadingMode":
                 string jscript = await Modules.Readability.ReadabilityHelper.GetReadabilityScriptAsync();
-                await WebViewControl.CoreWebView2.ExecuteScriptAsync(jscript);
+                await WebContentControl.CoreWebView2.ExecuteScriptAsync(jscript);
                 break;
             case "Translate":
-                string url = WebViewControl.CoreWebView2.Source;
-                WebViewControl.CoreWebView2.Navigate("https://translate.google.com/translate?hl&u=" + url);
+                string url = WebContentControl.CoreWebView2.Source;
+                WebContentControl.CoreWebView2.Navigate("https://translate.google.com/translate?hl&u=" + url);
                 break;
             case "AddFavoriteFlyout":
-                FavoriteTitle.Text = WebViewControl.CoreWebView2.DocumentTitle;
-                FavoriteUrl.Text = WebViewControl.CoreWebView2.Source;
+                FavoriteTitle.Text = WebContentControl.CoreWebView2.DocumentTitle;
+                FavoriteUrl.Text = WebContentControl.CoreWebView2.Source;
                 break;
             case "Downloads":
-                WebViewControl.CoreWebView2.OpenDefaultDownloadDialog();
+                WebContentControl.CoreWebView2.OpenDefaultDownloadDialog();
                 break;
             case "GenQRCode":
                 _ = WindowHelper.MainWindow.DispatcherQueue.TryEnqueue(async () =>
                 {
-                    QrCode = await Modules.QRCodeGen.QRCodeHelper.GenerateQRCodeFromUrlAsync(WebViewControl.CoreWebView2.Source);
+                    QrCode = await QRCodeHelper.GenerateQRCodeFromUrlAsync(WebContentControl.CoreWebView2.Source);
                     if (QrCode != null)
                     {
-                        BitmapImage QrCodeImage = await Modules.QRCodeGen.QRCodeHelper.ConvertBitmapBytesToImage(QrCode);
+                        BitmapImage QrCodeImage = await QRCodeHelper.ConvertBitmapBytesToImage(QrCode);
                         QRCodeImage.Source = QrCodeImage;
                         QRCodeFlyout.ShowAt(sender as Button);
                     }
                 });
                 break;
             case "Mute":
-                WebViewControl.CoreWebView2.IsMuted = !WebViewControl.CoreWebView2.IsMuted;
+                WebContentControl.CoreWebView2.IsMuted = !WebContentControl.CoreWebView2.IsMuted;
                 break;
         }
     }
@@ -397,13 +396,13 @@ public sealed partial class WebViewPage : Page
         {
             case Visibility.Visible:
                 UrlBoxWrapper.Visibility = Visibility.Collapsed;
-                WebViewControl.Focus(FocusState.Keyboard);
+                WebContentControl.Focus(FocusState.Keyboard);
                 break;
 
             case Visibility.Collapsed:
-                if (UrlBox.Text.Length < 1 && WebViewControl.CoreWebView2.Source != "about:blank")
+                if (UrlBox.Text.Length < 1 && WebContentControl.CoreWebView2.Source != "about:blank")
                 {
-                    UrlBox.Text = WebViewControl.CoreWebView2.Source;
+                    UrlBox.Text = WebContentControl.CoreWebView2.Source;
                 }
                 UrlBoxWrapper.Visibility = Visibility.Visible;
                 UrlBox.Focus(FocusState.Keyboard);

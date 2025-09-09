@@ -1,4 +1,4 @@
-﻿namespace Horizon.Modules.Favorites;
+﻿namespace Horizon.Core.Favorites;
 
 [JsonSerializable(typeof(ObservableCollection<FavoriteItem>))]
 //[JsonSerializable(typeof(List<FavoriteItem>))]

@@ -1,4 +1,4 @@
-﻿namespace Horizon.Modules.Favorites;
+﻿namespace Horizon.Core.Favorites;
 
 public class FavoritesHelper
 {
@@ -11,13 +11,13 @@ public class FavoritesHelper
             Title = title,
             Url = url
         };
-        SettingsViewModel.SettingsVM.FavoritesList.Insert(0, newFavoriteItem);
+        MainViewModel.MainVM.FavoritesList.Insert(0, newFavoriteItem);
         SaveListChangesToDisk();
     }
 
     public static void RemoveFavorite(FavoriteItem item)
     {
-        SettingsViewModel.SettingsVM.FavoritesList.Remove(item);
+        MainViewModel.MainVM.FavoritesList.Remove(item);
         SaveListChangesToDisk();
     }
 
@@ -39,13 +39,13 @@ public class FavoritesHelper
 
     private static void SaveListChangesToDisk()
     {
-        if (SettingsViewModel.SettingsVM.FavoritesList.Count < 1)
+        if (MainViewModel.MainVM.FavoritesList.Count < 1)
         {
             File.Delete(FavoritesFilePath);
         }
         else
         {
-            string newJson = JsonSerializer.Serialize(SettingsViewModel.SettingsVM.FavoritesList, FavoriteItemSerializerContext.Default.ObservableCollectionFavoriteItem);
+            string newJson = JsonSerializer.Serialize(MainViewModel.MainVM.FavoritesList, FavoriteItemSerializerContext.Default.ObservableCollectionFavoriteItem);
             File.WriteAllText(FavoritesFilePath, newJson);
         }
     }

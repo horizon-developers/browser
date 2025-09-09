@@ -1,4 +1,6 @@
-﻿namespace Horizon.Modules.QRCodeGen;
+﻿using QRCoder;
+
+namespace Horizon.Modules.QR;
 
 public static class QRCodeHelper
 {

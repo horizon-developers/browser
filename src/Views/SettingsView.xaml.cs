@@ -1,10 +1,10 @@
-namespace Horizon.Pages;
+namespace Horizon.Views;
 
-public sealed partial class SettingsPage : Page
+public sealed partial class SettingsView : Page
 {
     public readonly WebView2 HeadlessWebViewInstance = new();
 
-    public SettingsPage()
+    public SettingsView()
     {
         this.InitializeComponent();
         InitHeadless();
@@ -222,24 +222,24 @@ public sealed partial class SettingsPage : Page
         StorageFolder folder = await openPicker.PickSingleFolderAsync();
         if (folder != null)
         {
-            //StorageApplicationPermissions.FutureAccessList.AddOrReplace("PickedFolderToken", folder);
-            //PickFolderOutputTextBlock.Text = "Picked folder: " + folder.Name;
             try
             {
                 await HeadlessWebViewInstance.CoreWebView2.Profile.AddBrowserExtensionAsync(folder.Path);
             }
             catch (Exception ex)
             {
-                Win32Helper.ShowMessageBox("Horizon", "Installation failed because:\n" + ex.Message);
+                ContentDialog InstallFailedDialog = new()
+                {
+                    Title = "Error",
+                    Content = "Installation failed because:\n" + ex.Message,
+                    CloseButtonText = "Ok",
+                    DefaultButton = ContentDialogButton.Close,
+                    XamlRoot = XamlRoot
+                };
+                await InstallFailedDialog.ShowAsync();
             }
             RefreshExtensionsList();
         }
-        else
-        {
-            //PickFolderOutputTextBlock.Text = "Operation cancelled.";
-        }
-
-
     }
 
     private void ExtensionsExpander_Expanded(object sender, EventArgs e)
@@ -299,42 +299,9 @@ public sealed partial class SettingsPage : Page
         }
     }
 
-    /*private async void ClearUserDataButton_Click(object sender, RoutedEventArgs e)
-    {
-        // ShowDialogWithAction is no longer available, as PenguinApps.Core has never been updated to support WinAppSdk / WinUI
-        var result = await UI.ShowDialogWithAction($"Question", "Do you really want to clear all user data?", "Yes", "No");
-        if (result == ContentDialogResult.Primary)
-        {
-            ClearUserDataProgressRing.IsActive = true;
-            ClearUserDataBtn.IsEnabled = false;
-            await WebView2ProfileDataHelper.ClearAllProfileDataAsync(HeadlessWebViewInstance);
-            ClearUserDataProgressRing.IsActive = false;
-            ClearUserDataBtn.IsEnabled = true;
-            ContentDialog dialog = new()
-            {
-                Title = "Info",
-                Content = "User data was cleared",
-                PrimaryButtonText = "Ok & restart app"
-            };
-
-            ContentDialogResult contentDialogResult = await dialog.ShowAsync();
-            // This doesn't work for WinAppSdk apps, we have to find another way
-            if (contentDialogResult == ContentDialogResult.Primary)
-            {
-                var appRestart = await CoreApplication.RequestRestartAsync(string.Empty);
-                if (appRestart == AppRestartFailureReason.NotInForeground || appRestart == AppRestartFailureReason.RestartPending || appRestart == AppRestartFailureReason.Other)
-                {
-                    NotificationHelper.NotifyUser("Error", "Please restart Horizon manually");
-                }
-            }
-        }
-    }*/
-
     private void VersionTextBlock_Loaded(object sender, RoutedEventArgs e)
     {
-        string appversion = AppVersionHelper.GetAppVersion();
-        string apparch = RuntimeInformation.ProcessArchitecture.ToString();
-        (sender as TextBlock).Text = $"Version {appversion} ({apparch})";
+        (sender as TextBlock).Text = AppVersionHelper.GetAppVersion();
     }
 
     private async void SettingsCardClickHandler(object sender, RoutedEventArgs e)
@@ -363,8 +330,6 @@ public sealed partial class SettingsPage : Page
                 string wv2version = CoreWebView2Environment.GetAvailableBrowserVersionString();
 
                 string debugCombinedString = $"Horizon Version {appver}\n.NET Version: {dotnetver}\nAppArch: {apparch}\nSys: {sysversion}\nSysArch: {sysarch}\nWebView2Runtime version: {wv2version}\n";
-
-                //Win32Helper.ShowMessageBox("Horizon", $"Build information (press Ctrl + C to copy):\n" + debugCombinedString);
 
                 ContentDialog BuildInfoDialog = new()
                 {

@@ -19,27 +19,27 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
 
     public static void GetFavorites()
     {
-        SettingsViewModel.SettingsVM.FavoritesList = FavoritesHelper.GetFavoritesList();
+        MainViewModel.MainVM.FavoritesList = FavoritesHelper.GetFavoritesList();
 #if DEBUG
-        System.Diagnostics.Debug.WriteLine("Favorites:" + SettingsViewModel.SettingsVM.FavoritesList.Count);
+        System.Diagnostics.Debug.WriteLine("Favorites:" + MainViewModel.MainVM.FavoritesList.Count);
 #endif
     }
 
     public void CreateTab(string title, string launchurl, bool isinprivate = false)
     {
         Tab tab = new();
-        WebTabCreationParams parameters = new()
+        TabCreationParams parameters = new()
         {
             LaunchURL = launchurl,
             MyTab = tab,
             IsInPrivate = isinprivate
         };
 
-        WebViewPage NewWCI = new(parameters);
+        WebContentHost NewWCI = new(parameters);
 
         tab.Title = title;
         tab.WebContentInstance = NewWCI;
-        SettingsViewModel.SettingsVM.Tabs.Add(tab);
+        MainViewModel.MainVM.Tabs.Add(tab);
         TabListView.SelectedItem = tab;
     }
 
@@ -53,18 +53,18 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
 
     private void CloseTabButton_Click(object sender, RoutedEventArgs e)
     {
-        if (SettingsViewModel.SettingsVM.Tabs.Count > 1)
+        if (MainViewModel.MainVM.Tabs.Count > 1)
         {
             var button = (Button)sender;
             var tab = (Tab)button.DataContext;
-            int index = SettingsViewModel.SettingsVM.Tabs.IndexOf(tab);
-            tab.WebContentInstance.WebViewControl.Close();
+            int index = MainViewModel.MainVM.Tabs.IndexOf(tab);
+            tab.WebContentInstance.WebContentControl.Close();
             tab.WebContentInstance = null;
             if (index == 0)
                 TabListView.SelectedIndex = 1;
             else
-                TabListView.SelectedIndex = SettingsViewModel.SettingsVM.Tabs.Count - 2;
-            SettingsViewModel.SettingsVM.Tabs.Remove(tab);
+                TabListView.SelectedIndex = MainViewModel.MainVM.Tabs.Count - 2;
+            MainViewModel.MainVM.Tabs.Remove(tab);
         }
         else
         {
@@ -92,7 +92,7 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
         switch ((sender as Button).Tag)
         {
             case "CopyLink":
-                ClipboardHelper.CopyTextToClipboard(SelectedTab.WebContentInstance.WebViewControl.CoreWebView2.Source);
+                ClipboardHelper.CopyTextToClipboard(SelectedTab.WebContentInstance.WebContentControl.CoreWebView2.Source);
                 break;
             case "NewTab":
                 CreateTab("New tab", string.Empty);
@@ -133,7 +133,7 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
                 break;
             case "Settings":
                 //CreateTab("Settings", typeof(SettingsPage));
-                _ = new Modules.Settings.SettingsWindow();
+                _ = new Views.SettingsWindow();
                 break;
         }
     }
@@ -144,18 +144,18 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
         var pointer = e.GetCurrentPoint(sender as Grid);
         if (pointer.Properties.IsMiddleButtonPressed)
         {
-            if (SettingsViewModel.SettingsVM.Tabs.Count > 1)
+            if (MainViewModel.MainVM.Tabs.Count > 1)
             {
                 var button = (Grid)sender;
                 var tab = (Tab)button.DataContext;
-                int index = SettingsViewModel.SettingsVM.Tabs.IndexOf(tab);
-                tab.WebContentInstance.WebViewControl.Close();
+                int index = MainViewModel.MainVM.Tabs.IndexOf(tab);
+                tab.WebContentInstance.WebContentControl.Close();
                 tab.WebContentInstance = null;
                 if (index == 0)
                     TabListView.SelectedIndex = 1;
                 else
-                    TabListView.SelectedIndex = SettingsViewModel.SettingsVM.Tabs.Count - 2;
-                SettingsViewModel.SettingsVM.Tabs.Remove(tab);
+                    TabListView.SelectedIndex = MainViewModel.MainVM.Tabs.Count - 2;
+                MainViewModel.MainVM.Tabs.Remove(tab);
             }
             else
             {
@@ -183,7 +183,7 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
         switch ((sender as MenuFlyoutItem).Tag)
         {
             case "Duplicate":
-                string URL = ThisWCI.WebViewControl.CoreWebView2.Source;
+                string URL = ThisWCI.WebContentControl.CoreWebView2.Source;
                 CreateTab("New tab", URL);
                 break;
         }

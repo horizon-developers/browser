@@ -6,7 +6,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:favorites="using:Horizon.Modules.Favorites"
+    xmlns:favorites="using:Horizon.Core.Favorites"
     xmlns:local="using:Horizon.Controls.Tabs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkitc="using:CommunityToolkit.WinUI.Controls"
@@ -125,7 +125,7 @@
                                         x:Name="FavoritesListView"
                                         Grid.Row="1"
                                         Width="300"
-                                        ItemsSource="{x:Bind viewmodels:SettingsViewModel.SettingsVM.FavoritesList, Mode=TwoWay}"
+                                        ItemsSource="{x:Bind viewmodels:MainViewModel.MainVM.FavoritesList, Mode=TwoWay}"
                                         RightTapped="FavoritesListView_RightTapped"
                                         SelectionChanged="FavoritesList_SelectionChanged">
                                         <ListView.ItemTemplate>
@@ -252,7 +252,7 @@
                         AllowDrop="True"
                         CanDrag="True"
                         CanReorderItems="True"
-                        ItemsSource="{x:Bind viewmodels:SettingsViewModel.SettingsVM.Tabs, Mode=TwoWay}"
+                        ItemsSource="{x:Bind viewmodels:MainViewModel.MainVM.Tabs, Mode=TwoWay}"
                         RightTapped="TabListView_RightTapped"
                         SelectionChanged="TabListView_SelectionChanged">
                         <ListView.ItemTemplate>

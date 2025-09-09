@@ -7,6 +7,6 @@ public static class WebView2ProfileHelper
         CoreWebView2Profile profile = wv2.CoreWebView2.Profile;
         await profile.ClearBrowsingDataAsync();
         await FileHelper.DeleteLocalFile("Favorites.json");
-        SettingsViewModel.SettingsVM.FavoritesList.Clear();
+        MainViewModel.MainVM.FavoritesList.Clear();
     }
 }
