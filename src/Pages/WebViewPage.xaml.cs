@@ -41,11 +41,17 @@ public sealed partial class WebViewPage : Page
                 }
 
                 await (sender as WebView2).EnsureCoreWebView2Async(environment);
+                throw new NotImplementedException();
             }
             catch (Exception ex)
             {
                 WebViewControl?.Close();
-                Frame.Navigate(typeof(WebViewErrorPage), new WebView2Error(ex.StackTrace), new DrillInNavigationTransitionInfo());
+                TextBlock ErrorTextBlock = new()
+                {
+                    Text = $"A crifical error occured while trying to load the content\n\n{ex.Message}\n\nStackTrace\n\n{ex.StackTrace}",
+                    IsTextSelectionEnabled = true
+                };
+                Content = ErrorTextBlock;
             }
         }
     }
