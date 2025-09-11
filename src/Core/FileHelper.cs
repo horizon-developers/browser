@@ -9,17 +9,11 @@ public class FileHelper
     private static async Task SaveFileAsync(string fileName, string filetypefriendlyname, string filetype, byte[] BytesFileContent = null, string TextFileContent = null)
     {
         // Create a file picker
-        FileSavePicker savePicker = new()
+        FileSavePicker savePicker = new(WindowHelper.MainWindow.AppWindow.Id)
         {
             // Set options for your file picker
             SuggestedStartLocation = PickerLocationId.DocumentsLibrary
         };
-
-        // See the sample code below for how to make the window accessible from the App class.
-        var window = WindowHelper.MainWindow;
-
-        // Initialize the file picker with the window handle (HWND).
-        InitializeWithWindow.Initialize(savePicker, WindowHelper.HWND);
 
         // Dropdown of file types the user can save the file as
         savePicker.FileTypeChoices.Add(filetypefriendlyname, new List<string>() { filetype });
@@ -27,33 +21,16 @@ public class FileHelper
         savePicker.SuggestedFileName = fileName;
 
         // Open the picker for the user to pick a file
-        StorageFile file = await savePicker.PickSaveFileAsync();
+        var file = await savePicker.PickSaveFileAsync();
         if (file != null)
         {
-            // Prevent updates to the remote version of the file until we finish making changes and call CompleteUpdatesAsync.
-            CachedFileManager.DeferUpdates(file);
-
-            // write to file
-            // depending on which type we either write bytes or text
             if (BytesFileContent != null)
             {
-                await FileIO.WriteBytesAsync(file, BytesFileContent);
+                await File.WriteAllBytesAsync(file.Path, BytesFileContent);
             }
             if (TextFileContent != null)
             {
-                await FileIO.WriteTextAsync(file, TextFileContent);
-            }
-
-            // Let Windows know that we're finished changing the file so the other app can update the remote version of the file.
-            // Completing updates may require Windows to ask for user input.
-            FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
-            if (status == FileUpdateStatus.Complete)
-            {
-                //NotificationHelper.NotifyUser("Success", "File " + file.Name + " was saved to\n" + file.Path);
-            }
-            else
-            {
-                //await UI.ShowDialog("Error", "File " + file.Name + " couldn't be saved.");
+                await File.WriteAllTextAsync(file.Path, TextFileContent);
             }
         }
     }

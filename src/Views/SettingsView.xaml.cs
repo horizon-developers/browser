@@ -77,17 +77,14 @@ public sealed partial class SettingsView : Page
         senderButton.IsEnabled = false;
 
         // Create a folder picker
-        FolderPicker openPicker = new();
-
-        // Initialize the folder picker with the window handle (HWND).
-        InitializeWithWindow.Initialize(openPicker, WindowHelper.HWND);
-
-        // Set options for your folder picker
-        openPicker.SuggestedStartLocation = PickerLocationId.Desktop;
-        openPicker.FileTypeFilter.Add("*");
+        FolderPicker openPicker = new(WindowHelper.MainWindow.AppWindow.Id)
+        {
+            // Set options for your folder picker
+            SuggestedStartLocation = PickerLocationId.Desktop
+        };
 
         // Open the picker for the user to pick a folder
-        StorageFolder folder = await openPicker.PickSingleFolderAsync();
+        var folder = await openPicker.PickSingleFolderAsync();
         if (folder != null)
         {
             CoreWebView2Profile profile = HeadlessWebViewInstance.CoreWebView2.Profile;
@@ -209,17 +206,14 @@ public sealed partial class SettingsView : Page
     private async void InstallExButton_Click(object sender, RoutedEventArgs e)
     {
         // Create a folder picker
-        FolderPicker openPicker = new();
-
-        // Initialize the folder picker with the window handle (HWND).
-        InitializeWithWindow.Initialize(openPicker, WindowHelper.HWND);
-
-        // Set options for your folder picker
-        openPicker.SuggestedStartLocation = PickerLocationId.Desktop;
-        openPicker.FileTypeFilter.Add("*");
+        FolderPicker openPicker = new(WindowHelper.MainWindow.AppWindow.Id)
+        {
+            // Set options for your folder picker
+            SuggestedStartLocation = PickerLocationId.Desktop
+        };
 
         // Open the picker for the user to pick a folder
-        StorageFolder folder = await openPicker.PickSingleFolderAsync();
+        var folder = await openPicker.PickSingleFolderAsync();
         if (folder != null)
         {
             try
