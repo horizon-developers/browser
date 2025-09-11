@@ -29,7 +29,7 @@
 	
 	<!-- MSIX Packaging properties -->
 	<PropertyGroup>
-		<WindowsAppSdkSelfContained>true</WindowsAppSdkSelfContained>
+		<!--<WindowsAppSdkSelfContained>true</WindowsAppSdkSelfContained>-->
 		<EnableMsixTooling>true</EnableMsixTooling>
 		<GenerateAppInstallerFile>False</GenerateAppInstallerFile>
 		<AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
