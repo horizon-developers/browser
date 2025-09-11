@@ -75,7 +75,7 @@ public partial class App : Application
 
         if (Environment.IsPrivilegedProcess)
         {
-            Win32Helper.ShowMessageBox("Horizon - Warning", "Warning!\nThis instance of Horizon is running elevated, which isn't recommened due to possible security issues.");
+            Win32Helper.ShowMessageBox("Horizon - Warning", "Warning!\nThis instance of Horizon is running elevated, which isn't recommened due to possible security issues.", WindowHelper.HWND);
         }
     }
 

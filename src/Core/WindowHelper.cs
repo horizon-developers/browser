@@ -12,7 +12,7 @@ namespace Horizon.Core;
 public static class WindowHelper
 {
     public static WindowChrome MainWindow { get; private set; }
-    public static nint HWND { get; private set; }
+    public static nint HWND { get; private set; } = 0;
 
     static public void CreateMainWindow()
     {
