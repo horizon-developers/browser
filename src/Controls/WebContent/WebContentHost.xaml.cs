@@ -47,7 +47,7 @@ public sealed partial class WebContentHost : Page
                 WebContentControl?.Close();
                 TextBlock ErrorTextBlock = new()
                 {
-                    Text = $"A crifical error occured while trying to load the content\n\n{ex.Message}\n\nStackTrace\n\n{ex.StackTrace}",
+                    Text = $"A critical error occured while trying to load the content\n\n{ex.Message}\n\nStackTrace\n\n{ex.StackTrace}",
                     IsTextSelectionEnabled = true
                 };
                 Content = ErrorTextBlock;
