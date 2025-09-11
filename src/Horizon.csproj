@@ -8,7 +8,7 @@
 		<UseWinUI>true</UseWinUI>
 		<ApplicationIcon>Horizon.ico</ApplicationIcon>
 		<LangVersion>preview</LangVersion>
-		<AppVersion>13.0.174.0</AppVersion>
+		<AppVersion>14.0.534.0</AppVersion>
 		<DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
 	</PropertyGroup>
 
