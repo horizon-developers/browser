@@ -53,17 +53,26 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
 
     private void CloseTabButton_Click(object sender, RoutedEventArgs e)
     {
+        var button = (Button)sender;
+        var tab = (Tab)button.DataContext;
+        CloseTab(tab);
+    }
+
+    private void CloseTab(Tab tab)
+    {
         if (MainViewModel.MainVM.Tabs.Count > 1)
         {
-            var button = (Button)sender;
-            var tab = (Tab)button.DataContext;
             int index = MainViewModel.MainVM.Tabs.IndexOf(tab);
             tab.WebContentInstance.WebContentControl.Close();
             tab.WebContentInstance = null;
             if (index == 0)
+            {
                 TabListView.SelectedIndex = 1;
+            }
             else
-                TabListView.SelectedIndex = MainViewModel.MainVM.Tabs.Count - 2;
+            {
+                TabListView.SelectedIndex = index - 1;
+            }
             MainViewModel.MainVM.Tabs.Remove(tab);
         }
         else
@@ -71,6 +80,7 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
             WindowHelper.CloseMainWindow();
         }
     }
+
 
     private Tab _selectedTab;
 
@@ -144,26 +154,10 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
         var pointer = e.GetCurrentPoint(sender as Grid);
         if (pointer.Properties.IsMiddleButtonPressed)
         {
-            if (MainViewModel.MainVM.Tabs.Count > 1)
-            {
-                var button = (Grid)sender;
-                var tab = (Tab)button.DataContext;
-                int index = MainViewModel.MainVM.Tabs.IndexOf(tab);
-                tab.WebContentInstance.WebContentControl.Close();
-                tab.WebContentInstance = null;
-                if (index == 0)
-                    TabListView.SelectedIndex = 1;
-                else
-                    TabListView.SelectedIndex = MainViewModel.MainVM.Tabs.Count - 2;
-                MainViewModel.MainVM.Tabs.Remove(tab);
-            }
-            else
-            {
-                WindowHelper.CloseMainWindow();
-            }
+            var button = (Grid)sender;
+            var tab = (Tab)button.DataContext;
+            CloseTab(tab);
         }
-
-
     }
 
     Tab CTXSelectedTab;
