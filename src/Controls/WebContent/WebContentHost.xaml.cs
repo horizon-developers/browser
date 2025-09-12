@@ -387,7 +387,9 @@ public sealed partial class WebContentHost : Page
 
     private async void QRCodeButton_Click(object sender, RoutedEventArgs e)
     {
-        await FileHelper.SaveBytesAsFileAsync("QRCode", QrCode, "Bitmap", ".bmp");
+        string QRFileName = $"QRCode - {WebContentControl.CoreWebView2.DocumentTitle}";
+        string QRFileNameNor = FileNameHelper.ToValidFileName(QRFileName);
+        await FileHelper.SaveBytesAsFileAsync(QRFileNameNor, QrCode, "Bitmap", ".bmp");
     }
 
     public void ToggleUrlBox()
