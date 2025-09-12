@@ -37,7 +37,6 @@ global using Windows.ApplicationModel.DataTransfer;
 global using Windows.Graphics;
 global using Windows.Security.Credentials.UI;
 global using Windows.Storage;
-global using Windows.Storage.Provider;
 global using Windows.Storage.Streams;
 global using WS = Windows.System;
 global using Windows.Win32.UI.WindowsAndMessaging;
