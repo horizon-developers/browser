@@ -61,7 +61,7 @@ public sealed partial class SettingsView : Page
 
     private async void OpenProfileFolder_Click(object sender, RoutedEventArgs e)
     {
-        await WS.Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
+        await WS.Launcher.LaunchFolderAsync(FolderHelper.LocalFolder);
     }
 
     private void UpdateSetDownloadFolderSettingsCardDescription()

@@ -1,7 +1,7 @@
 ﻿namespace Horizon.Core
 {
-    internal static class FolderHelper
+    public static class FolderHelper
     {
-        public static StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+        public static readonly StorageFolder LocalFolder = ApplicationData.Current.LocalFolder;
     }
 }

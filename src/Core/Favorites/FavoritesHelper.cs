@@ -2,7 +2,7 @@
 
 public class FavoritesHelper
 {
-    private static readonly string FavoritesFilePath = $"{ApplicationData.Current.LocalFolder.Path}\\Favorites.json";
+    private static readonly string FavoritesFilePath = $"{FolderHelper.LocalFolder.Path}\\Favorites.json";
 
     public static void AddFavorite(string title, string url)
     {
