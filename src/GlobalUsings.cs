@@ -3,6 +3,7 @@ global using CommunityToolkit.WinUI.Controls;
 global using Horizon.Controls.Tabs;
 global using Horizon.Controls.WebContent;
 global using Horizon.Core;
+global using Horizon.Core.AddressBar;
 global using Horizon.Core.Favorites;
 global using Horizon.Modules.QR;
 global using Horizon.ViewModels;

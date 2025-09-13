@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:suggestitem="using:Horizon.Core.AddressBar"
     mc:Ignorable="d">
     <Page.Resources>
         <Flyout x:Name="AddFavoriteFlyout" Placement="Right">
@@ -293,7 +294,7 @@
                 BorderBrush="{StaticResource ControlElevationBorderBrush}"
                 BorderThickness="2"
                 CornerRadius="5">
-                <TextBox
+                <!--<TextBox
                     x:Name="UrlBox"
                     Height="32"
                     Margin="15"
@@ -305,7 +306,24 @@
                         <KeyboardAccelerator Key="Enter" Invoked="UrlBoxKeyboardAccelerator_Invoked" />
                         <KeyboardAccelerator Key="Escape" Invoked="UrlBoxKeyboardAccelerator_Invoked" />
                     </TextBox.KeyboardAccelerators>
-                </TextBox>
+                </TextBox>-->
+                <AutoSuggestBox
+                    x:Name="UrlBox"
+                    Height="32"
+                    Margin="15"
+                    PlaceholderText="Search or enter web address"
+                    QueryIcon="Find"
+                    QuerySubmitted="AddressBar_QuerySubmitted"
+                    SuggestionChosen="AddressBar_SuggestionChosen"
+                    Text="{x:Bind WebContentControl.Source, Mode=OneWay}"
+                    TextChanged="AddressBar_TextChanged"
+                    TextMemberPath="DisplayText">
+                    <AutoSuggestBox.ItemTemplate>
+                        <DataTemplate x:DataType="suggestitem:SuggestionItem">
+                            <TextBlock Text="{x:Bind DisplayText}" />
+                        </DataTemplate>
+                    </AutoSuggestBox.ItemTemplate>
+                </AutoSuggestBox>
             </StackPanel>
         </Grid>
 

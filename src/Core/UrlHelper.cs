@@ -24,7 +24,7 @@ public static partial class UrlHelper
     }
 
     [GeneratedRegex("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(?::([0-9]{1,5}))?$", RegexOptions.Singleline)]
-    private static partial Regex IPRegex();
+    public static partial Regex IPRegex();
     [GeneratedRegex(@"^(http(s)?:\/\/)?(www.)?([a-zA-Z0-9])+([\-\.]{1}[a-zA-Z0-9]+)*\.[a-zA-Z]{2,63}(:[0-9]{1,5})?(\/[^\s]*)?$", RegexOptions.Singleline)]
-    private static partial Regex UrlRegex();
+    public static partial Regex UrlRegex();
 }

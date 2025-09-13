@@ -293,19 +293,10 @@ public sealed partial class WebContentHost : Page
             args.Handled = true;
             return;
         }
-        if (args.KeyboardAccelerator.Key == WS.VirtualKey.Enter)
-        {
-            ProcessQueryAndGo(UrlBox.Text);
-            UrlBoxWrapper.Visibility = Visibility.Collapsed;
-            args.Handled = true;
-            return;
-        }
     }
 
     private void ProcessQueryAndGo(string input)
     {
-        if (WebContentControl.Visibility != Visibility.Visible)
-            WebContentControl.Visibility = Visibility.Visible;
         string inputtype = UrlHelper.GetInputType(input);
         if (inputtype == "urlNOProtocol")
             NavigateToUrl("https://" + input.Trim());
@@ -318,13 +309,10 @@ public sealed partial class WebContentHost : Page
         }
     }
 
-    private void UrlBox_GotFocus(object sender, RoutedEventArgs e)
-    {
-        UrlBox.SelectAll();
-    }
-
     private void NavigateToUrl(string uri)
     {
+        if (WebContentControl.Visibility != Visibility.Visible)
+            WebContentControl.Visibility = Visibility.Visible;
         WebContentControl.CoreWebView2.Navigate(uri);
     }
 
@@ -422,4 +410,90 @@ public sealed partial class WebContentHost : Page
     {
 
     }*/
+
+    private static System.Threading.CancellationTokenSource _cts;
+#pragma warning disable IDE0079 // Remove unnecessary suppression
+#pragma warning disable CA1822 // Mark members as static
+    private async void AddressBar_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+#pragma warning restore CA1822 // Mark members as static
+#pragma warning restore IDE0079 // Remove unnecessary suppression
+    {
+        if (args.Reason != AutoSuggestionBoxTextChangeReason.UserInput)
+            return;
+
+        _cts?.Cancel();
+        _cts = new System.Threading.CancellationTokenSource();
+        var token = _cts.Token;
+
+        var query = sender.Text.Trim();
+
+        if (string.IsNullOrEmpty(query))
+        {
+            sender.ItemsSource = null;
+            return;
+        }
+
+        try
+        {
+            await System.Threading.Tasks.Task.Delay(200, token);
+            if (token.IsCancellationRequested) return;
+
+            var suggestions = new List<SuggestionItem>();
+
+            if (UrlHelper.IPRegex().IsMatch(query) || UrlHelper.UrlRegex().IsMatch(query))
+            {
+                suggestions.Add(new SuggestionItem
+                {
+                    DisplayText = $"Visit {query}",
+                    Command = SuggestionCommand.GoToUrl,
+                    Value = query
+                });
+            }
+
+            suggestions.Add(new SuggestionItem
+            {
+                DisplayText = $"Search the web for \"{query}\"",
+                Command = SuggestionCommand.SearchWeb,
+                Value = query
+            });
+
+            sender.ItemsSource = suggestions;
+        }
+        catch (TaskCanceledException) { }
+    }
+
+    private void AddressBar_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+    {
+        if (args.SelectedItem is SuggestionItem item)
+        {
+            ExecuteSuggestion(item);
+        }
+    }
+
+    private void AddressBar_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+    {
+        UrlBoxWrapper.Visibility = Visibility.Collapsed;
+        if (args.ChosenSuggestion is SuggestionItem item)
+        {
+            ExecuteSuggestion(item);
+            return;
+        }
+        var query = sender.Text.Trim();
+        ProcessQueryAndGo(query);
+    }
+
+    private void ExecuteSuggestion(SuggestionItem item)
+    {
+        switch (item.Command)
+        {
+            case SuggestionCommand.GoToUrl:
+                ProcessQueryAndGo(item.Value.ToLowerInvariant());
+                break;
+            case SuggestionCommand.SearchWeb:
+                string query = SettingsHelper.CurrentSearchUrl + item.Value;
+                System.Diagnostics.Debug.WriteLine("Search" + item.Value);
+                NavigateToUrl(query);
+                break;
+        }
+    }
 }
