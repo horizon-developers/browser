@@ -318,6 +318,11 @@
                     Text="{x:Bind WebContentControl.Source, Mode=OneWay}"
                     TextChanged="AddressBar_TextChanged"
                     TextMemberPath="DisplayText">
+                    <AutoSuggestBox.TextBoxStyle>
+                        <Style BasedOn="{StaticResource AutoSuggestBoxTextBoxStyle}" TargetType="TextBox">
+                            <Setter Property="IsSpellCheckEnabled" Value="False" />
+                        </Style>
+                    </AutoSuggestBox.TextBoxStyle>
                     <AutoSuggestBox.ItemTemplate>
                         <DataTemplate x:DataType="suggestitem:SuggestionItem">
                             <StackPanel Orientation="Horizontal" Spacing="8">
