@@ -40,9 +40,4 @@ public sealed partial class SettingsWindow : Window
         Frame SettingsHost = sender as Frame;
         SettingsHost.Navigate(typeof(SettingsView), null, new DrillInNavigationTransitionInfo());
     }
-
-    private void BackButton_Click(object sender, RoutedEventArgs e)
-    {
-        SettingsHost.GoBack();
-    }
 }

@@ -323,6 +323,9 @@
                             <TextBlock Text="{x:Bind DisplayText}" />
                         </DataTemplate>
                     </AutoSuggestBox.ItemTemplate>
+                    <AutoSuggestBox.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="Escape" Invoked="UrlBoxKeyboardAccelerator_Invoked" />
+                    </AutoSuggestBox.KeyboardAccelerators>
                 </AutoSuggestBox>
             </StackPanel>
         </Grid>
