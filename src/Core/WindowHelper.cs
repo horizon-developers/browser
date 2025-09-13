@@ -94,10 +94,6 @@ public static class WindowHelper
         {
             BlockScreencaptureForMainWindow(true);
         }
-        if (SettingsHelper.GetSetting("IsAlwaysOnTopEnabled") == "true")
-        {
-            SetMainWindowAlwaysOnTop(true);
-        }
     }
 
     static public void ActivateMainWindow()
@@ -147,14 +143,6 @@ public static class WindowHelper
             case false:
                 Windows.Win32.PInvoke.SetWindowDisplayAffinity((Windows.Win32.Foundation.HWND)HWND, WINDOW_DISPLAY_AFFINITY.WDA_NONE);
                 break;
-        }
-    }
-
-    static public void SetMainWindowAlwaysOnTop(bool t)
-    {
-        if (MainWindow.AppWindow.Presenter is OverlappedPresenter presenter)
-        {
-            presenter.IsAlwaysOnTop = t;
         }
     }
 

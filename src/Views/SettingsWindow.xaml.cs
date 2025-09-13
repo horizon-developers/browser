@@ -22,7 +22,6 @@ public sealed partial class SettingsWindow : Window
         OverlappedPresenter presenter = OverlappedPresenter.CreateForDialog();
         WindowHelper.SetWindowOwner(HWND);
         presenter.IsModal = true;
-        presenter.IsAlwaysOnTop = true; // This HAS to be present, otherwise the settings window can be buried behind the main window
         
         AppWindow.SetPresenter(presenter);
         AppWindow.Show();

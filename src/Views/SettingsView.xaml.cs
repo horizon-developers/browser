@@ -36,7 +36,6 @@ public sealed partial class SettingsView : Page
         AdvancedCTXToggle.IsOn = SettingsHelper.GetSetting("AdvancedCTX") == "true";
         BlockCaptureToggle.IsOn = SettingsHelper.GetSetting("IsScreencaptureBlocked") == "true";
         WindowsHelloToggle.IsOn = SettingsHelper.GetSetting("IsAppLockEnabled") == "true";
-        AlwaysOnTopToggle.IsOn = SettingsHelper.GetSetting("IsAlwaysOnTopEnabled") == "true";
 
         // Set event handlers
         SearchEngineSelector.SelectionChanged += SearchEngineSelector_SelectionChanged;
@@ -44,7 +43,6 @@ public sealed partial class SettingsView : Page
         AdvancedCTXToggle.Toggled += AdvancedCTXToggle_Toggled;
         BlockCaptureToggle.Toggled += BlockCaptureToggle_Toggled;
         WindowsHelloToggle.Toggled += WindowsHelloLockToggle_Toggled;
-        AlwaysOnTopToggle.Toggled += AlwaysOnTopToggle_Toggled;
     }
 
     private async void InitHeadless()
@@ -171,21 +169,6 @@ public sealed partial class SettingsView : Page
                 break;
             case false:
                 SettingsHelper.SetSetting("IsAppLockEnabled", "false");
-                break;
-        }
-    }
-
-    private void AlwaysOnTopToggle_Toggled(object sender, RoutedEventArgs e)
-    {
-        switch ((sender as ToggleSwitch).IsOn)
-        {
-            case true:
-                WindowHelper.SetMainWindowAlwaysOnTop(true);
-                SettingsHelper.SetSetting("IsAlwaysOnTopEnabled", "true");
-                break;
-            case false:
-                WindowHelper.SetMainWindowAlwaysOnTop(false);
-                SettingsHelper.SetSetting("IsAlwaysOnTopEnabled", "false");
                 break;
         }
     }
