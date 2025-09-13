@@ -444,6 +444,7 @@ public sealed partial class WebContentHost : Page
             {
                 suggestions.Add(new SuggestionItem
                 {
+                    DisplayIcon = Symbol.Globe,
                     DisplayText = $"Visit {query}",
                     Command = SuggestionCommand.GoToUrl,
                     Value = query
@@ -452,6 +453,7 @@ public sealed partial class WebContentHost : Page
 
             suggestions.Add(new SuggestionItem
             {
+                DisplayIcon = Symbol.Find,
                 DisplayText = $"Search the web for \"{query}\"",
                 Command = SuggestionCommand.SearchWeb,
                 Value = query

@@ -320,7 +320,10 @@
                     TextMemberPath="DisplayText">
                     <AutoSuggestBox.ItemTemplate>
                         <DataTemplate x:DataType="suggestitem:SuggestionItem">
-                            <TextBlock Text="{x:Bind DisplayText}" />
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <SymbolIcon Symbol="{x:Bind DisplayIcon}" />
+                                <TextBlock Text="{x:Bind DisplayText}" />
+                            </StackPanel>
                         </DataTemplate>
                     </AutoSuggestBox.ItemTemplate>
                     <AutoSuggestBox.KeyboardAccelerators>
