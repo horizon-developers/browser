@@ -5,7 +5,6 @@ public sealed partial class SettingsWindow : Window
     public SettingsWindow()
     {
         InitializeComponent();
-        AppWindow.Resize(new SizeInt32(800, 600));
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(TitleBar);
         var HWND = WindowNative.GetWindowHandle(this);
@@ -14,15 +13,21 @@ public sealed partial class SettingsWindow : Window
         if (AppWindow.GetFromWindowId(windowId) is AppWindow appWindow &&
             DisplayArea.GetFromWindowId(windowId, DisplayAreaFallback.Nearest) is DisplayArea displayArea)
         {
-            PointInt32 CenteredPosition = appWindow.Position;
-            CenteredPosition.X = (displayArea.WorkArea.Width - appWindow.Size.Width) / 2;
-            CenteredPosition.Y = (displayArea.WorkArea.Height - appWindow.Size.Height) / 2;
-            appWindow.Move(CenteredPosition);
+            var workArea = displayArea.WorkArea;
+            int newWidth = (int)(workArea.Width * 0.4);
+            int newHeight = (int)(workArea.Height * 0.7);
+            appWindow.Resize(new SizeInt32(newWidth, newHeight));
+
+            PointInt32 centeredPosition = appWindow.Position;
+            centeredPosition.X = (workArea.Width - appWindow.Size.Width) / 2;
+            centeredPosition.Y = (workArea.Height - appWindow.Size.Height) / 2;
+            appWindow.Move(centeredPosition);
         }
+
         OverlappedPresenter presenter = OverlappedPresenter.CreateForDialog();
         WindowHelper.SetWindowOwner(HWND);
         presenter.IsModal = true;
-        
+
         AppWindow.SetPresenter(presenter);
         AppWindow.Show();
 
