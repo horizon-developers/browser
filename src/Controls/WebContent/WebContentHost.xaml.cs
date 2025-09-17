@@ -435,12 +435,12 @@ public sealed partial class WebContentHost : Page
 
         try
         {
-            await System.Threading.Tasks.Task.Delay(200, token);
+            await Task.Delay(200, token);
             if (token.IsCancellationRequested) return;
 
             var suggestions = new List<SuggestionItem>();
 
-            if (UrlHelper.IPRegex().IsMatch(query) || UrlHelper.UrlRegex().IsMatch(query))
+            if (UrlHelper.IPRegex().IsMatch(query) || UrlHelper.UrlRegex().IsMatch(query) || query.StartsWith("edge://"))
             {
                 suggestions.Add(new SuggestionItem
                 {
