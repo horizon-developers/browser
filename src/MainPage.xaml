@@ -53,7 +53,7 @@
                                 Click="FavContextItem_Click"
                                 Tag="Copy">
                                 <AppBarButton.Icon>
-                                    <FontIcon Glyph="&#xE16F;" />
+                                    <FontIcon FontSize="16" Glyph="&#xE16F;" />
                                 </AppBarButton.Icon>
                             </AppBarButton>
                             <AppBarButton
@@ -72,7 +72,7 @@
                                     Click="FavContextItem_Click"
                                     Tag="CopyText">
                                     <AppBarButton.Icon>
-                                        <FontIcon Glyph="&#xE16F;" />
+                                        <FontIcon FontSize="16" Glyph="&#xE16F;" />
                                     </AppBarButton.Icon>
                                 </AppBarButton>
                             </muxc:CommandBarFlyout.SecondaryCommands>
@@ -141,7 +141,7 @@
                     x:Name="BrowserMenuBtn"
                     VerticalAlignment="Bottom"
                     Style="{StaticResource SidebarButton}">
-                    <FontIcon Glyph="&#xE10C;" />
+                    <FontIcon FontSize="16" Glyph="&#xE10C;" />
                     <Button.Flyout>
                         <MenuFlyout Placement="Bottom">
                             <MenuFlyoutItem
@@ -149,7 +149,7 @@
                                 Tag="RecentlyClosedFlyout"
                                 Text="Recently closed">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE81C;" />
+                                    <FontIcon FontSize="16" Glyph="&#xE81C;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutItem
@@ -162,7 +162,7 @@
                                 Click="BrowserMenuFlyoutItem_Click"
                                 Tag="History">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE81C;" />
+                                    <FontIcon FontSize="16" Glyph="&#xE81C;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutSeparator />
@@ -171,7 +171,7 @@
                                 Click="BrowserMenuFlyoutItem_Click"
                                 Tag="Fullscreen">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE1D9;" />
+                                    <FontIcon FontSize="16" Glyph="&#xE1D9;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutSeparator />
@@ -189,7 +189,7 @@
                     Click="FavoritesFlyoutButton_Click"
                     Style="{StaticResource SidebarButton}">
                     <Button.Content>
-                        <FontIcon Glyph="&#xE728;" />
+                        <FontIcon FontSize="16" Glyph="&#xE728;" />
                     </Button.Content>
                 </Button>
             </StackPanel>
@@ -228,7 +228,7 @@
                                 Click="NewTabFlyoutItem_Click"
                                 Tag="NewTab">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xEC6C;" />
+                                    <FontIcon FontSize="16" Glyph="&#xEC6C;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutItem
@@ -236,7 +236,7 @@
                                 Click="NewTabFlyoutItem_Click"
                                 Tag="NewSplitTab">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xF57C;" />
+                                    <FontIcon FontSize="16" Glyph="&#xF57C;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                         </MenuFlyout>

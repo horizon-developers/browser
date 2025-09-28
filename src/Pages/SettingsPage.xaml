@@ -50,7 +50,7 @@
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="General" />
                 <toolkitc:SettingsCard Header="Set as default">
                     <toolkitc:SettingsCard.HeaderIcon>
-                        <FontIcon Glyph="&#xEB51;" />
+                        <FontIcon FontSize="16" Glyph="&#xEB51;" />
                     </toolkitc:SettingsCard.HeaderIcon>
                     <Button Click="SetAsDefaultButton_Click" Content="Set as default" />
                 </toolkitc:SettingsCard>
@@ -79,7 +79,7 @@
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Data" />
                 <toolkitc:SettingsCard x:Uid="ClearData">
                     <toolkitc:SettingsCard.HeaderIcon>
-                        <FontIcon Glyph="&#xE74E;" />
+                        <FontIcon FontSize="16" Glyph="&#xE74E;" />
                     </toolkitc:SettingsCard.HeaderIcon>
                     <Grid>
                         <muxc:ProgressRing
@@ -97,13 +97,13 @@
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Personalization" />
                 <toolkitc:SettingsCard x:Uid="CompactTabs">
                     <toolkitc:SettingsCard.HeaderIcon>
-                        <FontIcon Glyph="&#xE737;" />
+                        <FontIcon FontSize="16" Glyph="&#xE737;" />
                     </toolkitc:SettingsCard.HeaderIcon>
                     <ToggleSwitch x:Name="CompactTabsToggle" />
                 </toolkitc:SettingsCard>
                 <toolkitc:SettingsExpander x:Uid="NewTabSettings">
                     <toolkitc:SettingsExpander.HeaderIcon>
-                        <FontIcon Glyph="&#xEC6C;" />
+                        <FontIcon FontSize="16" Glyph="&#xEC6C;" />
                     </toolkitc:SettingsExpander.HeaderIcon>
                     <toolkitc:SettingsExpander.Items>
                         <toolkitc:SettingsCard Header="Disable background image">
@@ -115,7 +115,7 @@
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Privacy" />
                 <toolkitc:SettingsCard Description="Require a password to open Bluebird" Header="Password lock">
                     <toolkitc:SettingsCard.HeaderIcon>
-                        <FontIcon Glyph="&#xE192;" />
+                        <FontIcon FontSize="16" Glyph="&#xE192;" />
                     </toolkitc:SettingsCard.HeaderIcon>
                     <ToggleSwitch x:Name="PasswordLockToggle" />
                 </toolkitc:SettingsCard>
@@ -127,7 +127,7 @@
                     IsClickEnabled="True"
                     Tag="DevSanx">
                     <toolkitc:SettingsCard.ActionIcon>
-                        <FontIcon Glyph="&#xE8A7;" />
+                        <FontIcon FontSize="16" Glyph="&#xE8A7;" />
                     </toolkitc:SettingsCard.ActionIcon>
                     <toolkitc:SettingsCard.HeaderIcon>
                         <BitmapIcon ShowAsMonochrome="False" UriSource="/Assets/Icons/DevSanx.png" />
@@ -139,7 +139,7 @@
                     IsClickEnabled="True"
                     Tag="Donate">
                     <toolkitc:SettingsCard.ActionIcon>
-                        <FontIcon Glyph="&#xE8A7;" />
+                        <FontIcon FontSize="16" Glyph="&#xE8A7;" />
                     </toolkitc:SettingsCard.ActionIcon>
                     <toolkitc:SettingsCard.HeaderIcon>
                         <BitmapIcon ShowAsMonochrome="False" UriSource="/Assets/Icons/paypal.png" />
@@ -161,7 +161,7 @@
                             IsClickEnabled="True"
                             Tag="GitHub">
                             <toolkitc:SettingsCard.ActionIcon>
-                                <FontIcon Glyph="&#xE8A7;" />
+                                <FontIcon FontSize="16" Glyph="&#xE8A7;" />
                             </toolkitc:SettingsCard.ActionIcon>
                         </toolkitc:SettingsCard>
                         <toolkitc:SettingsCard
@@ -183,7 +183,7 @@
                             IsClickEnabled="True"
                             Tag="FreepikOnFlaticon">
                             <toolkitc:SettingsCard.ActionIcon>
-                                <FontIcon Glyph="&#xE8A7;" />
+                                <FontIcon FontSize="16" Glyph="&#xE8A7;" />
                             </toolkitc:SettingsCard.ActionIcon>
                         </toolkitc:SettingsCard>
                         <toolkitc:SettingsCard
@@ -193,7 +193,7 @@
                             IsClickEnabled="True"
                             Tag="DebugSettings">
                             <toolkitc:SettingsCard.ActionIcon>
-                                <FontIcon Glyph="&#xE8A7;" />
+                                <FontIcon FontSize="16" Glyph="&#xE8A7;" />
                             </toolkitc:SettingsCard.ActionIcon>
                         </toolkitc:SettingsCard>
                     </toolkitc:SettingsExpander.Items>

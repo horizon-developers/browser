@@ -53,10 +53,11 @@
                     <FontIcon
                         x:Uid="QRCodeNotice"
                         Margin="0,0,10,0"
+                        FontSize="16"
                         Glyph="&#xE946;" />
                     <Button Click="QRCodeButton_Click">
                         <Button.Content>
-                            <FontIcon Glyph="&#xE792;" />
+                            <FontIcon FontSize="16" Glyph="&#xE792;" />
                         </Button.Content>
                     </Button>
                 </StackPanel>
@@ -71,12 +72,12 @@
                 IsEnabled="{x:Bind WebViewControl.CanGoBack, Mode=OneWay}"
                 Tag="Back">
                 <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE112;" />
+                    <FontIcon FontSize="16" Glyph="&#xE112;" />
                 </AppBarButton.Icon>
             </AppBarButton>
             <AppBarButton Click="AppBarButton_Click" Tag="Refresh">
                 <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE149;" />
+                    <FontIcon FontSize="16" Glyph="&#xE149;" />
                 </AppBarButton.Icon>
             </AppBarButton>
             <AppBarButton
@@ -84,7 +85,7 @@
                 IsEnabled="{x:Bind WebViewControl.CanGoForward, Mode=OneWay}"
                 Tag="Forward">
                 <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE111;" />
+                    <FontIcon FontSize="16" Glyph="&#xE111;" />
                 </AppBarButton.Icon>
             </AppBarButton>
             <AppBarButton
@@ -97,7 +98,7 @@
                     Click="AppBarButton_Click"
                     Tag="SelectAll">
                     <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE14E;" />
+                        <FontIcon FontSize="16" Glyph="&#xE14E;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
                 <AppBarButton
@@ -105,7 +106,7 @@
                     Click="AppBarButton_Click"
                     Tag="Translate">
                     <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE775;" />
+                        <FontIcon FontSize="16" Glyph="&#xE775;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
                 <AppBarButton
@@ -113,12 +114,12 @@
                     Label="Focus mode"
                     Tag="FocusMode">
                     <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xEC46;" />
+                        <FontIcon FontSize="16" Glyph="&#xEC46;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
                 <AppBarButton x:Uid="ExportAs">
                     <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE792;" />
+                        <FontIcon FontSize="16" Glyph="&#xE792;" />
                     </AppBarButton.Icon>
                     <AppBarButton.Flyout>
                         <MenuFlyout>
@@ -127,7 +128,7 @@
                                 Click="MenuFlyoutItem_Click"
                                 Tag="ExportAsPdf">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xEA90;" />
+                                    <FontIcon FontSize="16" Glyph="&#xEA90;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutItem
@@ -144,7 +145,7 @@
                 <AppBarSeparator />
                 <AppBarButton x:Uid="Advanced">
                     <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xEC7A;" />
+                        <FontIcon FontSize="16" Glyph="&#xEC7A;" />
                     </AppBarButton.Icon>
                     <AppBarButton.Flyout>
                         <MenuFlyout>
@@ -153,7 +154,7 @@
                                 Click="MenuFlyoutItem_Click"
                                 Tag="ViewSource">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE943;" />
+                                    <FontIcon FontSize="16" Glyph="&#xE943;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <!--  Disabled due to UWP apps not being allowed to use WebView2 DevTools  -->
@@ -163,7 +164,7 @@
                                 Tag="DevTools"
                                 Text="DevTools">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xEC7A;" />
+                                    <FontIcon FontSize="16" Glyph="&#xEC7A;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>-->
                             <MenuFlyoutItem
@@ -171,7 +172,7 @@
                                 Click="MenuFlyoutItem_Click"
                                 Tag="TaskManager">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE9D9;" />
+                                    <FontIcon FontSize="16" Glyph="&#xE9D9;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                         </MenuFlyout>
@@ -189,7 +190,7 @@
                 Tag="CopyText"
                 ToolTipService.ToolTip="Copy text">
                 <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE16F;" />
+                    <FontIcon FontSize="16" Glyph="&#xE16F;" />
                 </AppBarButton.Icon>
             </AppBarButton>
             <muxc:CommandBarFlyout.SecondaryCommands>
@@ -198,7 +199,7 @@
                     Click="AppBarButton_Click"
                     Tag="SelectAll">
                     <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE14E;" />
+                        <FontIcon FontSize="16" Glyph="&#xE14E;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
                 <AppBarButton
@@ -206,7 +207,7 @@
                     Click="AppBarButton_Click"
                     Tag="Search">
                     <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE721;" />
+                        <FontIcon FontSize="16" Glyph="&#xE721;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
             </muxc:CommandBarFlyout.SecondaryCommands>
@@ -220,7 +221,7 @@
                 Click="AppBarButton_Click"
                 Tag="OpenLnkInNewTab">
                 <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE8A7;" />
+                    <FontIcon FontSize="16" Glyph="&#xE8A7;" />
                 </AppBarButton.Icon>
             </AppBarButton>
             <AppBarButton
@@ -228,7 +229,7 @@
                 Click="AppBarButton_Click"
                 Tag="Copy">
                 <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE16F;" />
+                    <FontIcon FontSize="16" Glyph="&#xE16F;" />
                 </AppBarButton.Icon>
             </AppBarButton>
             <AppBarButton
@@ -242,7 +243,7 @@
                     Click="AppBarButton_Click"
                     Tag="CopyText">
                     <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE16F;" />
+                        <FontIcon FontSize="16" Glyph="&#xE16F;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
             </muxc:CommandBarFlyout.SecondaryCommands>
@@ -256,7 +257,7 @@
         <StackPanel
             x:Name="Sidebar"
             Grid.Column="0"
-            Margin="5,0,0,0"
+            Margin="2,0,-3,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Center">
             <Button
@@ -264,51 +265,51 @@
                 IsEnabled="{x:Bind WebViewControl.CanGoBack, Mode=OneWay}"
                 Style="{StaticResource SidebarButton}"
                 Tag="Back">
-                <FontIcon Glyph="&#xE112;" />
+                <FontIcon FontSize="16" Glyph="&#xE112;" />
             </Button>
             <Button
                 Click="SidebarButton_Click"
                 Style="{StaticResource SidebarButton}"
                 Tag="Refresh">
-                <FontIcon Glyph="&#xE149;" />
+                <FontIcon FontSize="16" Glyph="&#xE149;" />
             </Button>
             <Button
                 Click="SidebarButton_Click"
                 IsEnabled="{x:Bind WebViewControl.CanGoForward, Mode=OneWay}"
                 Style="{StaticResource SidebarButton}"
                 Tag="Forward">
-                <FontIcon Glyph="&#xE111;" />
+                <FontIcon FontSize="16" Glyph="&#xE111;" />
             </Button>
             <Button
                 Click="SidebarButton_Click"
                 Style="{StaticResource SidebarButton}"
                 Tag="ToggleUrlBox">
-                <FontIcon Glyph="&#xE721;" />
+                <FontIcon FontSize="16" Glyph="&#xE721;" />
             </Button>
             <Button
                 Click="SidebarButton_Click"
                 Style="{StaticResource SidebarButton}"
                 Tag="ReadingMode">
-                <FontIcon Glyph="&#xE736;" />
+                <FontIcon FontSize="16" Glyph="&#xE736;" />
             </Button>
             <Button
                 Click="SidebarButton_Click"
                 Flyout="{x:Bind AddFavoriteFlyout}"
                 Style="{StaticResource SidebarButton}"
                 Tag="AddFavoriteFlyout">
-                <FontIcon Glyph="&#xE734;" />
+                <FontIcon FontSize="16" Glyph="&#xE734;" />
             </Button>
             <Button
                 Click="SidebarButton_Click"
                 Style="{StaticResource SidebarButton}"
                 Tag="Downloads">
-                <FontIcon Glyph="&#xE118;" />
+                <FontIcon FontSize="16" Glyph="&#xE118;" />
             </Button>
             <Button
                 Click="SidebarButton_Click"
                 Style="{StaticResource SidebarButton}"
                 Tag="GenQRCode">
-                <FontIcon Glyph="&#xED14;" />
+                <FontIcon FontSize="16" Glyph="&#xED14;" />
             </Button>
             <Button
                 x:Name="MuteBtn"
@@ -316,7 +317,7 @@
                 Style="{StaticResource SidebarButton}"
                 Tag="Mute"
                 Visibility="Collapsed">
-                <FontIcon Glyph="&#xE767;" />
+                <FontIcon FontSize="16" Glyph="&#xE767;" />
             </Button>
         </StackPanel>
         <Grid
