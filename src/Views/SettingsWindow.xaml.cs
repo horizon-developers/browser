@@ -29,6 +29,7 @@ public sealed partial class SettingsWindow : Window
         presenter.IsModal = true;
 
         AppWindow.SetPresenter(presenter);
+        rootGrid.Focus(FocusState.Programmatic);
         AppWindow.Show();
 
         Closed += ModalWindow_Closed;
@@ -44,5 +45,10 @@ public sealed partial class SettingsWindow : Window
     {
         Frame SettingsHost = sender as Frame;
         SettingsHost.Navigate(typeof(SettingsView), null, new DrillInNavigationTransitionInfo());
+    }
+
+    private void WindowKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+    {
+        this.Close();
     }
 }

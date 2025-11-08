@@ -54,7 +54,6 @@
 		<Content Include="Assets\FileIcons\link.png" />
 		<Content Include="Assets\Icons\DevSanx.png" />
 		<Content Include="Assets\Icons\paypal.png" />
-		<None Include="Package.StoreAssociation.xml" />
 		<None Include="Assets\JS\readability.js">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
