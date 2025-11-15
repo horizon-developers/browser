@@ -1,3 +1,5 @@
+using CommunityToolkit.WinUI;
+
 namespace Horizon.Controls.WebContent;
 
 public sealed partial class WebContentHost : Page
@@ -396,6 +398,7 @@ public sealed partial class WebContentHost : Page
                 }
                 UrlBoxWrapper.Visibility = Visibility.Visible;
                 UrlBox.Focus(FocusState.Keyboard);
+                UrlBox.FindDescendant<TextBox>().SelectAll();
                 break;
         }
     }
