@@ -398,7 +398,7 @@ public sealed partial class WebContentHost : Page
                 }
                 UrlBoxWrapper.Visibility = Visibility.Visible;
                 UrlBox.Focus(FocusState.Keyboard);
-                UrlBox.FindDescendant<TextBox>().SelectAll();
+                UrlBox.FindDescendant<TextBox>()?.SelectAll();
                 break;
         }
     }
