@@ -37,7 +37,7 @@
 		<GenerateTestArtifacts>False</GenerateTestArtifacts>
 		<AppxBundle>Always</AppxBundle>
 		<HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-		<AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
+		<AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
 		<GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
 	</PropertyGroup>
 	<ItemGroup>
