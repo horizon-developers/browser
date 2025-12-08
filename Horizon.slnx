@@ -10,5 +10,4 @@
     <Platform Solution="*|ARM64" Project="ARM64" />
     <Deploy />
   </Project>
-  <Project Path="external/QRCoder/QRCoder.csproj" />
 </Solution>
