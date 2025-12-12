@@ -8,7 +8,7 @@
 		<UseWinUI>true</UseWinUI>
 		<ApplicationIcon>Horizon.ico</ApplicationIcon>
 		<LangVersion>preview</LangVersion>
-		<AppVersion>15.1.611.0</AppVersion>
+		<AppVersion>15.2.640.0</AppVersion>
 		<DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
 	</PropertyGroup>
 
@@ -40,6 +40,22 @@
 		<AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
 		<GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
 	</PropertyGroup>
+
+	<!-- Remove unused components -->
+	<PropertyGroup>
+		<WebView2NeverCopyLoaderDllToOutputDirectory>true</WebView2NeverCopyLoaderDllToOutputDirectory>
+		<WindowsAppSDKBackgroundTask>false</WindowsAppSDKBackgroundTask>
+		<GenerateDependencyFile>false</GenerateDependencyFile>
+		<GenerateRuntimeConfigurationFiles>false</GenerateRuntimeConfigurationFiles>
+	</PropertyGroup>
+	<Target Name="_RemoveFilesFromPayload" AfterTargets="_CalculateInputsForGenerateAppxPackageRecipe">
+		<ItemGroup>
+			<AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(FileName)%(Extension)'=='Microsoft.WindowsAppRuntime.Bootstrap.dll'" />
+			<AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(FileName)%(Extension)'=='Microsoft.Windows.ApplicationModel.Background.UniversalBGTask.dll'" />
+			<AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(FileName)%(Extension)'=='WebView2Loader.dll'" />
+		</ItemGroup>
+	</Target>
+	
 	<ItemGroup>
 		<AppxManifest Include="Package.appxmanifest">
 			<SubType>Designer</SubType>
