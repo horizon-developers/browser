@@ -1,3 +1,4 @@
+#nullable enable
 using CommunityToolkit.WinUI;
 
 namespace Horizon.Controls.WebContent;
