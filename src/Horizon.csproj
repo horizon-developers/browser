@@ -43,18 +43,19 @@
 
 	<!-- Remove unused components -->
 	<PropertyGroup>
-		<WebView2NeverCopyLoaderDllToOutputDirectory>true</WebView2NeverCopyLoaderDllToOutputDirectory>
-		<WindowsAppSDKBackgroundTask>false</WindowsAppSDKBackgroundTask>
+		<!--<WebView2NeverCopyLoaderDllToOutputDirectory>true</WebView2NeverCopyLoaderDllToOutputDirectory>
+		<WindowsAppSDKBackgroundTask>false</WindowsAppSDKBackgroundTask>-->
 		<GenerateDependencyFile>false</GenerateDependencyFile>
 		<GenerateRuntimeConfigurationFiles>false</GenerateRuntimeConfigurationFiles>
 	</PropertyGroup>
-	<Target Name="_RemoveFilesFromPayload" AfterTargets="_CalculateInputsForGenerateAppxPackageRecipe">
+	
+	<!--<Target Name="_RemoveFilesFromPayload" AfterTargets="_CalculateInputsForGenerateAppxPackageRecipe">
 		<ItemGroup>
 			<AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(FileName)%(Extension)'=='Microsoft.WindowsAppRuntime.Bootstrap.dll'" />
 			<AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(FileName)%(Extension)'=='Microsoft.Windows.ApplicationModel.Background.UniversalBGTask.dll'" />
 			<AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(FileName)%(Extension)'=='WebView2Loader.dll'" />
 		</ItemGroup>
-	</Target>
+	</Target>-->
 	
 	<ItemGroup>
 		<AppxManifest Include="Package.appxmanifest">
