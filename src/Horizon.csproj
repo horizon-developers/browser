@@ -78,7 +78,7 @@
 		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.250402" />
 		<!--<PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.2.250402" />-->
 		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3650.58" />
-		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.259">
+		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.264">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
