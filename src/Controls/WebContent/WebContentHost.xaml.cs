@@ -402,6 +402,7 @@ public sealed partial class WebContentHost : Page
     }*/
 
     private static System.Threading.CancellationTokenSource _cts;
+    private static readonly char[] UrlIndicators = ['.', ':'];
 #pragma warning disable IDE0079 // Remove unnecessary suppression
 #pragma warning disable CA1822 // Mark members as static
     private async void AddressBar_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -411,45 +412,60 @@ public sealed partial class WebContentHost : Page
         if (args.Reason != AutoSuggestionBoxTextChangeReason.UserInput)
             return;
 
-        _cts?.Cancel();
-        _cts = new System.Threading.CancellationTokenSource();
-        var token = _cts.Token;
+        var rawText = sender.Text;
 
-        var query = sender.Text.Trim();
-
-        if (string.IsNullOrEmpty(query))
+        if (string.IsNullOrWhiteSpace(rawText))
         {
+            _cts?.Cancel();
             sender.ItemsSource = null;
             return;
         }
 
+        var oldCts = _cts;
+        _cts = new System.Threading.CancellationTokenSource();
+        var token = _cts.Token;
+
+        oldCts?.Cancel();
+        oldCts?.Dispose();
+
         try
         {
-            await Task.Delay(200, token);
-            if (token.IsCancellationRequested) return;
+            await Task.Delay(100, token);
 
-            var suggestions = new List<SuggestionItem>();
+            var query = rawText.Trim();
 
-            if (UrlHelper.IPRegex().IsMatch(query) || UrlHelper.UrlRegex().IsMatch(query) || query.StartsWith("edge://"))
+            var suggestions = new List<SuggestionItem>(3);
+
+            // 7. Regex Guard Clauses (CRITICAL OPTIMIZATION)
+            // Regex is CPU expensive. Don't run it for plain text queries like "how to cook".
+            // Only check if the string contains URL-like characters ('.' or ':')
+            bool isUrlCandidate = query.IndexOfAny(UrlIndicators) >= 0;
+
+            if (isUrlCandidate)
             {
-                suggestions.Add(new SuggestionItem
+                // Use OrdinalIgnoreCase for faster string comparison
+                if (query.StartsWith("edge://", StringComparison.OrdinalIgnoreCase) ||
+                    UrlHelper.IPRegex().IsMatch(query) ||
+                    UrlHelper.UrlRegex().IsMatch(query))
                 {
-                    DisplayIcon = Symbol.Globe,
-                    DisplayText = $"Visit {query}",
-                    Command = SuggestionCommand.GoToUrl,
-                    Value = query
-                });
-            }
-
-            if (query.StartsWith("file:///"))
-            {
-                suggestions.Add(new SuggestionItem
+                    suggestions.Add(new SuggestionItem
+                    {
+                        DisplayIcon = Symbol.Globe,
+                        DisplayText = $"Visit {query}",
+                        Command = SuggestionCommand.GoToUrl,
+                        Value = query
+                    });
+                }
+                else if (query.StartsWith("file:///", StringComparison.OrdinalIgnoreCase))
                 {
-                    DisplayIcon = Symbol.Folder,
-                    DisplayText = $"Open local file {query}",
-                    Command = SuggestionCommand.LocalFile,
-                    Value = query
-                });
+                    suggestions.Add(new SuggestionItem
+                    {
+                        DisplayIcon = Symbol.Folder,
+                        DisplayText = $"Open local file {query}",
+                        Command = SuggestionCommand.LocalFile,
+                        Value = query
+                    });
+                }
             }
 
             suggestions.Add(new SuggestionItem
@@ -460,9 +476,20 @@ public sealed partial class WebContentHost : Page
                 Value = query
             });
 
-            sender.ItemsSource = suggestions;
+            // Ensure we aren't updating the UI if a newer request came in during processing
+            if (!token.IsCancellationRequested)
+            {
+                sender.ItemsSource = suggestions;
+            }
         }
-        catch (TaskCanceledException) { }
+        catch (TaskCanceledException)
+        {
+            // Expected behavior when user types fast
+        }
+        catch (ObjectDisposedException)
+        {
+            // Handle race condition where CTS is disposed
+        }
     }
 
     private void AddressBar_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
