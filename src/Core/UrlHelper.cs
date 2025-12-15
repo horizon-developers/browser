@@ -8,7 +8,7 @@ public static partial class UrlHelper
     {
         string type;
 
-        if (input.StartsWith("http://") || input.StartsWith("https://") || input.StartsWith("edge://"))
+        if (input.StartsWith("http://") || input.StartsWith("https://") || input.StartsWith("edge://") || input.StartsWith("file:///"))
         {
             type = "url";
         }

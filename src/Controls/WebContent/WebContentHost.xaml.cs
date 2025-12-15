@@ -298,20 +298,6 @@ public sealed partial class WebContentHost : Page
         }
     }
 
-    private void ProcessQueryAndGo(string input)
-    {
-        string inputtype = UrlHelper.GetInputType(input);
-        if (inputtype == "urlNOProtocol")
-            NavigateToUrl("https://" + input.Trim());
-        else if (inputtype == "url")
-            NavigateToUrl(input.Trim());
-        else
-        {
-            string query = SettingsHelper.CurrentSearchUrl + input;
-            NavigateToUrl(query);
-        }
-    }
-
     private void NavigateToUrl(string uri)
     {
         if (WebContentControl.Visibility != Visibility.Visible)
@@ -455,6 +441,17 @@ public sealed partial class WebContentHost : Page
                 });
             }
 
+            if (query.StartsWith("file:///"))
+            {
+                suggestions.Add(new SuggestionItem
+                {
+                    DisplayIcon = Symbol.Folder,
+                    DisplayText = $"Open local file {query}",
+                    Command = SuggestionCommand.LocalFile,
+                    Value = query
+                });
+            }
+
             suggestions.Add(new SuggestionItem
             {
                 DisplayIcon = Symbol.Find,
@@ -500,6 +497,30 @@ public sealed partial class WebContentHost : Page
                 System.Diagnostics.Debug.WriteLine("Search" + item.Value);
                 NavigateToUrl(query);
                 break;
+            case SuggestionCommand.LocalFile:
+                ProcessQueryAndGo(item.Value.Replace("\"", ""));
+                break;
+        }
+    }
+
+    private void ProcessQueryAndGo(string input)
+    {
+        string inputtype = UrlHelper.GetInputType(input);
+        if (inputtype == "urlNOProtocol")
+            NavigateToUrl("https://" + input.Trim());
+        else if (inputtype == "url")
+        {
+            if (input.StartsWith("file:///"))
+            {
+                NavigateToUrl(input.Replace("\"", ""));
+                return;
+            }
+            NavigateToUrl(input.Trim());
+        }
+        else
+        {
+            string query = SettingsHelper.CurrentSearchUrl + input;
+            NavigateToUrl(query);
         }
     }
 }

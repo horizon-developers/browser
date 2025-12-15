@@ -1,6 +1,6 @@
 ﻿namespace Horizon.Core.AddressBar;
 
-public enum SuggestionCommand { GoToUrl, SearchWeb }
+public enum SuggestionCommand { GoToUrl, SearchWeb, LocalFile }
 
 [GeneratedBindableCustomProperty]
 public partial class SuggestionItem
