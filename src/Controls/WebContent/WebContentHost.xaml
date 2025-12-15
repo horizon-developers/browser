@@ -201,6 +201,12 @@
                 CoreWebView2Initialized="WebContentControl_CoreWebView2Initialized"
                 Loaded="WebContentControl_Loaded"
                 Visibility="Collapsed" />
+            <ProgressBar
+                x:Name="LoadingBar"
+                Margin="3"
+                VerticalAlignment="Top"
+                HorizontalContentAlignment="Stretch"
+                Visibility="Collapsed" />
         </Grid>
         <StackPanel
             x:Name="Sidebar"
@@ -274,12 +280,6 @@
                 <FontIcon FontSize="16" Glyph="&#xE767;" />
             </Button.Content>
         </Button>
-        <ProgressBar
-            x:Name="LoadingBar"
-            Grid.Column="1"
-            VerticalAlignment="Top"
-            HorizontalContentAlignment="Stretch"
-            Visibility="Collapsed" />
         <Grid
             x:Name="UrlBoxWrapper"
             Grid.Column="1"
