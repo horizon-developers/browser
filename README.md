@@ -1,15 +1,18 @@
 <p align="center">
-  <img src="https://store-images.s-microsoft.com/image/apps.58485.14199299454065324.49bf96ae-f30a-4763-bcc4-b4641154db7e.88b9ef73-49d3-4dc5-b4b4-bda274b30b3b" alt="Horizon screenshot" />
+  <img src="./.github/assets/StoreFeaturedImage.webp" alt="Horizon screenshot" />
 </p>
 
 <p align="center">
   <a href="https://apps.microsoft.com/detail/9pfs0vxcd5sr" target="_blank">
-    <img src="images/msstorebadge.png" /></a>
+    <picture>
+      <source media="(prefers-color-scheme: light)" srcset="./.github/assets/StoreBadge-dark.webp" width="220" />
+      <img src="./.github/assets/StoreBadge-light.webp" width="220" />
+  </picture></a>
   <a href="https://github.com/horizon-developers/browser/releases">
-    <img src="images/ghreleasesbadge.png" /></a>
+    <img src="./.github/assets/ghreleasesbadge.webp" width="220" /></a>
 </p>
 
-Horizon is a modern webbrowser which enhances your browsing experience. It has been in active development for over two years, and is being constantly updated with bug fixes, performance improvements and new features.
+Horizon is a modern webbrowser which enhances your browsing experience. It has been in active development for a few years, and is being constantly updated with bug fixes, performance improvements and new features.
 
 ## Headline features:
 - Responsive UI and quick startup time
@@ -17,12 +20,8 @@ Horizon is a modern webbrowser which enhances your browsing experience. It has b
 - Split tabs
 - Reading mode
 - Translate websites
-- Password lock
+- Windows Hello integration
 - Generate QRCode for website
-- Export page to pdf (version 5.1 and newer)
-- Export page text content as txt (version 7.5 and newer)
-- New tab background images
-- Focus mode
 
 Check the app out to see them in action! 
 
@@ -45,7 +44,7 @@ winget install HorizonBrowser
 ### GitHub releases (advanced)
 
 > [!WARNING]
-> You might not recive updates if you install Horizon this way, thus this method is only recommended for advanced users
+> You might not receive updates if you install Horizon this way, thus this method is only recommended for advanced users
 
 If you like to get the msix for yourself and install without winget or Microsoft Store, you can get the package [here](https://github.com/horizon-developers/browser/releases)
 
@@ -73,10 +72,10 @@ A donation would be highly appreciated, and it helps me out a lot. Thanks :)
 ## Building from source
 
 ### 1. Prerequisites
-- Git for Windows (included in PATH)
-- Visual Studio 2022, version 17.13 or newer
+- Git for Windows (MUST be present in PATH)
+- Visual Studio 2026, version 18.1.0 or newer
 - Windows 11 SDK (10.0.26100.0)
-- .NET 9 SDK
+- .NET 10 SDK
 - Windows Application Workload
 
 ### 2. Clone the repository
@@ -85,7 +84,7 @@ git clone https://github.com/horizon-developers/browser.git
 ```
 
 ### 3. Build the app
-In the newly cloned folder, navigate into the src folder and open Horizon.sln (or Horizon.slnx if you prefer that)
+In the newly cloned folder, navigate into the src folder and open Horizon.slnx
 On the top, select your configuration and platform and click on the play icon.
 Now VS should start building the app and will start it shortly.
 
