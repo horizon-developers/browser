@@ -2,7 +2,7 @@
 
 public static class IconHelper
 {
-    public static IconSource ConvFavURLToIconSource(string url)
+    /*public static IconSource ConvFavURLToIconSource(string url)
     {
         try
         {
@@ -15,5 +15,5 @@ public static class IconHelper
             IconSource iconsource = new SymbolIconSource() { Symbol = Symbol.Document };
             return iconsource;
         }
-    }
+    }*/
 }

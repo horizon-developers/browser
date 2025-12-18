@@ -173,10 +173,14 @@ public sealed partial class WebContentHost : Page
 
     private void CoreWebView2_SourceChanged(CoreWebView2 sender, CoreWebView2SourceChangedEventArgs args)
     {
-        MyTab.Domain = sender.DocumentTitle;
         if (Uri.TryCreate(sender.Source, UriKind.Absolute, out Uri? uri))
         {
-            MyTab.Domain = uri.Host;
+            string DomainText = uri.Host;
+            if (uri.Host.Contains("www"))
+            {
+                DomainText = uri.Host.Replace("www.", "");
+            }
+            MyTab.Domain = DomainText;
             return;
         }
         
@@ -428,6 +432,8 @@ public sealed partial class WebContentHost : Page
         oldCts?.Cancel();
         oldCts?.Dispose();
 
+        
+
         try
         {
             await Task.Delay(100, token);
@@ -441,46 +447,52 @@ public sealed partial class WebContentHost : Page
             // Only check if the string contains URL-like characters ('.' or ':')
             bool isUrlCandidate = query.IndexOfAny(UrlIndicators) >= 0;
 
-            if (isUrlCandidate)
+            _ = WindowHelper.MainWindow.DispatcherQueue.TryEnqueue(async () =>
             {
-                // Use OrdinalIgnoreCase for faster string comparison
-                if (query.StartsWith("edge://", StringComparison.OrdinalIgnoreCase) ||
-                    UrlHelper.IPRegex().IsMatch(query) ||
-                    UrlHelper.UrlRegex().IsMatch(query))
+                if (isUrlCandidate)
                 {
-                    suggestions.Add(new SuggestionItem
-                    {
-                        DisplayIcon = Symbol.Globe,
-                        DisplayText = $"Visit {query}",
-                        Command = SuggestionCommand.GoToUrl,
-                        Value = query
-                    });
-                }
-                else if (query.StartsWith("file:///", StringComparison.OrdinalIgnoreCase))
-                {
-                    suggestions.Add(new SuggestionItem
-                    {
-                        DisplayIcon = Symbol.Folder,
-                        DisplayText = $"Open local file {query}",
-                        Command = SuggestionCommand.LocalFile,
-                        Value = query
-                    });
-                }
-            }
 
-            suggestions.Add(new SuggestionItem
-            {
-                DisplayIcon = Symbol.Find,
-                DisplayText = $"Search the web for \"{query}\"",
-                Command = SuggestionCommand.SearchWeb,
-                Value = query
+                    // Use OrdinalIgnoreCase for faster string comparison
+                    if (query.StartsWith("edge://", StringComparison.OrdinalIgnoreCase) ||
+                        UrlHelper.IPRegex().IsMatch(query) ||
+                        UrlHelper.UrlRegex().IsMatch(query))
+                    {
+                        suggestions.Add(new SuggestionItem
+                        {
+                            DisplayIcon = Symbol.Globe,
+                            DisplayText = $"Visit {query}",
+                            Command = SuggestionCommand.GoToUrl,
+                            Value = query
+                        });
+                    }
+                    else if (query.StartsWith("file:///", StringComparison.OrdinalIgnoreCase))
+                    {
+                        suggestions.Add(new SuggestionItem
+                        {
+                            DisplayIcon = Symbol.Folder,
+                            DisplayText = $"Open local file {query}",
+                            Command = SuggestionCommand.LocalFile,
+                            Value = query
+                        });
+                    }
+                }
+
+                suggestions.Add(new SuggestionItem
+                {
+                    DisplayIcon = Symbol.Find,
+                    DisplayText = $"Search the web for \"{query}\"",
+                    Command = SuggestionCommand.SearchWeb,
+                    Value = query
+                });
+
+                // Ensure we aren't updating the UI if a newer request came in during processing
+                if (!token.IsCancellationRequested)
+                {
+                    sender.ItemsSource = suggestions;
+                }
             });
 
-            // Ensure we aren't updating the UI if a newer request came in during processing
-            if (!token.IsCancellationRequested)
-            {
-                sender.ItemsSource = suggestions;
-            }
+            
         }
         catch (TaskCanceledException)
         {
