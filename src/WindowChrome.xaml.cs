@@ -103,6 +103,12 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
         {
             case "CopyLink":
                 ClipboardHelper.CopyTextToClipboard(SelectedTab.WebContentInstance.WebContentControl.CoreWebView2.Source);
+                _ = WindowHelper.MainWindow.DispatcherQueue.TryEnqueue(async () =>
+                {
+                    InfoBarWrapper.Children.Add(Controls.InfoBars.LinkCopied.Get());
+                    await Task.Delay(3000);
+                    InfoBarWrapper.Children.Clear();
+                });
                 break;
             case "NewTab":
                 CreateTab("New tab", string.Empty);
