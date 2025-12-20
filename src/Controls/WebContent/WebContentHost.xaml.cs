@@ -258,6 +258,9 @@ public sealed partial class WebContentHost : Page
             case "Print":
                 WebContentControl.CoreWebView2.ShowPrintUI(CoreWebView2PrintDialogKind.Browser);
                 break;
+            case "Share":
+                ShareHelper.Share(WebContentControl.CoreWebView2.DocumentTitle, WebContentControl.Source);
+                break;
             case "Save":
                 await WebContentControl.CoreWebView2.ShowSaveAsUIAsync();
                 break;
@@ -284,6 +287,12 @@ public sealed partial class WebContentHost : Page
                 break;
             case "TaskManager":
                 WebContentControl.CoreWebView2.OpenTaskManagerWindow();
+                break;
+            case "ShareCTXLink":
+                if (Uri.TryCreate(LinkUri, UriKind.Absolute, out Uri? uri))
+                {
+                    ShareHelper.Share("Shared link", uri);
+                }
                 break;
         }
         var flyout = FlyoutBase.GetAttachedFlyout(WebContentControl);

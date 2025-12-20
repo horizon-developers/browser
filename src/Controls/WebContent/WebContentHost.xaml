@@ -109,6 +109,11 @@
                 Icon="Print"
                 Tag="Print"
                 Text="Print" />
+            <MenuFlyoutItem
+                Click="ContextMenuItem_Click"
+                Icon="Share"
+                Tag="Share"
+                Text="Share" />
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
                 Click="ContextMenuItem_Click"
@@ -186,6 +191,11 @@
                     <FontIcon Glyph="&#xE16F;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
+            <MenuFlyoutItem
+                Click="ContextMenuItem_Click"
+                Icon="Share"
+                Tag="ShareCTXLink"
+                Text="Share" />
         </MenuFlyout>
     </Page.Resources>
     <Grid>
