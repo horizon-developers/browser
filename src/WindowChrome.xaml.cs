@@ -47,8 +47,11 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
     {
         ListView listView = sender as ListView;
         Tab item = (Tab)listView.SelectedItem;
-        SelectedTab = item;
-        TabContentHost.Content = item.WebContentInstance;
+        if (item != null)
+        {
+            SelectedTab = item;
+            TabContentHost.Content = item.WebContentInstance;
+        }
     }
 
     private void CloseTabButton_Click(object sender, RoutedEventArgs e)
