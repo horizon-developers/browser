@@ -50,7 +50,7 @@ public static class WindowHelper
                 MainWindow.AppWindow.SetPresenter(AppWindowPresenterKind.FullScreen);
                 _ = MainWindow.DispatcherQueue.TryEnqueue(() =>
                 {
-                    MainWindow.TabContentHost.Margin = new Thickness(-42, -34, -192, -7);
+                    MainWindow.TabContentHost.Margin = new Thickness(-44, -37, -194, -7);
                     MainWindow.Sidebar.Visibility = Visibility.Collapsed;
                 });
                 break;
