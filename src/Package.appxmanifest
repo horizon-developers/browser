@@ -10,7 +10,7 @@
   <Identity
     Name="Pinguin2001.HorizonBrowser"
     Publisher="CN=AE1D0726-66DB-43AE-842B-D94A37F839FE"
-    Version="15.2.701.0" />
+    Version="15.2.704.0" />
 
   <mp:PhoneIdentity PhoneProductId="c663598d-2698-4640-b0b0-b7bd1100f7eb" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
