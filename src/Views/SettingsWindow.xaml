@@ -15,20 +15,6 @@
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator Key="Escape" Invoked="WindowKeyboardAccelerator_Invoked" />
         </Grid.KeyboardAccelerators>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="32" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Border
-            x:Name="TitleBar"
-            Grid.Row="0"
-            Background="Transparent">
-            <TextBlock
-                Margin="10,0,0,0"
-                VerticalAlignment="Center"
-                Style="{StaticResource CaptionTextBlockStyle}"
-                Text="Settings" />
-        </Border>
         <Frame
             x:Name="SettingsHost"
             Grid.Row="1"
