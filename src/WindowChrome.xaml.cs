@@ -9,6 +9,9 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
     private void OnPropertyChanged([CallerMemberName] string propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+#if DEBUG
+        Logger.LogEvent(Logger.Severity.Info, "WindowChromeView", $"OnPropertyChanged, PropertyName: { propertyName}");
+#endif
     }
 
     public WindowChrome()
@@ -20,9 +23,6 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
     public static void GetFavorites()
     {
         MainViewModel.MainVM.FavoritesList = FavoritesHelper.GetFavoritesList();
-#if DEBUG
-        System.Diagnostics.Debug.WriteLine("Favorites:" + MainViewModel.MainVM.FavoritesList.Count);
-#endif
     }
 
     public void CreateTab(string title, string launchurl, bool isinprivate = false)
@@ -151,7 +151,6 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
                 CreateTab("Release notes", "https://github.com/horizon-developers/browser/releases/latest");
                 break;
             case "Settings":
-                //CreateTab("Settings", typeof(SettingsPage));
                 _ = new Views.SettingsWindow();
                 break;
         }

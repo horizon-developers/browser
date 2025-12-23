@@ -26,13 +26,22 @@ public class FavoritesHelper
         bool DoFavsExist = File.Exists(FavoritesFilePath);
         if (!DoFavsExist)
         {
+#if DEBUG
+            Logger.LogEvent(Logger.Severity.Warning, "FavoritesHelper", "The favorites db does not exist!");
+#endif
             ObservableCollection<FavoriteItem> placeholderItems = [];
             return placeholderItems;
         }
         else
         {
+#if DEBUG
+            Logger.LogEvent(Logger.Severity.Info, "FavoritesHelper", "Loading favorites");
+#endif
             string filecontent = File.ReadAllText(FavoritesFilePath);
             ObservableCollection<FavoriteItem> Items = JsonSerializer.Deserialize(filecontent, FavoriteItemSerializerContext.Default.ObservableCollectionFavoriteItem);
+#if DEBUG
+            Logger.LogEvent(Logger.Severity.Info, "FavoritesHelper", $"Loaded {Items.Count} favorite(s)");
+#endif
             return Items;
         }
     }
