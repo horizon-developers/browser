@@ -12,310 +12,289 @@
     xmlns:toolkitc="using:CommunityToolkit.WinUI.Controls"
     xmlns:viewmodels="using:Horizon.ViewModels"
     mc:Ignorable="d">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="34" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <Grid Grid.Row="1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition
+                Width="175"
+                MinWidth="185"
+                MaxWidth="400" />
+        </Grid.ColumnDefinitions>
+        <ContentPresenter
+            x:Name="TabContentHost"
+            Grid.Column="0"
+            x:FieldModifier="public" />
         <Grid
-            x:Name="TitleBarControl"
-            Grid.Row="0"
-            x:FieldModifier="public"
-            Background="Transparent">
-            <Image
-                Width="26"
-                Height="26"
-                Margin="7,0,0,0"
-                HorizontalAlignment="Left"
-                Source="/Assets/AppIcons/Square44x44Logo.png" />
-            <TextBlock
-                Margin="36,-1,0,0"
-                VerticalAlignment="Center"
-                Style="{StaticResource CaptionTextBlockStyle}"
-                Text="Horizon" />
-        </Grid>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition
-                    Width="175"
-                    MinWidth="185"
-                    MaxWidth="400" />
-            </Grid.ColumnDefinitions>
-            <ContentPresenter
-                x:Name="TabContentHost"
-                Grid.Column="0"
-                x:FieldModifier="public" />
+            x:Name="InfoBarWrapper"
+            Grid.Column="0"
+            Height="50"
+            Margin="0,15,20,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top" />
+        <Grid
+            x:Name="Sidebar"
+            Grid.Column="1"
+            Margin="2,-1,5,3"
+            x:FieldModifier="public">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="48" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Background="Transparent" />
             <Grid
-                x:Name="InfoBarWrapper"
-                Grid.Column="0"
-                Height="50"
-                Margin="0,15,20,0"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Top" />
-            <Grid
-                x:Name="Sidebar"
-                Grid.Column="1"
-                Margin="2,-1,5,3"
-                x:FieldModifier="public">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid
-                    Grid.Row="0"
-                    Background="{StaticResource ControlElevationBorderBrush}"
-                    CornerRadius="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Button
-                        Grid.Column="0"
-                        Height="32"
-                        Margin="5,0,0,0"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Center"
-                        Click="UrlBoxButton_Click"
-                        Content="{x:Bind SelectedTab.Domain, Mode=OneWay}" />
-                    <Button
-                        Grid.Column="1"
-                        Height="35"
-                        Margin="2,0,2,0"
-                        Click="ToolbarButton_Click"
-                        Style="{StaticResource QuietButton}"
-                        Tag="CopyLink">
-                        <FontIcon FontSize="16" Glyph="&#xE71B;" />
-                    </Button>
-                </Grid>
-                <StackPanel Grid.Row="1" Orientation="Horizontal">
-                    <Button
-                        Click="ToolbarButton_Click"
-                        Style="{StaticResource QuietButton}"
-                        Tag="NewTab">
-                        <Button.Content>
-                            <FontIcon FontSize="16" Glyph="&#xE710;" />
-                        </Button.Content>
-                    </Button>
-                    <AppBarSeparator />
-                    <Button
-                        Click="ToolbarButton_Click"
-                        Style="{StaticResource QuietButton}"
-                        Tag="NewPrivateTab">
-                        <Button.Content>
-                            <FontIcon FontSize="16" Glyph="&#xE727;" />
-                        </Button.Content>
-                    </Button>
-                    <AppBarSeparator />
-                    <Button
-                        x:Name="FavoritesBtn"
-                        Click="FavoritesFlyoutButton_Click"
-                        Style="{StaticResource QuietButton}">
-                        <Button.Content>
-                            <FontIcon FontSize="16" Glyph="&#xE728;" />
-                        </Button.Content>
-                        <Button.Resources>
-                            <Flyout x:Name="FavoritesFlyout" Placement="Bottom">
-                                <Grid Height="300">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        Margin="5,0,0,0"
-                                        FontSize="20"
-                                        FontWeight="SemiBold"
-                                        Text="Favorites" />
-                                    <ListView
-                                        x:Name="FavoritesListView"
-                                        Grid.Row="1"
-                                        Width="300"
-                                        ItemsSource="{x:Bind viewmodels:MainViewModel.MainVM.FavoritesList, Mode=TwoWay}"
-                                        RightTapped="FavoritesListView_RightTapped"
-                                        SelectionChanged="FavoritesList_SelectionChanged">
-                                        <ListView.ItemTemplate>
-                                            <DataTemplate x:DataType="favorites:FavoriteItem">
-                                                <StackPanel Margin="-5,10,-5,10" ToolTipService.ToolTip="{x:Bind Url}">
-                                                    <TextBlock
-                                                        FontSize="16"
-                                                        FontWeight="SemiBold"
-                                                        Text="{x:Bind Title}"
-                                                        TextTrimming="CharacterEllipsis" />
-                                                    <TextBlock
-                                                        FontSize="12"
-                                                        Foreground="{ThemeResource SystemAccentColorDark1}"
-                                                        Text="{x:Bind Url}"
-                                                        TextTrimming="CharacterEllipsis" />
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </ListView.ItemTemplate>
-                                        <ListView.ContextFlyout>
-                                            <CommandBarFlyout
-                                                x:Name="FavoritesContextMenu"
-                                                AlwaysExpanded="True"
-                                                Placement="BottomEdgeAlignedLeft">
+                Grid.Row="1"
+                Background="{StaticResource ControlElevationBorderBrush}"
+                CornerRadius="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button
+                    Grid.Column="0"
+                    Height="32"
+                    Margin="5,0,0,0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Click="UrlBoxButton_Click"
+                    Content="{x:Bind SelectedTab.Domain, Mode=OneWay}" />
+                <Button
+                    Grid.Column="1"
+                    Height="35"
+                    Margin="2,0,2,0"
+                    Click="ToolbarButton_Click"
+                    Style="{StaticResource QuietButton}"
+                    Tag="CopyLink">
+                    <FontIcon FontSize="16" Glyph="&#xE71B;" />
+                </Button>
+            </Grid>
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <Button
+                    Click="ToolbarButton_Click"
+                    Style="{StaticResource QuietButton}"
+                    Tag="NewTab">
+                    <Button.Content>
+                        <FontIcon FontSize="16" Glyph="&#xE710;" />
+                    </Button.Content>
+                </Button>
+                <AppBarSeparator />
+                <Button
+                    Click="ToolbarButton_Click"
+                    Style="{StaticResource QuietButton}"
+                    Tag="NewPrivateTab">
+                    <Button.Content>
+                        <FontIcon FontSize="16" Glyph="&#xE727;" />
+                    </Button.Content>
+                </Button>
+                <AppBarSeparator />
+                <Button
+                    x:Name="FavoritesBtn"
+                    Click="FavoritesFlyoutButton_Click"
+                    Style="{StaticResource QuietButton}">
+                    <Button.Content>
+                        <FontIcon FontSize="16" Glyph="&#xE728;" />
+                    </Button.Content>
+                    <Button.Resources>
+                        <Flyout x:Name="FavoritesFlyout" Placement="Bottom">
+                            <Grid Height="300">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Margin="5,0,0,0"
+                                    FontSize="20"
+                                    FontWeight="SemiBold"
+                                    Text="Favorites" />
+                                <ListView
+                                    x:Name="FavoritesListView"
+                                    Grid.Row="1"
+                                    Width="300"
+                                    ItemsSource="{x:Bind viewmodels:MainViewModel.MainVM.FavoritesList, Mode=TwoWay}"
+                                    RightTapped="FavoritesListView_RightTapped"
+                                    SelectionChanged="FavoritesList_SelectionChanged">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate x:DataType="favorites:FavoriteItem">
+                                            <StackPanel Margin="-5,10,-5,10" ToolTipService.ToolTip="{x:Bind Url}">
+                                                <TextBlock
+                                                    FontSize="16"
+                                                    FontWeight="SemiBold"
+                                                    Text="{x:Bind Title}"
+                                                    TextTrimming="CharacterEllipsis" />
+                                                <TextBlock
+                                                    FontSize="12"
+                                                    Foreground="{ThemeResource SystemAccentColorDark1}"
+                                                    Text="{x:Bind Url}"
+                                                    TextTrimming="CharacterEllipsis" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                    <ListView.ContextFlyout>
+                                        <CommandBarFlyout
+                                            x:Name="FavoritesContextMenu"
+                                            AlwaysExpanded="True"
+                                            Placement="BottomEdgeAlignedLeft">
+                                            <AppBarButton
+                                                Click="FavContextItem_Click"
+                                                Tag="Copy"
+                                                ToolTipService.ToolTip="Copy link">
+                                                <AppBarButton.Icon>
+                                                    <FontIcon Glyph="&#xE16F;" />
+                                                </AppBarButton.Icon>
+                                            </AppBarButton>
+                                            <AppBarButton
+                                                Click="FavContextItem_Click"
+                                                Foreground="Red"
+                                                Icon="Delete"
+                                                Tag="Delete" />
+                                            <CommandBarFlyout.SecondaryCommands>
                                                 <AppBarButton
                                                     Click="FavContextItem_Click"
-                                                    Tag="Copy"
-                                                    ToolTipService.ToolTip="Copy link">
+                                                    Label="Copy link text"
+                                                    Tag="CopyText">
                                                     <AppBarButton.Icon>
                                                         <FontIcon Glyph="&#xE16F;" />
                                                     </AppBarButton.Icon>
                                                 </AppBarButton>
-                                                <AppBarButton
-                                                    Click="FavContextItem_Click"
-                                                    Foreground="Red"
-                                                    Icon="Delete"
-                                                    Tag="Delete" />
-                                                <CommandBarFlyout.SecondaryCommands>
-                                                    <AppBarButton
-                                                        Click="FavContextItem_Click"
-                                                        Label="Copy link text"
-                                                        Tag="CopyText">
-                                                        <AppBarButton.Icon>
-                                                            <FontIcon Glyph="&#xE16F;" />
-                                                        </AppBarButton.Icon>
-                                                    </AppBarButton>
-                                                </CommandBarFlyout.SecondaryCommands>
-                                            </CommandBarFlyout>
-                                        </ListView.ContextFlyout>
-                                    </ListView>
-                                </Grid>
-                            </Flyout>
-                        </Button.Resources>
-                    </Button>
-                    <AppBarSeparator />
-                    <Button x:Name="ToolbarMoreBtn" Style="{StaticResource QuietButton}">
-                        <Button.Content>
-                            <FontIcon FontSize="16" Glyph="&#xE712;" />
-                        </Button.Content>
-                        <Button.Flyout>
-                            <MenuFlyout Placement="Bottom">
+                                            </CommandBarFlyout.SecondaryCommands>
+                                        </CommandBarFlyout>
+                                    </ListView.ContextFlyout>
+                                </ListView>
+                            </Grid>
+                        </Flyout>
+                    </Button.Resources>
+                </Button>
+                <AppBarSeparator />
+                <Button x:Name="ToolbarMoreBtn" Style="{StaticResource QuietButton}">
+                    <Button.Content>
+                        <FontIcon FontSize="16" Glyph="&#xE712;" />
+                    </Button.Content>
+                    <Button.Flyout>
+                        <MenuFlyout Placement="Bottom">
+                            <MenuFlyoutItem
+                                Click="ToolbarFlyoutItem_Click"
+                                Tag="History"
+                                Text="History">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE81C;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem
+                                Click="ToolbarFlyoutItem_Click"
+                                Tag="Downloads"
+                                Text="Downloads">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE896;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutSeparator />
+                            <MenuFlyoutSubItem Text="Developer">
+                                <MenuFlyoutSubItem.Icon>
+                                    <FontIcon Glyph="&#xE943;" />
+                                </MenuFlyoutSubItem.Icon>
                                 <MenuFlyoutItem
                                     Click="ToolbarFlyoutItem_Click"
-                                    Tag="History"
-                                    Text="History">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE81C;" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
+                                    Tag="Crashes"
+                                    Text="Crashes" />
                                 <MenuFlyoutItem
                                     Click="ToolbarFlyoutItem_Click"
-                                    Tag="Downloads"
-                                    Text="Downloads">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE896;" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutSeparator />
-                                <MenuFlyoutSubItem Text="Developer">
-                                    <MenuFlyoutSubItem.Icon>
-                                        <FontIcon Glyph="&#xE943;" />
-                                    </MenuFlyoutSubItem.Icon>
-                                    <MenuFlyoutItem
-                                        Click="ToolbarFlyoutItem_Click"
-                                        Tag="Crashes"
-                                        Text="Crashes" />
-                                    <MenuFlyoutItem
-                                        Click="ToolbarFlyoutItem_Click"
-                                        Tag="Flags"
-                                        Text="Flags" />
-                                    <MenuFlyoutItem
-                                        Click="ToolbarFlyoutItem_Click"
-                                        Tag="GPU"
-                                        Text="GPU Internals" />
-                                    <MenuFlyoutItem
-                                        Click="ToolbarFlyoutItem_Click"
-                                        Tag="Inspect"
-                                        Text="Inspect" />
-                                    <MenuFlyoutItem
-                                        Click="ToolbarFlyoutItem_Click"
-                                        Tag="Modules"
-                                        Text="Modules" />
-                                </MenuFlyoutSubItem>
-                                <MenuFlyoutSeparator />
+                                    Tag="Flags"
+                                    Text="Flags" />
                                 <MenuFlyoutItem
                                     Click="ToolbarFlyoutItem_Click"
-                                    Tag="WhatsNew"
-                                    Text="What's new?">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xF133;" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
+                                    Tag="GPU"
+                                    Text="GPU Internals" />
                                 <MenuFlyoutItem
                                     Click="ToolbarFlyoutItem_Click"
-                                    Icon="Setting"
-                                    Tag="Settings"
-                                    Text="Settings" />
-                            </MenuFlyout>
-                        </Button.Flyout>
-                    </Button>
-                </StackPanel>
-                <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Hidden">
-                    <ListView
-                        x:Name="TabListView"
-                        AllowDrop="True"
-                        CanDrag="True"
-                        CanReorderItems="True"
-                        ItemsSource="{x:Bind viewmodels:MainViewModel.MainVM.Tabs, Mode=TwoWay}"
-                        RightTapped="TabListView_RightTapped"
-                        SelectionChanged="TabListView_SelectionChanged">
-                        <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="local:Tab">
-                                <Grid PointerPressed="Grid_PointerPressed" ToolTipService.ToolTip="{x:Bind Title, Mode=OneWay}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        Grid.Column="1"
-                                        Margin="-2,-2,0,0"
-                                        VerticalAlignment="Center"
-                                        Text="{x:Bind Title, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis" />
-                                    <Button
-                                        Grid.Column="2"
-                                        Margin="0,0,-4,0"
-                                        HorizontalAlignment="Right"
-                                        Background="Transparent"
-                                        BorderBrush="Transparent"
-                                        Click="CloseTabButton_Click"
-                                        Style="{StaticResource SidebarButton}">
-                                        <Button.Content>
-                                            <FontIcon
-                                                FontFamily="Segoe Fluent Icons"
-                                                FontSize="16"
-                                                Foreground="Gray"
-                                                Glyph="&#xE711;" />
-                                        </Button.Content>
-                                    </Button>
-                                </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                        <ListView.ContextFlyout>
-                            <MenuFlyout x:Name="TabContextMenu" Placement="BottomEdgeAlignedLeft">
+                                    Tag="Inspect"
+                                    Text="Inspect" />
                                 <MenuFlyoutItem
-                                    Click="TabCTXItem_Click"
-                                    Tag="Duplicate"
-                                    Text="Duplicate tab">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE923;" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                            </MenuFlyout>
-                        </ListView.ContextFlyout>
-                    </ListView>
-                </ScrollViewer>
-            </Grid>
-            <!--<toolkitc:GridSplitter
-        Grid.Column="1"
-        Width="12"
-        HorizontalAlignment="Left"
-        ResizeBehavior="BasedOnAlignment"
-        ResizeDirection="Columns" />-->
+                                    Click="ToolbarFlyoutItem_Click"
+                                    Tag="Modules"
+                                    Text="Modules" />
+                            </MenuFlyoutSubItem>
+                            <MenuFlyoutSeparator />
+                            <MenuFlyoutItem
+                                Click="ToolbarFlyoutItem_Click"
+                                Tag="WhatsNew"
+                                Text="What's new?">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xF133;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem
+                                Click="ToolbarFlyoutItem_Click"
+                                Icon="Setting"
+                                Tag="Settings"
+                                Text="Settings" />
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+            </StackPanel>
+            <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Hidden">
+                <ListView
+                    x:Name="TabListView"
+                    AllowDrop="True"
+                    CanDrag="True"
+                    CanReorderItems="True"
+                    ItemsSource="{x:Bind viewmodels:MainViewModel.MainVM.Tabs, Mode=TwoWay}"
+                    RightTapped="TabListView_RightTapped"
+                    SelectionChanged="TabListView_SelectionChanged">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="local:Tab">
+                            <Grid PointerPressed="Grid_PointerPressed" ToolTipService.ToolTip="{x:Bind Title, Mode=OneWay}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Margin="-2,-2,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="{x:Bind Title, Mode=OneWay}"
+                                    TextTrimming="CharacterEllipsis" />
+                                <Button
+                                    Grid.Column="2"
+                                    Margin="0,0,-4,0"
+                                    HorizontalAlignment="Right"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    Click="CloseTabButton_Click"
+                                    Style="{StaticResource SidebarButton}">
+                                    <Button.Content>
+                                        <FontIcon
+                                            FontFamily="Segoe Fluent Icons"
+                                            FontSize="16"
+                                            Foreground="Gray"
+                                            Glyph="&#xE711;" />
+                                    </Button.Content>
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.ContextFlyout>
+                        <MenuFlyout x:Name="TabContextMenu" Placement="BottomEdgeAlignedLeft">
+                            <MenuFlyoutItem
+                                Click="TabCTXItem_Click"
+                                Tag="Duplicate"
+                                Text="Duplicate tab">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE923;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                        </MenuFlyout>
+                    </ListView.ContextFlyout>
+                </ListView>
+            </ScrollViewer>
         </Grid>
+        <!--<toolkitc:GridSplitter
+            Grid.Column="1"
+            Width="12"
+            HorizontalAlignment="Left"
+            ResizeBehavior="BasedOnAlignment"
+            ResizeDirection="Columns" />-->
     </Grid>
 </Window>

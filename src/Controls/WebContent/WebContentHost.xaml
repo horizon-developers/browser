@@ -218,6 +218,14 @@
                 HorizontalContentAlignment="Stretch"
                 Visibility="Collapsed" />
         </Grid>
+        <Image
+            Grid.Column="0"
+            Width="26"
+            Height="26"
+            Margin="7,7,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Source="/Assets/AppIcons/Square44x44Logo.png" />
         <StackPanel
             x:Name="Sidebar"
             Grid.Column="0"

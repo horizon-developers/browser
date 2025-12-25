@@ -2,7 +2,6 @@
 // This is fine here, there is no scenario where these should lead to a crash
 // at least that's what I hope lmao
 #pragma warning disable CS8618
-
 namespace Horizon.Core;
 
 /// <summary>
@@ -22,11 +21,12 @@ public static class WindowHelper
             ExtendsContentIntoTitleBar = true
         };
         HWND = WindowNative.GetWindowHandle(MainWindow);
+        MainWindow.AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
         //RestoreTabs();
         //RestoreWindowState();
         SetMinWindowSize();
         SetupBackdrop();
-        MainWindow.SetTitleBar(MainWindow.TitleBarControl);
+        //MainWindow.SetTitleBar(MainWindow.TitleBarControl);
         //MainWindow.AppWindow.Closing += AppWindow_Closing;
         ApplyWindowSettings();
     }
@@ -50,7 +50,7 @@ public static class WindowHelper
                 MainWindow.AppWindow.SetPresenter(AppWindowPresenterKind.FullScreen);
                 _ = MainWindow.DispatcherQueue.TryEnqueue(() =>
                 {
-                    MainWindow.TabContentHost.Margin = new Thickness(-44, -37, -194, -7);
+                    MainWindow.TabContentHost.Margin = new Thickness(-44, -8, -194, -8);
                     MainWindow.Sidebar.Visibility = Visibility.Collapsed;
                 });
                 break;
