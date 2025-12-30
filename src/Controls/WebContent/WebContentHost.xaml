@@ -332,10 +332,8 @@
                     PlaceholderText="Search or enter web address"
                     QueryIcon="Find"
                     QuerySubmitted="AddressBar_QuerySubmitted"
-                    SuggestionChosen="AddressBar_SuggestionChosen"
                     Text="{x:Bind WebContentControl.Source, Mode=OneWay}"
-                    TextChanged="AddressBar_TextChanged"
-                    TextMemberPath="DisplayText">
+                    TextChanged="AddressBar_TextChanged">
                     <AutoSuggestBox.TextBoxStyle>
                         <Style BasedOn="{StaticResource AutoSuggestBoxTextBoxStyle}" TargetType="TextBox">
                             <Setter Property="IsSpellCheckEnabled" Value="False" />

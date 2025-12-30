@@ -525,19 +525,25 @@ public sealed partial class WebContentHost : Page
         }
     }
 
-    private void AddressBar_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+    /*private void AddressBar_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
     {
         if (args.SelectedItem is SuggestionItem item)
         {
             ExecuteSuggestion(item);
+#if DEBUG
+            Logger.LogEvent(Logger.Severity.Info, "AddressBar", $"Executed suggestion: {item.DisplayText} {item.Command}");
+#endif
         }
-    }
+    }*/
 
     private void AddressBar_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
     {
         UrlBoxWrapper.Visibility = Visibility.Collapsed;
         if (args.ChosenSuggestion is SuggestionItem item)
         {
+#if DEBUG
+            Logger.LogEvent(Logger.Severity.Info, "AddressBar", $"Query submitted, thus executed suggestion: {item.DisplayText} {item.Command}");
+#endif
             ExecuteSuggestion(item);
             return;
         }
@@ -554,7 +560,9 @@ public sealed partial class WebContentHost : Page
                 break;
             case SuggestionCommand.SearchWeb:
                 string query = SettingsHelper.CurrentSearchUrl + item.Value;
-                System.Diagnostics.Debug.WriteLine("Search" + item.Value);
+#if DEBUG
+                Logger.LogEvent(Logger.Severity.Info, "AddressBar", $"Searching the web for {item.Value}");
+#endif
                 NavigateToUrl(query);
                 break;
             case SuggestionCommand.LocalFile:
