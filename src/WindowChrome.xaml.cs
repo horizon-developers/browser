@@ -30,7 +30,7 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
         Tab tab = new();
         TabCreationParams parameters = new()
         {
-            LaunchURL = launchurl,
+            LaunchUrl = launchurl,
             MyTab = tab,
             IsInPrivate = isinprivate
         };

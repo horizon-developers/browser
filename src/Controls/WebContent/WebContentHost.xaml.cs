@@ -5,8 +5,8 @@ namespace Horizon.Controls.WebContent;
 
 public sealed partial class WebContentHost : Page
 {
-    string launchurl;
-    private Tab MyTab { get; set; }
+    private string? LaunchUrl { get; set; }
+    private Tab? MyTab { get; set; }
     private bool IsInPrivate { get; set; }
 
     public WebContentHost(TabCreationParams parameters)
@@ -17,11 +17,11 @@ public sealed partial class WebContentHost : Page
 
     private void ProcessParameters(TabCreationParams parameters)
     {
-        launchurl = parameters.LaunchURL;
+        LaunchUrl = parameters.LaunchUrl;
         MyTab = parameters.MyTab;
         IsInPrivate = parameters.IsInPrivate;
 
-        if (launchurl == string.Empty)
+        if (LaunchUrl == string.Empty)
         {
             UrlBoxWrapper.Visibility = Visibility.Visible;
         }
@@ -29,7 +29,7 @@ public sealed partial class WebContentHost : Page
 
     private async void WebContentControl_Loaded(object sender, RoutedEventArgs e)
     {
-        if ((sender as WebView2).CoreWebView2 == null)
+        if ((sender as WebView2)?.CoreWebView2 == null)
         {
             try
             {
@@ -39,11 +39,11 @@ public sealed partial class WebContentHost : Page
                 {
                     var options = environment.CreateCoreWebView2ControllerOptions();
                     options.IsInPrivateModeEnabled = true;
-                    await (sender as WebView2).EnsureCoreWebView2Async(environment, options);
+                    await (sender as WebView2)?.EnsureCoreWebView2Async(environment, options);
                     return;
                 }
 
-                await (sender as WebView2).EnsureCoreWebView2Async(environment);
+                await (sender as WebView2)?.EnsureCoreWebView2Async(environment);
             }
             catch (Exception ex)
             {
@@ -75,9 +75,9 @@ public sealed partial class WebContentHost : Page
         string mainscript = "document.addEventListener(\"keydown\",function(e){e.ctrlKey&&\"l\"===e.key&&(e.preventDefault(),window.chrome.webview.postMessage(\"ControlL\")),e.ctrlKey&&\"t\"===e.key&&(e.preventDefault(),window.chrome.webview.postMessage(\"ControlT\"))});";
         await sender.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(mainscript);
         sender.DefaultBackgroundColor = Microsoft.UI.Colors.Transparent;
-        if (launchurl != string.Empty && launchurl != null)
+        if (LaunchUrl != string.Empty && LaunchUrl != null)
         {
-            sender.Source = new Uri(launchurl);
+            sender.Source = new Uri(LaunchUrl);
             WebContentControl.Visibility = Visibility.Visible;
             return;
         }
@@ -102,13 +102,13 @@ public sealed partial class WebContentHost : Page
         WindowHelper.CreateNewTabInMainWindow("New tab", args.Uri);
     }
 
-    string SelectionText;
-    string LinkUri;
+    string? SelectionText;
+    string? LinkUri;
     private void CoreWebView2_ContextMenuRequested(CoreWebView2 sender, CoreWebView2ContextMenuRequestedEventArgs args)
     {
         if (SettingsHelper.GetSetting("AdvancedCTX") != "true")
         {
-            MenuFlyout flyout;
+            MenuFlyout? flyout;
             if (args.ContextMenuTarget.Kind == CoreWebView2ContextMenuTargetKind.SelectedText)
             {
                 flyout = (MenuFlyout)Resources["TextContextMenu"];
@@ -180,7 +180,7 @@ public sealed partial class WebContentHost : Page
             {
                 DomainText = uri.Host.Replace("www.", "");
             }
-            MyTab.Domain = DomainText;
+            MyTab?.Domain = DomainText;
             return;
         }
         
@@ -190,10 +190,10 @@ public sealed partial class WebContentHost : Page
     {
         if (IsInPrivate)
         {
-            MyTab.Title = $"InPrivate: {sender.DocumentTitle}";
+            MyTab?.Title = $"InPrivate: {sender.DocumentTitle}";
             return;
         }
-        MyTab.Title = sender.DocumentTitle;
+        MyTab?.Title = sender.DocumentTitle;
     }
 
     /*private void CoreWebView2_FaviconChanged(CoreWebView2 sender, object args)
@@ -238,7 +238,7 @@ public sealed partial class WebContentHost : Page
 
     private async void ContextMenuItem_Click(object sender, RoutedEventArgs e)
     {
-        switch ((sender as MenuFlyoutItem).Tag)
+        switch ((sender as MenuFlyoutItem)?.Tag)
         {
             // general context menu
             case "Back":
@@ -266,18 +266,30 @@ public sealed partial class WebContentHost : Page
                 break;
             // text context menu
             case "OpenLnkInNewTab":
-                WindowHelper.CreateNewTabInMainWindow("New tab", LinkUri);
+                if (!string.IsNullOrEmpty(LinkUri))
+                {
+                    WindowHelper.CreateNewTabInMainWindow("New tab", LinkUri);
+                }
                 break;
             case "Copy":
-                ClipboardHelper.CopyTextToClipboard(LinkUri);
+                if (!string.IsNullOrEmpty(LinkUri))
+                {
+                    ClipboardHelper.CopyTextToClipboard(LinkUri);
+                }
                 break;
             case "CopyText":
-                ClipboardHelper.CopyTextToClipboard(SelectionText);
+                if (!string.IsNullOrEmpty(SelectionText))
+                {
+                    ClipboardHelper.CopyTextToClipboard(SelectionText);
+                }
                 break;
             // link context menu
             case "Search":
-                string link = SettingsHelper.CurrentSearchUrl + SelectionText;
-                WindowHelper.CreateNewTabInMainWindow("New tab", link);
+                if (!string.IsNullOrEmpty(SelectionText))
+                {
+                    string link = SettingsHelper.CurrentSearchUrl + SelectionText;
+                    WindowHelper.CreateNewTabInMainWindow("New tab", link);
+                }
                 break;
             case "DevTools":
                 WebContentControl.CoreWebView2.OpenDevToolsWindow();
@@ -318,11 +330,11 @@ public sealed partial class WebContentHost : Page
         WebContentControl.CoreWebView2.Navigate(uri);
     }
 
-    byte[] QrCode;
+    byte[]? QrCode;
 
     private async void SidebarButton_Click(object sender, RoutedEventArgs e)
     {
-        switch ((sender as Button).Tag)
+        switch ((sender as Button)?.Tag)
         {
             case "Back":
                 WebContentControl.GoBack();
@@ -414,7 +426,7 @@ public sealed partial class WebContentHost : Page
 
     }*/
 
-    private static System.Threading.CancellationTokenSource _cts;
+    private static System.Threading.CancellationTokenSource? _cts;
     private static readonly char[] UrlIndicators = ['.', ':'];
 #pragma warning disable IDE0079 // Remove unnecessary suppression
 #pragma warning disable CA1822 // Mark members as static

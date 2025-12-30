@@ -3,7 +3,7 @@
 public class TabCreationParams
 {
     public TabCreationParams() { }
-    public string LaunchURL { get; set; }
+    public string LaunchUrl { get; set; }
     public Tab MyTab { get; set; }
     public bool IsInPrivate { get; set; } = false;
 }
