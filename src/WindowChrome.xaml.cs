@@ -25,7 +25,7 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
         MainViewModel.MainVM.FavoritesList = FavoritesHelper.GetFavoritesList();
     }
 
-    public void CreateTab(string title, string launchurl, bool isinprivate = false)
+    public void CreateTab(string title, string launchurl, bool isinprivate = false, bool insertaftercurrent = false, int indexofrequester = -1)
     {
         Tab tab = new();
         TabCreationParams parameters = new()
@@ -39,6 +39,12 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
 
         tab.Title = title;
         tab.WebContentInstance = NewWCI;
+        if (insertaftercurrent && indexofrequester != -1)
+        {
+            MainViewModel.MainVM.Tabs.Insert(indexofrequester + 1, tab);
+            TabListView.SelectedItem = tab;
+            return;
+        }
         MainViewModel.MainVM.Tabs.Add(tab);
         TabListView.SelectedItem = tab;
     }

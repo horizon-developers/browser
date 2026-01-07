@@ -114,11 +114,16 @@ public static class WindowHelper
         MainWindow.Close();
     }
 
-    static public void CreateNewTabInMainWindow(string title, string uri)
+    static public void CreateNewTabInMainWindow(string title, string uri, Tab? requester = null)
     {
+        int IndexOfRequester = -1;
+        if (requester != null)
+        {
+            IndexOfRequester = MainViewModel.MainVM.Tabs.IndexOf(requester);
+        }
         _ = MainWindow.DispatcherQueue.TryEnqueue(() =>
         {
-            MainWindow.CreateTab(title, uri);
+            MainWindow.CreateTab(title, uri, false, true, IndexOfRequester);
         });
     }
 

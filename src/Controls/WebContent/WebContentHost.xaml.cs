@@ -99,7 +99,7 @@ public sealed partial class WebContentHost : Page
     private void CoreWebView2_NewWindowRequested(CoreWebView2 sender, CoreWebView2NewWindowRequestedEventArgs args)
     {
         args.Handled = true;
-        WindowHelper.CreateNewTabInMainWindow("New tab", args.Uri);
+        WindowHelper.CreateNewTabInMainWindow("New tab", args.Uri, MyTab);
     }
 
     string? SelectionText;
@@ -230,7 +230,7 @@ public sealed partial class WebContentHost : Page
         }
         if (args.TryGetWebMessageAsString() == "ControlT")
         {
-            WindowHelper.CreateNewTabInMainWindow("New tab", string.Empty);
+            WindowHelper.CreateNewTabInMainWindow("New tab", string.Empty, MyTab);
             return;
         }
     }
@@ -268,7 +268,7 @@ public sealed partial class WebContentHost : Page
             case "OpenLnkInNewTab":
                 if (!string.IsNullOrEmpty(LinkUri))
                 {
-                    WindowHelper.CreateNewTabInMainWindow("New tab", LinkUri);
+                    WindowHelper.CreateNewTabInMainWindow("New tab", LinkUri, MyTab);
                 }
                 break;
             case "Copy":
@@ -288,14 +288,14 @@ public sealed partial class WebContentHost : Page
                 if (!string.IsNullOrEmpty(SelectionText))
                 {
                     string link = SettingsHelper.CurrentSearchUrl + SelectionText;
-                    WindowHelper.CreateNewTabInMainWindow("New tab", link);
+                    WindowHelper.CreateNewTabInMainWindow("New tab", link, MyTab);
                 }
                 break;
             case "DevTools":
                 WebContentControl.CoreWebView2.OpenDevToolsWindow();
                 break;
             case "ViewSource":
-                WindowHelper.CreateNewTabInMainWindow($"View source", $"view-source:{WebContentControl.CoreWebView2.Source}");
+                WindowHelper.CreateNewTabInMainWindow($"View source", $"view-source:{WebContentControl.CoreWebView2.Source}", MyTab);
                 break;
             case "TaskManager":
                 WebContentControl.CoreWebView2.OpenTaskManagerWindow();
