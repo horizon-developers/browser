@@ -74,7 +74,12 @@ public sealed partial class WebContentHost : Page
         sender.CoreWebView2.WebMessageReceived += CoreWebView2_WebMessageReceived;
         string mainscript = "document.addEventListener(\"keydown\",function(e){e.ctrlKey&&\"l\"===e.key&&(e.preventDefault(),window.chrome.webview.postMessage(\"ControlL\")),e.ctrlKey&&\"t\"===e.key&&(e.preventDefault(),window.chrome.webview.postMessage(\"ControlT\"))});";
         await sender.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(mainscript);
-        sender.DefaultBackgroundColor = Microsoft.UI.Colors.Transparent;
+        
+        if (SettingsHelper.GetSetting("DisableWebPageDarkening") != "true")
+        {
+            sender.DefaultBackgroundColor = Colors.Transparent;
+        }
+
         if (LaunchUrl != string.Empty && LaunchUrl != null)
         {
             sender.Source = new Uri(LaunchUrl);

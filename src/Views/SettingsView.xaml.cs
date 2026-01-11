@@ -34,6 +34,7 @@ public sealed partial class SettingsView : Page
         }
 
         AdvancedCTXToggle.IsOn = SettingsHelper.GetSetting("AdvancedCTX") == "true";
+        DisableWebPageDarkening.IsOn = SettingsHelper.GetSetting("DisableWebPageDarkening") == "true";
         BlockCaptureToggle.IsOn = SettingsHelper.GetSetting("IsScreencaptureBlocked") == "true";
         WindowsHelloToggle.IsOn = SettingsHelper.GetSetting("IsAppLockEnabled") == "true";
 
@@ -41,6 +42,7 @@ public sealed partial class SettingsView : Page
         SearchEngineSelector.SelectionChanged += SearchEngineSelector_SelectionChanged;
         BackdropTypeSelector.SelectionChanged += BackdropTypeSelector_SelectionChanged;
         AdvancedCTXToggle.Toggled += AdvancedCTXToggle_Toggled;
+        DisableWebPageDarkening.Toggled += DisableWebPageDarkening_Toggled;
         BlockCaptureToggle.Toggled += BlockCaptureToggle_Toggled;
         WindowsHelloToggle.Toggled += WindowsHelloLockToggle_Toggled;
     }
@@ -130,6 +132,19 @@ public sealed partial class SettingsView : Page
                 break;
             case false:
                 SettingsHelper.SetSetting("AdvancedCTX", "false");
+                break;
+        }
+    }
+
+    private void DisableWebPageDarkening_Toggled(object sender, RoutedEventArgs e)
+    {
+        switch ((sender as ToggleSwitch).IsOn)
+        {
+            case true:
+                SettingsHelper.SetSetting("DisableWebPageDarkening", "true");
+                break;
+            case false:
+                SettingsHelper.SetSetting("DisableWebPageDarkening", "false");
                 break;
         }
     }

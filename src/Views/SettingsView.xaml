@@ -86,6 +86,12 @@
                     </toolkitc:SettingsCard.HeaderIcon>
                     <ToggleSwitch x:Name="AdvancedCTXToggle" />
                 </toolkitc:SettingsCard>
+                <toolkitc:SettingsCard Description="Try enabling if you experience unreadable texts. Might cause flickers, and requires app restart" Header="Disable web background darkening">
+                    <toolkitc:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE708;" />
+                    </toolkitc:SettingsCard.HeaderIcon>
+                    <ToggleSwitch x:Name="DisableWebPageDarkening" />
+                </toolkitc:SettingsCard>
                 <!--  Advanced features  -->
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Privacy" />
                 <toolkitc:SettingsCard Description="" Header="Block screencapture">
