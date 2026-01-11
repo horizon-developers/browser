@@ -463,8 +463,8 @@ public sealed partial class WebContentHost : Page
 
             var suggestions = new List<SuggestionItem>(3);
 
-            // 7. Regex Guard Clauses (CRITICAL OPTIMIZATION)
-            // Regex is CPU expensive. Don't run it for plain text queries like "how to cook".
+            // Regex Guard Clauses
+            // Regex is CPU expensive. We shouldn't run it for plain text queries like "how to cook"
             // Only check if the string contains URL-like characters ('.' or ':')
             bool isUrlCandidate = query.IndexOfAny(UrlIndicators) >= 0;
 
