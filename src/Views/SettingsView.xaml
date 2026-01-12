@@ -22,6 +22,17 @@
                     Margin="0,24,0,0"
                     Style="{StaticResource TitleTextBlockStyle}"
                     Text="Settings" />
+                <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                    <PersonPicture
+                        x:Name="UserPictureDisplay"
+                        Height="128"
+                        Loaded="UserPictureDisplay_Loaded" />
+                    <TextBlock
+                        Margin="15,0,0,0"
+                        VerticalAlignment="Center"
+                        FontSize="20"
+                        Loaded="UserNameDisplay_Loaded" />
+                </StackPanel>
                 <!--  General  -->
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="General" />
                 <!--<toolkitc:SettingsCard Header="Set as default">
