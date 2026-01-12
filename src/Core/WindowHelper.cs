@@ -22,6 +22,7 @@ public static class WindowHelper
         };
         HWND = WindowNative.GetWindowHandle(MainWindow);
         MainWindow.AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
+        _ = new DevWinUI.ModernSystemMenu(MainWindow);
         //RestoreTabs();
         //RestoreWindowState();
         SetMinWindowSize();
