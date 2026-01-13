@@ -125,6 +125,9 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
             case "NewPrivateTab":
                 CreateTab("New InPrivate tab", string.Empty, true);
                 break;
+            case "FavoritesManager":
+                _ = new Views.FavoritesManagerWindow();
+                break;
         }
     }
 
@@ -223,6 +226,10 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
 
     private void FavContextItem_Click(object sender, RoutedEventArgs e)
     {
+        if (FavSelectedItem == null)
+        {
+            return;
+        }
         switch ((sender as AppBarButton).Tag)
         {
             case "Copy":

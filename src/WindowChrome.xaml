@@ -105,13 +105,21 @@
                                 </Grid.RowDefinitions>
                                 <TextBlock
                                     Grid.Row="0"
-                                    Margin="5,0,0,0"
+                                    Margin="5,0,0,5"
                                     FontSize="20"
                                     FontWeight="SemiBold"
                                     Text="Favorites" />
+                                <Button
+                                    Grid.Row="0"
+                                    HorizontalAlignment="Right"
+                                    Click="ToolbarButton_Click"
+                                    Tag="FavoritesManager"
+                                    ToolTipService.ToolTip="Open favorites manager">
+                                    <dev:ThemedIcon Style="{StaticResource App.ThemedIcons.OpenInWindow}" />
+                                </Button>
                                 <ListView
                                     x:Name="FavoritesListView"
-                                    Grid.Row="1"
+                                    Grid.Row="2"
                                     Width="300"
                                     ItemsSource="{x:Bind viewmodels:MainViewModel.MainVM.FavoritesList, Mode=TwoWay}"
                                     RightTapped="FavoritesListView_RightTapped"

@@ -2,15 +2,19 @@
 
 public class FavoritesHelper
 {
-    private static readonly string FavoritesFilePath = $"{FolderHelper.LocalFolder.Path}\\Favorites.json";
+    private static readonly string FavoritesFilePath = $"{FolderHelper.LocalFolder.Path}\\Favorites.V2.json";
 
     public static void AddFavorite(string title, string url)
     {
         FavoriteItem newFavoriteItem = new()
         {
             Title = title,
-            Url = url
+            Url = url,
+            Id = Guid.NewGuid()
         };
+#if DEBUG
+        Logger.LogEvent(Logger.Severity.Info, "FavoritesHelper", "Added new favorite: " + newFavoriteItem.Title + ", " + newFavoriteItem.Id);
+#endif
         MainViewModel.MainVM.FavoritesList.Insert(0, newFavoriteItem);
         SaveListChangesToDisk();
     }
