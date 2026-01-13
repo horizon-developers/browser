@@ -89,6 +89,9 @@ public sealed partial class FavoritesManagerWindow : Window
         }
         switch ((sender as AppBarButton).Tag)
         {
+            case "Open":
+                WindowHelper.CreateNewTabInMainWindow(FavSelectedItem.Title, FavSelectedItem.Url);
+                break;
             case "Copy":
                 ClipboardHelper.CopyTextToClipboard(FavSelectedItem.Url);
                 break;

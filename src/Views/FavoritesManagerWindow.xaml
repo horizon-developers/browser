@@ -56,6 +56,14 @@
                     Placement="BottomEdgeAlignedLeft">
                     <AppBarButton
                         Click="FavContextItem_Click"
+                        Tag="Open"
+                        ToolTipService.ToolTip="Open">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE8A7;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton
+                        Click="FavContextItem_Click"
                         Tag="Copy"
                         ToolTipService.ToolTip="Copy link">
                         <AppBarButton.Icon>
