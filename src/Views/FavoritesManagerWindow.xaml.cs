@@ -116,3 +116,4 @@ public sealed partial class FavoritesManagerWindow : Window
             }
         }
     }
+}
