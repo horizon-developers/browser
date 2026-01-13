@@ -27,8 +27,7 @@
             Width="350"
             Margin="40,10,0,0"
             HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            dev:Growl.GrowlParent="True" />
+            VerticalAlignment="Top" />
         <Grid
             x:Name="Sidebar"
             Grid.Column="1"
@@ -115,7 +114,7 @@
                                     Click="ToolbarButton_Click"
                                     Tag="FavoritesManager"
                                     ToolTipService.ToolTip="Open favorites manager">
-                                    <dev:ThemedIcon Style="{StaticResource App.ThemedIcons.OpenInWindow}" />
+                                    <FontIcon Glyph="&#xE8A7;" />
                                 </Button>
                                 <ListView
                                     x:Name="FavoritesListView"

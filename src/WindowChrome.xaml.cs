@@ -112,12 +112,12 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
         {
             case "CopyLink":
                 ClipboardHelper.CopyTextToClipboard(SelectedTab.WebContentInstance.WebContentControl.CoreWebView2.Source);
-                DevWinUI.Growl.Success(new DevWinUI.GrowlInfo
+                /*DevWinUI.Growl.Success(new DevWinUI.GrowlInfo
                 {
                     ShowDateTime = false,
                     Title = "Success",
                     Message = "Copied link!"
-                });
+                });*/
                 break;
             case "NewTab":
                 CreateTab("New tab", string.Empty);

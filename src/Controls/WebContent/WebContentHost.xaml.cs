@@ -397,7 +397,7 @@ public sealed partial class WebContentHost : Page
         string QRFileName = $"QRCode - {WebContentControl.CoreWebView2.DocumentTitle}";
         string QRFileNameNor = FileNameHelper.ToValidFileName(QRFileName);
         string path = await FileHelper.SaveBytesAsFileAsync(QRFileNameNor, QrCode, "Bitmap", ".bmp");
-        _ = WindowHelper.MainWindow.DispatcherQueue.TryEnqueue(async () =>
+        /*_ = WindowHelper.MainWindow.DispatcherQueue.TryEnqueue(async () =>
         {
             DevWinUI.Growl.Success(new DevWinUI.GrowlInfo
             {
@@ -405,7 +405,7 @@ public sealed partial class WebContentHost : Page
                 Title = "Success",
                 Message = $"Saved QRCode to\n{path}"
             });
-        });
+        });*/
 
     }
 
