@@ -61,9 +61,11 @@ public sealed partial class FavoritesManagerWindow : Window
             IsSearchActive = false;
         }
         IsSearchActive = true;
-        // Get all ListView items with the submitted search query
-        var SearchResults = from s in MainViewModel.MainVM.FavoritesList where s.Title.Contains(SearchTextBox.Text, StringComparison.OrdinalIgnoreCase) select s;
-        // Set SearchResults as ItemSource for HistoryListView
+
+        var SearchResults = MainViewModel.MainVM.FavoritesList
+            .Where(s => s.Title.Contains(SearchTextBox.Text, StringComparison.OrdinalIgnoreCase) ||
+            (s.Url.Contains(SearchTextBox.Text, StringComparison.OrdinalIgnoreCase)));
+
         FavoritesListView.ItemsSource = SearchResults;
     }
 
