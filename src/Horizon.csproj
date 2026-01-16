@@ -24,6 +24,8 @@
 		<OptimizationPreference>Speed</OptimizationPreference>
 		<SelfContained>true</SelfContained>
 		<PublishTrimmed>true</PublishTrimmed>
+		<IlcGenerateMstatFile>true</IlcGenerateMstatFile>
+		<IlcGenerateDgmlFile>true</IlcGenerateDgmlFile>
 	</PropertyGroup>
 	
 	<!-- MSIX Packaging properties -->
