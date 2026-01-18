@@ -38,7 +38,6 @@ public sealed partial class FavoritesManagerWindow : Window
 
     private void ModalWindow_Closed(object sender, WindowEventArgs args)
     {
-        //(SettingsHost.Content as SettingsView)?.HeadlessWebViewInstance.Close();
         WindowHelper.MainWindow.Activate();
     }
 

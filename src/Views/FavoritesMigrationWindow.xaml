@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Window
+    x:Class="Horizon.Views.FavoritesMigrationWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Horizon.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="FavoritesMigrationWindow"
+    mc:Ignorable="d">
+
+    <Window.SystemBackdrop>
+        <MicaBackdrop />
+    </Window.SystemBackdrop>
+
+    <Grid x:Name="rootGrid" Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <TextBlock FontSize="20" Text="Migrate your old favorites to the new format" />
+            <TextBlock Text="Due to a technical change, your favorites must be converted to the new format." />
+            <Button
+                x:Name="ConvertBtn"
+                Click="ConvertBtn_Click"
+                Content="Convert.." />
+            <TextBlock Text="Converted favorites:" />
+        </StackPanel>
+        <ScrollViewer Grid.Row="1">
+            <TextBlock x:Name="ConvertedFavsDisplay" IsTextSelectionEnabled="True" />
+        </ScrollViewer>
+    </Grid>
+</Window>

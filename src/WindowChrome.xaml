@@ -100,16 +100,29 @@
                             <Grid Height="300">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-                                <TextBlock
+                                <InfoBar
                                     Grid.Row="0"
+                                    IsClosable="False"
+                                    IsOpen="True"
+                                    Message="Anything missing?"
+                                    Severity="Warning" />
+                                <Button
+                                    Margin="0,0,10,0"
+                                    HorizontalAlignment="Right"
+                                    Click="ToolbarButton_Click"
+                                    Content="Read more"
+                                    Tag="ConvertFavs" />
+                                <TextBlock
+                                    Grid.Row="1"
                                     Margin="5,0,0,5"
                                     FontSize="20"
                                     FontWeight="SemiBold"
                                     Text="Favorites" />
                                 <Button
-                                    Grid.Row="0"
+                                    Grid.Row="1"
                                     HorizontalAlignment="Right"
                                     Click="ToolbarButton_Click"
                                     Tag="FavoritesManager"
