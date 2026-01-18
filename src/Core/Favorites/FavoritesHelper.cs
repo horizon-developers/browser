@@ -4,7 +4,7 @@ namespace Horizon.Core.Favorites;
 
 public class FavoritesHelper
 {
-    private static readonly string FavoritesFilePath = $"{FolderHelper.LocalFolder.Path}\\Favorites.db";
+    public static readonly string FavoritesFilePath = $"{FolderHelper.LocalFolder.Path}\\Favorites.db";
 
     private static readonly string ConnectionString = $"Data Source={FavoritesFilePath}";
 
