@@ -111,42 +111,43 @@ public sealed partial class WebContentHost : Page
     string? LinkUri;
     private void CoreWebView2_ContextMenuRequested(CoreWebView2 sender, CoreWebView2ContextMenuRequestedEventArgs args)
     {
-        if (SettingsHelper.GetSetting("AdvancedCTX") != "true")
+        if (SettingsHelper.GetSetting("AdvancedCTX") == "true")
         {
-            MenuFlyout? flyout;
-            if (args.ContextMenuTarget.Kind == CoreWebView2ContextMenuTargetKind.SelectedText)
+            return;
+        }
+        MenuFlyout? flyout;
+        if (args.ContextMenuTarget.Kind == CoreWebView2ContextMenuTargetKind.SelectedText)
+        {
+            flyout = (MenuFlyout)Resources["TextContextMenu"];
+            SelectionText = args.ContextMenuTarget.SelectionText;
+        }
+
+        else if (args.ContextMenuTarget.Kind == CoreWebView2ContextMenuTargetKind.Image)
+            flyout = null;
+
+        else if (args.ContextMenuTarget.HasLinkUri)
+        {
+            flyout = (MenuFlyout)Resources["LinkContextMenu"];
+            SelectionText = args.ContextMenuTarget.LinkText;
+            LinkUri = args.ContextMenuTarget.LinkUri;
+        }
+
+        else if (args.ContextMenuTarget.IsEditable)
+            flyout = null;
+
+        else
+            flyout = (MenuFlyout)Resources["ContextMenu"];
+
+        if (flyout != null)
+        {
+            FlyoutBase.SetAttachedFlyout(WebContentControl, flyout);
+            var wv2flyout = FlyoutBase.GetAttachedFlyout(WebContentControl);
+            var options = new FlyoutShowOptions()
             {
-                flyout = (MenuFlyout)Resources["TextContextMenu"];
-                SelectionText = args.ContextMenuTarget.SelectionText;
-            }
-
-            else if (args.ContextMenuTarget.Kind == CoreWebView2ContextMenuTargetKind.Image)
-                flyout = null;
-
-            else if (args.ContextMenuTarget.HasLinkUri)
-            {
-                flyout = (MenuFlyout)Resources["LinkContextMenu"];
-                SelectionText = args.ContextMenuTarget.LinkText;
-                LinkUri = args.ContextMenuTarget.LinkUri;
-            }
-
-            else if (args.ContextMenuTarget.IsEditable)
-                flyout = null;
-
-            else
-                flyout = (MenuFlyout)Resources["ContextMenu"];
-
-            if (flyout != null)
-            {
-                FlyoutBase.SetAttachedFlyout(WebContentControl, flyout);
-                var wv2flyout = FlyoutBase.GetAttachedFlyout(WebContentControl);
-                var options = new FlyoutShowOptions()
-                {
-                    Position = args.Location,
-                };
-                wv2flyout?.ShowAt(WebContentControl, options);
-                args.Handled = true;
-            }
+                Position = args.Location,
+            };
+            wv2flyout?.ShowAt(WebContentControl, options);
+            args.Handled = true;
         }
     }
 
