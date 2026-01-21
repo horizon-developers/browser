@@ -17,12 +17,6 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
     public WindowChrome()
     {
         InitializeComponent();
-        GetFavorites();
-    }
-
-    public static void GetFavorites()
-    {
-        MainViewModel.MainVM.FavoritesList = FavoritesHelper.GetFavoritesList();
     }
 
     public void CreateTab(string title, string launchurl, bool isinprivate = false, bool insertaftercurrent = false, int indexofrequester = -1)

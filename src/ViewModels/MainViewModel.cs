@@ -5,7 +5,7 @@ partial class MainViewModel : ObservableObject
     public static MainViewModel MainVM = new();
 
     [ObservableProperty]
-    public partial ObservableCollection<FavoriteItem> FavoritesList { get; set; } = [];
+    public partial ObservableCollection<FavoriteItem> FavoritesList { get; set; } = FavoritesHelper.GetFavoritesList();
 
     [ObservableProperty]
     public partial ObservableCollection<Tab> Tabs { get; set; } = [];
