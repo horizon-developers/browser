@@ -162,7 +162,7 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
         }
     }
 
-    private void Grid_PointerPressed(object sender, PointerRoutedEventArgs e)
+    private void TabItem_MouseEvent(object sender, PointerRoutedEventArgs e)
     {
         //System.Diagnostics.Debug.WriteLine(sender.GetType().Name);
         var pointer = e.GetCurrentPoint(sender as Grid);

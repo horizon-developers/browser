@@ -268,7 +268,7 @@
                     SelectionChanged="TabListView_SelectionChanged">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="local:Tab">
-                            <Grid PointerPressed="Grid_PointerPressed" ToolTipService.ToolTip="{x:Bind Title, Mode=OneWay}">
+                            <Grid PointerPressed="TabItem_MouseEvent" ToolTipService.ToolTip="{x:Bind Title, Mode=OneWay}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
