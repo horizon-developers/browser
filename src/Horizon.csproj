@@ -78,7 +78,7 @@
 		<PackageReference Include="CommunityToolkit.Common" Version="8.4.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.251219" />
-		<PackageReference Include="DevWinUI" Version="9.9.2" />
+		<PackageReference Include="DevWinUI" Version="9.9.3" />
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.2" />
 		<!--<PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.2.250402" />-->
 		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3719.77" />
