@@ -45,6 +45,21 @@ public sealed partial class FavoritesMigrationWindow : Window
     {
         if (sender is not Button button) return;
 
+        if (File.Exists(FavoritesHelper.FavoritesFilePath))
+        {
+            ContentDialog dialog = new()
+            {
+                Title = "Warning",
+                Content = "Your favorites have already been converted!",
+                CloseButtonText = "Ok",
+                DefaultButton = ContentDialogButton.Close,
+                XamlRoot = this.Content.XamlRoot
+            };
+            await dialog.ShowAsync();
+            this.Close();
+            return;
+        }
+
         button.Content = new ProgressRing { IsIndeterminate = true };
         button.IsEnabled = false;
 

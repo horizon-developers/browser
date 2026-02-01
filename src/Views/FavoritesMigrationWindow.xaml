@@ -19,6 +19,11 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
+            <InfoBar
+                Title="Warning"
+                IsOpen="True"
+                Message="Use it only once to convert your favorites"
+                Severity="Warning" />
             <TextBlock FontSize="20" Text="Migrate your old favorites to the new format" />
             <TextBlock Text="Due to a technical change, your favorites must be converted to the new format." />
             <Button
