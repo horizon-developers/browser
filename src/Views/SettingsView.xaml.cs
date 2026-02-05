@@ -53,6 +53,18 @@ public sealed partial class SettingsView : Page
         UpdateSetDownloadFolderSettingsCardDescription();
     }
 
+    private async void UserPictureDisplay_Loaded(object sender, RoutedEventArgs e)
+    {
+        var pic = await UserHelper.GetUserPicture();
+        (sender as PersonPicture).ProfilePicture = pic;
+    }
+
+    private async void UserNameDisplay_Loaded(object sender, RoutedEventArgs e)
+    {
+        var name = await UserHelper.GetUserName();
+        (sender as TextBlock).Text = name;
+    }
+
     private void SearchEngineSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         SearchEngine engine = e.AddedItems[0] as SearchEngine;
@@ -334,17 +346,5 @@ public sealed partial class SettingsView : Page
                 await BuildInfoDialog.ShowAsync();
                 break;
         }
-    }
-
-    private async void UserPictureDisplay_Loaded(object sender, RoutedEventArgs e)
-    {
-        var pic = await UserHelper.GetUserPicture();
-        (sender as PersonPicture).ProfilePicture = pic;
-    }
-
-    private async void UserNameDisplay_Loaded(object sender, RoutedEventArgs e)
-    {
-        var name = await UserHelper.GetUserName();
-        (sender as TextBlock).Text = name;
     }
 }

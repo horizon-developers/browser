@@ -3,6 +3,7 @@
 public static class UserHelper
 {
     private static WS.User CurrentUser { get; set; }
+    private static BitmapImage CurrentUserPicture { get; set; }
 
     public static async Task<BitmapImage> GetUserPicture()
     {
@@ -11,6 +12,10 @@ public static class UserHelper
             if (CurrentUser == null)
             {
                 CurrentUser = WS.User.GetDefault();
+            }
+            if (CurrentUserPicture != null)
+            {
+                return CurrentUserPicture;
             }
 
             IRandomAccessStreamReference pictureReference = await CurrentUser.GetPictureAsync(WS.UserPictureSize.Size208x208);
@@ -34,6 +39,7 @@ public static class UserHelper
 #endif
                 }
             }
+            CurrentUserPicture = bitmapImage;
             return bitmapImage;
 
         }
