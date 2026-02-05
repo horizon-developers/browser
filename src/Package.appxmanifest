@@ -15,7 +15,7 @@
   <mp:PhoneIdentity PhoneProductId="c663598d-2698-4640-b0b0-b7bd1100f7eb" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>Horizon</DisplayName>
+    <DisplayName>HorizonBrowser</DisplayName>
     <PublisherDisplayName>Pinguin2001</PublisherDisplayName>
     <Logo>Assets\AppIcons\StoreLogo.png</Logo>
   </Properties>
