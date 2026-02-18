@@ -264,6 +264,13 @@
             </Button>
             <Button
                 Click="SidebarButton_Click"
+                Style="{StaticResource SidebarButton}"
+                Tag="Translate"
+                ToolTipService.ToolTip="Translate">
+                <FontIcon FontSize="16" Glyph="&#xE775;" />
+            </Button>
+            <Button
+                Click="SidebarButton_Click"
                 Flyout="{x:Bind AddFavoriteFlyout}"
                 Style="{StaticResource SidebarButton}"
                 Tag="AddFavoriteFlyout"

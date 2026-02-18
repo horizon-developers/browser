@@ -359,8 +359,55 @@ public sealed partial class WebContentHost : Page
                 await WebContentControl.CoreWebView2.ExecuteScriptAsync(jscript);
                 break;
             case "Translate":
-                string url = WebContentControl.CoreWebView2.Source;
-                WebContentControl.CoreWebView2.Navigate("https://translate.google.com/translate?hl&u=" + url);
+#if DEBUG
+                System.Diagnostics.Debug.WriteLine(WebContentControl.CoreWebView2.Source);
+#endif
+                if (WebContentControl.CoreWebView2.Source == "about:blank")
+                    break;
+
+                if (SettingsHelper.GetSetting("AccTranslatePrivacy") != "true")
+                {
+                    StackPanel contentPanel = new();
+                    contentPanel.Children.Add(new TextBlock
+                    {
+                        Text = "Do you really want to translate this site using Google?\nAll data from this website will be transmitted to Google for translation.",
+                        TextWrapping = TextWrapping.Wrap
+                    });
+
+                    HyperlinkButton privacyLink = new()
+                    {
+                        Content = "Verify Google Privacy Policy",
+                        NavigateUri = new Uri("https://policies.google.com/privacy"),
+                        Margin = new Thickness(-11, 10, 0, 0)
+                    };
+                    contentPanel.Children.Add(privacyLink);
+
+                    ContentDialog dialog = new()
+                    {
+                        Title = "Translate?",
+                        Content = contentPanel,
+                        CloseButtonText = "Cancel",
+                        DefaultButton = ContentDialogButton.Close,
+                        PrimaryButtonText = "Translate",
+                        SecondaryButtonText = "Translate & Don't show again",
+                        XamlRoot = this.XamlRoot
+                    };
+                    var result = await dialog.ShowAsync();
+                    switch (result)
+                    {
+                        case ContentDialogResult.Primary:
+                            Translate();
+                            break;
+                        case ContentDialogResult.Secondary:
+                            Translate();
+                            SettingsHelper.SetSetting("AccTranslatePrivacy", "true");
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                }
+                Translate();
                 break;
             case "AddFavoriteFlyout":
                 FavoriteTitle.Text = WebContentControl.CoreWebView2.DocumentTitle;
@@ -385,6 +432,12 @@ public sealed partial class WebContentHost : Page
                 WebContentControl.CoreWebView2.IsMuted = !WebContentControl.CoreWebView2.IsMuted;
                 break;
         }
+    }
+
+    private void Translate()
+    {
+        string url = WebContentControl.CoreWebView2.Source;
+        WebContentControl.CoreWebView2.Navigate("https://translate.google.com/translate?hl&u=" + url);
     }
 
     private void AddFavoriteButton_Click(object sender, RoutedEventArgs e)
