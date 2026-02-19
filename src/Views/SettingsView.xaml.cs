@@ -325,15 +325,15 @@ public sealed partial class SettingsView : Page
                 await WS.Launcher.LaunchUriAsync(new Uri("https://paypal.me/julianhasreiter"));
                 break;
             case "BuildInfo":
-                string dotnetver = Environment.Version.ToString();
                 string appver = AppVersionHelper.GetAppVersion();
                 string apparch = RuntimeInformation.ProcessArchitecture.ToString();
+                string dotnetver = Environment.Version.ToString();
                 string sysarch = RuntimeInformation.OSArchitecture.ToString();
                 string sysversion = Environment.OSVersion.VersionString;
                 string appsdkversion = $"{Microsoft.WindowsAppSDK.Release.Major}.{Microsoft.WindowsAppSDK.Release.Minor}.{Microsoft.WindowsAppSDK.Release.Patch} ({Microsoft.WindowsAppSDK.Release.Channel})";
                 string wv2version = CoreWebView2Environment.GetAvailableBrowserVersionString();
 
-                string debugCombinedString = $"Horizon Version {appver}({apparch})\n.NET Version {dotnetver}\nWinAppSdk Version {appsdkversion}\nSys: {sysversion} ({sysarch})\nWebView2Runtime version: {wv2version}\n";
+                string debugCombinedString = $"Horizon Version {appver} ({apparch})\n.NET Version {dotnetver}\nWinAppSdk Version {appsdkversion}\nSystem {sysversion} ({sysarch})\nWebView2Runtime Version {wv2version}\n";
 
                 ContentDialog BuildInfoDialog = new()
                 {
