@@ -66,7 +66,7 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
         if (MainViewModel.MainVM.Tabs.Count > 1)
         {
             int index = MainViewModel.MainVM.Tabs.IndexOf(tab);
-            tab.WebContentInstance.WebContentControl.Close();
+            tab.WebContentInstance.Dispose();
             tab.WebContentInstance = null;
             if (index == 0)
             {

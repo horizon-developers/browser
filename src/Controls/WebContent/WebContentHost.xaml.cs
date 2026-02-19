@@ -3,11 +3,9 @@ using CommunityToolkit.WinUI;
 
 namespace Horizon.Controls.WebContent;
 
-public sealed partial class WebContentHost : Page
+public sealed partial class WebContentHost : Page, IDisposable
 {
-    private string? LaunchUrl { get; set; }
-    private Tab? MyTab { get; set; }
-    private bool IsInPrivate { get; set; }
+    private WebContentHostViewModel WCHVM { get; set; } = new();
 
     public WebContentHost(TabCreationParams parameters)
     {
@@ -17,11 +15,11 @@ public sealed partial class WebContentHost : Page
 
     private void ProcessParameters(TabCreationParams parameters)
     {
-        LaunchUrl = parameters.LaunchUrl;
-        MyTab = parameters.MyTab;
-        IsInPrivate = parameters.IsInPrivate;
+        WCHVM.LaunchUrl = parameters.LaunchUrl;
+        WCHVM.MyTab = parameters.MyTab;
+        WCHVM.IsInPrivate = parameters.IsInPrivate;
 
-        if (LaunchUrl == string.Empty)
+        if (WCHVM.LaunchUrl == string.Empty)
         {
             UrlBoxWrapper.Visibility = Visibility.Visible;
         }
@@ -35,7 +33,7 @@ public sealed partial class WebContentHost : Page
             {
                 CoreWebView2Environment environment = await GlobalEnvironment.GetDefault();
 
-                if (IsInPrivate)
+                if (WCHVM.IsInPrivate)
                 {
                     var options = environment.CreateCoreWebView2ControllerOptions();
                     options.IsInPrivateModeEnabled = true;
@@ -80,9 +78,9 @@ public sealed partial class WebContentHost : Page
             sender.DefaultBackgroundColor = Colors.Transparent;
         }
 
-        if (LaunchUrl != string.Empty && LaunchUrl != null)
+        if (WCHVM.LaunchUrl != string.Empty && WCHVM.LaunchUrl != null)
         {
-            sender.Source = new Uri(LaunchUrl);
+            sender.Source = new Uri(WCHVM.LaunchUrl);
             WebContentControl.Visibility = Visibility.Visible;
             return;
         }
@@ -104,7 +102,7 @@ public sealed partial class WebContentHost : Page
     private void CoreWebView2_NewWindowRequested(CoreWebView2 sender, CoreWebView2NewWindowRequestedEventArgs args)
     {
         args.Handled = true;
-        WindowHelper.CreateNewTabInMainWindow("New tab", args.Uri, MyTab);
+        WindowHelper.CreateNewTabInMainWindow("New tab", args.Uri, WCHVM.MyTab);
     }
 
     string? SelectionText;
@@ -186,7 +184,7 @@ public sealed partial class WebContentHost : Page
             {
                 DomainText = uri.Host.Replace("www.", "");
             }
-            MyTab?.Domain = DomainText;
+            WCHVM.MyTab?.Domain = DomainText;
             return;
         }
         
@@ -194,12 +192,12 @@ public sealed partial class WebContentHost : Page
 
     private void CoreWebView2_DocumentTitleChanged(CoreWebView2 sender, object args)
     {
-        if (IsInPrivate)
+        if (WCHVM.IsInPrivate)
         {
-            MyTab?.Title = $"InPrivate: {sender.DocumentTitle}";
+            WCHVM.MyTab?.Title = $"InPrivate: {sender.DocumentTitle}";
             return;
         }
-        MyTab?.Title = sender.DocumentTitle;
+        WCHVM.MyTab?.Title = sender.DocumentTitle;
     }
 
     /*private void CoreWebView2_FaviconChanged(CoreWebView2 sender, object args)
@@ -236,7 +234,7 @@ public sealed partial class WebContentHost : Page
         }
         if (args.TryGetWebMessageAsString() == "ControlT")
         {
-            WindowHelper.CreateNewTabInMainWindow("New tab", string.Empty, MyTab);
+            WindowHelper.CreateNewTabInMainWindow("New tab", string.Empty, WCHVM.MyTab);
             return;
         }
     }
@@ -274,7 +272,7 @@ public sealed partial class WebContentHost : Page
             case "OpenLnkInNewTab":
                 if (!string.IsNullOrEmpty(LinkUri))
                 {
-                    WindowHelper.CreateNewTabInMainWindow("New tab", LinkUri, MyTab);
+                    WindowHelper.CreateNewTabInMainWindow("New tab", LinkUri, WCHVM.MyTab);
                 }
                 break;
             case "Copy":
@@ -294,14 +292,14 @@ public sealed partial class WebContentHost : Page
                 if (!string.IsNullOrEmpty(SelectionText))
                 {
                     string link = SettingsHelper.CurrentSearchUrl + SelectionText;
-                    WindowHelper.CreateNewTabInMainWindow("New tab", link, MyTab);
+                    WindowHelper.CreateNewTabInMainWindow("New tab", link, WCHVM.MyTab);
                 }
                 break;
             case "DevTools":
                 WebContentControl.CoreWebView2.OpenDevToolsWindow();
                 break;
             case "ViewSource":
-                WindowHelper.CreateNewTabInMainWindow($"View source", $"view-source:{WebContentControl.CoreWebView2.Source}", MyTab);
+                WindowHelper.CreateNewTabInMainWindow($"View source", $"view-source:{WebContentControl.CoreWebView2.Source}", WCHVM.MyTab);
                 break;
             case "TaskManager":
                 WebContentControl.CoreWebView2.OpenTaskManagerWindow();
@@ -335,8 +333,6 @@ public sealed partial class WebContentHost : Page
             WebContentControl.Visibility = Visibility.Visible;
         WebContentControl.CoreWebView2.Navigate(uri);
     }
-
-    byte[]? QrCode;
 
     private async void SidebarButton_Click(object sender, RoutedEventArgs e)
     {
@@ -419,10 +415,10 @@ public sealed partial class WebContentHost : Page
             case "GenQRCode":
                 _ = WindowHelper.MainWindow.DispatcherQueue.TryEnqueue(async () =>
                 {
-                    QrCode = await QRCodeHelper.GenerateQRCodeFromUrlAsync(WebContentControl.CoreWebView2.Source);
-                    if (QrCode != null)
+                    WCHVM.QrCode = await QRCodeHelper.GenerateQRCodeFromUrlAsync(WebContentControl.CoreWebView2.Source);
+                    if (WCHVM.QrCode != null)
                     {
-                        BitmapImage QrCodeImage = await QRCodeHelper.ConvertBitmapBytesToImage(QrCode);
+                        BitmapImage QrCodeImage = await QRCodeHelper.ConvertBitmapBytesToImage(WCHVM.QrCode);
                         QRCodeImage.Source = QrCodeImage;
                         QRCodeFlyout.ShowAt(sender as Button);
                     }
@@ -450,7 +446,7 @@ public sealed partial class WebContentHost : Page
     {
         string QRFileName = $"QRCode - {WebContentControl.CoreWebView2.DocumentTitle}";
         string QRFileNameNor = FileNameHelper.ToValidFileName(QRFileName);
-        string path = await FileHelper.SaveBytesAsFileAsync(QRFileNameNor, QrCode, "Bitmap", ".bmp");
+        string path = await FileHelper.SaveBytesAsFileAsync(QRFileNameNor, WCHVM.QrCode, "Bitmap", ".bmp");
         /*_ = WindowHelper.MainWindow.DispatcherQueue.TryEnqueue(async () =>
         {
             DevWinUI.Growl.Success(new DevWinUI.GrowlInfo
@@ -495,7 +491,7 @@ public sealed partial class WebContentHost : Page
 
     }*/
 
-    private static System.Threading.CancellationTokenSource? _cts;
+    private System.Threading.CancellationTokenSource? _cts;
     private static readonly char[] UrlIndicators = ['.', ':'];
 #pragma warning disable IDE0079 // Remove unnecessary suppression
 #pragma warning disable CA1822 // Mark members as static
@@ -659,5 +655,23 @@ public sealed partial class WebContentHost : Page
             string query = SettingsHelper.CurrentSearchUrl + input;
             NavigateToUrl(query);
         }
+    }
+
+    public void Dispose()
+    {
+        if (WebContentControl?.CoreWebView2 != null)
+        {
+            WebContentControl.CoreWebView2.NavigationStarting -= CoreWebView2_NavigationStarting;
+            WebContentControl.CoreWebView2.NavigationCompleted -= CoreWebView2_NavigationCompleted;
+            WebContentControl.CoreWebView2.NewWindowRequested -= CoreWebView2_NewWindowRequested;
+            WebContentControl.CoreWebView2.ContextMenuRequested -= CoreWebView2_ContextMenuRequested;
+            WebContentControl.CoreWebView2.IsDocumentPlayingAudioChanged -= CoreWebView2_IsDocumentPlayingAudioChanged;
+            WebContentControl.CoreWebView2.IsMutedChanged -= CoreWebView2_IsMutedChanged;
+            WebContentControl.CoreWebView2.SourceChanged -= CoreWebView2_SourceChanged;
+            WebContentControl.CoreWebView2.DocumentTitleChanged -= CoreWebView2_DocumentTitleChanged;
+            WebContentControl.CoreWebView2.ContainsFullScreenElementChanged -= CoreWebView2_ContainsFullScreenElementChanged;
+            WebContentControl.CoreWebView2.WebMessageReceived -= CoreWebView2_WebMessageReceived;
+        }
+        WebContentControl?.Close();
     }
 }
