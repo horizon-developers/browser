@@ -144,7 +144,7 @@ public static class WindowHelper
         switch (b)
         {
             case true:
-                Windows.Win32.PInvoke.SetWindowDisplayAffinity((Windows.Win32.Foundation.HWND)HWND, WINDOW_DISPLAY_AFFINITY.WDA_MONITOR);
+                Windows.Win32.PInvoke.SetWindowDisplayAffinity((Windows.Win32.Foundation.HWND)HWND, WINDOW_DISPLAY_AFFINITY.WDA_EXCLUDEFROMCAPTURE);
                 break;
             case false:
                 Windows.Win32.PInvoke.SetWindowDisplayAffinity((Windows.Win32.Foundation.HWND)HWND, WINDOW_DISPLAY_AFFINITY.WDA_NONE);
