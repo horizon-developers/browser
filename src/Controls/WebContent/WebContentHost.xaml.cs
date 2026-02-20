@@ -105,8 +105,6 @@ public sealed partial class WebContentHost : Page, IDisposable
         WindowHelper.CreateNewTabInMainWindow("New tab", args.Uri, WCHVM.MyTab);
     }
 
-    string? SelectionText;
-    string? LinkUri;
     private void CoreWebView2_ContextMenuRequested(CoreWebView2 sender, CoreWebView2ContextMenuRequestedEventArgs args)
     {
         if (SettingsHelper.GetSetting("AdvancedCTX") == "true")
@@ -117,7 +115,7 @@ public sealed partial class WebContentHost : Page, IDisposable
         if (args.ContextMenuTarget.Kind == CoreWebView2ContextMenuTargetKind.SelectedText)
         {
             flyout = (MenuFlyout)Resources["TextContextMenu"];
-            SelectionText = args.ContextMenuTarget.SelectionText;
+            WCHVM.SelectionText = args.ContextMenuTarget.SelectionText;
         }
 
         else if (args.ContextMenuTarget.Kind == CoreWebView2ContextMenuTargetKind.Image)
@@ -126,8 +124,8 @@ public sealed partial class WebContentHost : Page, IDisposable
         else if (args.ContextMenuTarget.HasLinkUri)
         {
             flyout = (MenuFlyout)Resources["LinkContextMenu"];
-            SelectionText = args.ContextMenuTarget.LinkText;
-            LinkUri = args.ContextMenuTarget.LinkUri;
+            WCHVM.SelectionText = args.ContextMenuTarget.LinkText;
+            WCHVM.LinkUri = args.ContextMenuTarget.LinkUri;
         }
 
         else if (args.ContextMenuTarget.IsEditable)
@@ -270,28 +268,28 @@ public sealed partial class WebContentHost : Page, IDisposable
                 break;
             // text context menu
             case "OpenLnkInNewTab":
-                if (!string.IsNullOrEmpty(LinkUri))
+                if (!string.IsNullOrEmpty(WCHVM.LinkUri))
                 {
-                    WindowHelper.CreateNewTabInMainWindow("New tab", LinkUri, WCHVM.MyTab);
+                    WindowHelper.CreateNewTabInMainWindow("New tab", WCHVM.LinkUri, WCHVM.MyTab);
                 }
                 break;
             case "Copy":
-                if (!string.IsNullOrEmpty(LinkUri))
+                if (!string.IsNullOrEmpty(WCHVM.LinkUri))
                 {
-                    ClipboardHelper.CopyTextToClipboard(LinkUri);
+                    ClipboardHelper.CopyTextToClipboard(WCHVM.LinkUri);
                 }
                 break;
             case "CopyText":
-                if (!string.IsNullOrEmpty(SelectionText))
+                if (!string.IsNullOrEmpty(WCHVM.SelectionText))
                 {
-                    ClipboardHelper.CopyTextToClipboard(SelectionText);
+                    ClipboardHelper.CopyTextToClipboard(WCHVM.SelectionText);
                 }
                 break;
             // link context menu
             case "Search":
-                if (!string.IsNullOrEmpty(SelectionText))
+                if (!string.IsNullOrEmpty(WCHVM.SelectionText))
                 {
-                    string link = SettingsHelper.CurrentSearchUrl + SelectionText;
+                    string link = SettingsHelper.CurrentSearchUrl + WCHVM.SelectionText;
                     WindowHelper.CreateNewTabInMainWindow("New tab", link, WCHVM.MyTab);
                 }
                 break;
@@ -305,7 +303,7 @@ public sealed partial class WebContentHost : Page, IDisposable
                 WebContentControl.CoreWebView2.OpenTaskManagerWindow();
                 break;
             case "ShareCTXLink":
-                if (Uri.TryCreate(LinkUri, UriKind.Absolute, out Uri? uri))
+                if (Uri.TryCreate(WCHVM.LinkUri, UriKind.Absolute, out Uri? uri))
                 {
                     ShareHelper.Share("Shared link", uri);
                 }
@@ -446,7 +444,7 @@ public sealed partial class WebContentHost : Page, IDisposable
     {
         string QRFileName = $"QRCode - {WebContentControl.CoreWebView2.DocumentTitle}";
         string QRFileNameNor = FileNameHelper.ToValidFileName(QRFileName);
-        string path = await FileHelper.SaveBytesAsFileAsync(QRFileNameNor, WCHVM.QrCode, "Bitmap", ".bmp");
+        await FileHelper.SaveBytesAsFileAsync(QRFileNameNor, WCHVM.QrCode, "Bitmap", ".bmp");
         /*_ = WindowHelper.MainWindow.DispatcherQueue.TryEnqueue(async () =>
         {
             DevWinUI.Growl.Success(new DevWinUI.GrowlInfo
@@ -492,7 +490,6 @@ public sealed partial class WebContentHost : Page, IDisposable
     }*/
 
     private System.Threading.CancellationTokenSource? _cts;
-    private static readonly char[] UrlIndicators = ['.', ':'];
 #pragma warning disable IDE0079 // Remove unnecessary suppression
 #pragma warning disable CA1822 // Mark members as static
     private async void AddressBar_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -531,7 +528,7 @@ public sealed partial class WebContentHost : Page, IDisposable
             // Regex Guard Clauses
             // Regex is CPU expensive. We shouldn't run it for plain text queries like "how to cook"
             // Only check if the string contains URL-like characters ('.' or ':')
-            bool isUrlCandidate = query.IndexOfAny(UrlIndicators) >= 0;
+            bool isUrlCandidate = query.IndexOfAny(UrlHelper.UrlIndicators) >= 0;
 
             _ = WindowHelper.MainWindow.DispatcherQueue.TryEnqueue(async () =>
             {
