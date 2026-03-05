@@ -258,7 +258,17 @@ public sealed partial class SettingsView : Page
         IReadOnlyList<CoreWebView2BrowserExtension> list = await GetExtensionListAsync();
         foreach (CoreWebView2BrowserExtension extension in list)
         {
-            ExtensionsListView.Items.Add(extension);
+            switch (extension.Name)
+            {
+                case "Microsoft Clipboard Extension":
+                    continue;
+                case "Microsoft Edge PDF Viewer":
+                    continue;
+                default:
+                    ExtensionsListView.Items.Add(extension);
+                    continue;
+            }
+            
         }
     }
 
@@ -277,6 +287,11 @@ public sealed partial class SettingsView : Page
                 ClipboardHelper.CopyTextToClipboard(selectedItem.Id);
                 break;
             case "Delete":
+                if (selectedItem == null)
+                {
+                    return;
+                }
+
                 ContentDialog dialog = new()
                 {
                     Title = "Remove?",
