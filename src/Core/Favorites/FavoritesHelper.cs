@@ -27,8 +27,7 @@ public class FavoritesHelper
                         CREATE TABLE IF NOT EXISTS Favorites (
                             Id TEXT PRIMARY KEY, 
                             Title TEXT, 
-                            Url TEXT,
-                            DateAdded INTEGER
+                            Url TEXT
                         )";
 
                 using (var command = new SqliteCommand(createTableQuery, connection))
