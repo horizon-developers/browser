@@ -188,10 +188,16 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
         }
 
         var ThisWCI = CTXSelectedTab.WebContentInstance;
+
+        if (ThisWCI == null)
+        {
+            return;
+        }
+
         switch ((sender as MenuFlyoutItem).Tag)
         {
             case "Duplicate":
-                string URL = ThisWCI.WebContentControl.CoreWebView2.Source;
+                string URL = ThisWCI.WebContentControl.CoreWebView2?.Source;
                 CreateTab("New tab", URL);
                 break;
         }
