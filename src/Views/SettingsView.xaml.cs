@@ -281,17 +281,17 @@ public sealed partial class SettingsView : Page
 
     private async void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
+        if (selectedItem == null)
+        {
+            return;
+        }
+
         switch ((sender as MenuFlyoutItem).Tag)
         {
             case "CopyID":
                 ClipboardHelper.CopyTextToClipboard(selectedItem.Id);
                 break;
             case "Delete":
-                if (selectedItem == null)
-                {
-                    return;
-                }
-
                 ContentDialog dialog = new()
                 {
                     Title = "Remove?",
