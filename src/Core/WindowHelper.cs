@@ -20,6 +20,7 @@ public static class WindowHelper
             Title = "Horizon",
             ExtendsContentIntoTitleBar = true
         };
+        
         HWND = WindowNative.GetWindowHandle(MainWindow);
         MainWindow.AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
         _ = new DevWinUI.ModernSystemMenu(MainWindow);
@@ -74,19 +75,32 @@ public static class WindowHelper
             return false;
     }
 
-    static private void SetupBackdrop()
+    static internal void SetupBackdrop(string? Backdrop = null)
     {
-        string Backdrop = SettingsHelper.GetSetting("OverrideBackdropType");
-        MainWindow.SystemBackdrop = Backdrop switch
+        if (string.IsNullOrEmpty(Backdrop))
         {
-            "Acrylic" => new DesktopAcrylicBackdrop(),
-            "Mica Alt" => new MicaBackdrop
-            {
-                Kind = Microsoft.UI.Composition.SystemBackdrops.MicaKind.BaseAlt
-            },
-            "None" => null,
-            _ => new MicaBackdrop(),
-        };
+            Backdrop = SettingsHelper.GetSetting("OverrideBackdropType");
+        }
+        switch (Backdrop)
+        {
+            case "Acrylic":
+                MainWindow.SystemBackdrop = new DesktopAcrylicBackdrop();
+                break;
+            case "Mica Alt":
+                MainWindow.SystemBackdrop = new MicaBackdrop
+                {
+                    Kind = Microsoft.UI.Composition.SystemBackdrops.MicaKind.BaseAlt
+                };
+                DwmHelper.ApplyMica(HWND, Windows.Win32.Graphics.Dwm.DWM_SYSTEMBACKDROP_TYPE.DWMSBT_TABBEDWINDOW);
+                break;
+            case "None":
+                MainWindow.SystemBackdrop = null;
+                break;
+            default:
+                MainWindow.SystemBackdrop = new MicaBackdrop();
+                DwmHelper.ApplyMica(HWND, Windows.Win32.Graphics.Dwm.DWM_SYSTEMBACKDROP_TYPE.DWMSBT_MAINWINDOW);
+                break;
+        }
     }
 
     static private void ApplyWindowSettings()

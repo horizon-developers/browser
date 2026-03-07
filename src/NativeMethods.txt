@@ -1,3 +1,8 @@
-﻿SetWindowDisplayAffinity
+﻿DWMWINDOWATTRIBUTE
+DWM_SYSTEMBACKDROP_TYPE
+DwmExtendFrameIntoClientArea
+DwmSetWindowAttribute
+MARGINS
+SetWindowDisplayAffinity
 SetWindowLong
 SetWindowLongPtr

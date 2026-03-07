@@ -115,24 +115,7 @@ public sealed partial class SettingsView : Page
         string Selection = e.AddedItems[0].ToString();
         SettingsHelper.SetSetting("OverrideBackdropType", e.AddedItems[0].ToString());
         SettingsHelper.CurrentBackdrop = Selection;
-        switch (Selection)
-        {
-            case "Acrylic":
-                WindowHelper.MainWindow.SystemBackdrop = new DesktopAcrylicBackdrop();
-                break;
-            case "Mica":
-                WindowHelper.MainWindow.SystemBackdrop = new MicaBackdrop();
-                break;
-            case "Mica Alt":
-                WindowHelper.MainWindow.SystemBackdrop = new MicaBackdrop
-                {
-                    Kind = Microsoft.UI.Composition.SystemBackdrops.MicaKind.BaseAlt
-                };
-                break;
-            case "None":
-                WindowHelper.MainWindow.SystemBackdrop = null;
-                break;
-        }
+        WindowHelper.SetupBackdrop(Selection);
     }
 
     private void AdvancedCTXToggle_Toggled(object sender, RoutedEventArgs e)
