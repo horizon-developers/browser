@@ -34,7 +34,7 @@
             Margin="2,-1,8,3"
             x:FieldModifier="public">
             <Grid.RowDefinitions>
-                <RowDefinition Height="48" />
+                <RowDefinition Height="32" />
                 <RowDefinition Height="40" />
                 <RowDefinition Height="40" />
                 <RowDefinition Height="*" />

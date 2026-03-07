@@ -9,6 +9,11 @@ public static class DwmHelper
 {
     internal static unsafe void ApplyMica(IntPtr hwnd, DWM_SYSTEMBACKDROP_TYPE backdropType)
     {
+        if (Environment.OSVersion.Version.Build < 22621)
+        {
+            return;
+        }
+
         HWND windowHandle = new(hwnd);
 
         PInvoke.DwmSetWindowAttribute(
