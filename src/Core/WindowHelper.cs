@@ -20,7 +20,7 @@ public static class WindowHelper
             Title = "Horizon",
             ExtendsContentIntoTitleBar = true
         };
-        
+        MainWindow.SetTitleBar(MainWindow.DragRegion);
         HWND = WindowNative.GetWindowHandle(MainWindow);
         _ = new DevWinUI.ModernSystemMenu(MainWindow);
         //RestoreTabs();

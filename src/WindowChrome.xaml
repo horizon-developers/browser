@@ -22,16 +22,18 @@
             x:Name="TabContentHost"
             Grid.Column="0"
             x:FieldModifier="public" />
-        <StackPanel
-            Grid.Column="0"
-            Width="350"
-            Margin="40,10,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top" />
+        <Grid
+            x:Name="DragRegion"
+            Grid.ColumnSpan="2"
+            Height="35"
+            Margin="280,0,0,0"
+            VerticalAlignment="Top"
+            x:FieldModifier="public"
+            Background="Transparent" />
         <Grid
             x:Name="Sidebar"
             Grid.Column="1"
-            Margin="2,-1,8,3"
+            Margin="2,5,8,3"
             x:FieldModifier="public">
             <Grid.RowDefinitions>
                 <RowDefinition Height="32" />
