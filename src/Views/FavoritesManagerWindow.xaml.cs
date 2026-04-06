@@ -30,6 +30,7 @@ public sealed partial class FavoritesManagerWindow : Window
         presenter.IsModal = true;
 
         AppWindow.SetPresenter(presenter);
+        presenter.IsResizable = true;
         rootGrid.Focus(FocusState.Programmatic);
         AppWindow.Show();
 
