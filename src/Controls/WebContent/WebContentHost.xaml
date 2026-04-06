@@ -8,7 +8,7 @@
     xmlns:suggestitem="using:Horizon.Core.AddressBar"
     mc:Ignorable="d">
     <Page.Resources>
-        <Flyout x:Name="AddFavoriteFlyout" Placement="Bottom">
+        <Flyout x:Name="AddFavoriteFlyout" Placement="Right">
             <StackPanel>
                 <TextBlock
                     Width="300"
@@ -33,7 +33,7 @@
                     Tag="AddFavorite" />
             </StackPanel>
         </Flyout>
-        <Flyout x:Name="QRCodeFlyout" Placement="Bottom">
+        <Flyout x:Name="QRCodeFlyout" Placement="Right">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -199,11 +199,11 @@
         </MenuFlyout>
     </Page.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="32" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="1" Style="{StaticResource PageBorder}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="1" Style="{StaticResource PageBorder}">
             <!--  required to round wv2  -->
             <WebView2
                 x:Name="WebContentControl"
@@ -219,21 +219,19 @@
                 Visibility="Collapsed" />
         </Grid>
         <Image
-            Grid.Row="0"
+            Grid.Column="0"
             Width="26"
             Height="26"
-            Margin="7,5,0,0"
+            Margin="7,7,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Source="/Assets/AppIcons/Square44x44Logo.png" />
         <StackPanel
             x:Name="Sidebar"
-            Grid.Row="0"
-            Margin="40,5,0,0"
-            Padding="-5"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            Orientation="Horizontal">
+            Grid.Column="0"
+            Margin="5,0,0,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center">
             <Button
                 Click="SidebarButton_Click"
                 IsEnabled="{x:Bind WebContentControl.CanGoBack, Mode=OneWay}"
@@ -309,7 +307,7 @@
         </Button>
         <Grid
             x:Name="UrlBoxWrapper"
-            Grid.Row="1"
+            Grid.Column="1"
             Width="500"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
