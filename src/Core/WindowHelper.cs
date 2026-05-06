@@ -22,7 +22,6 @@ public static class WindowHelper
         };
         
         HWND = WindowNative.GetWindowHandle(MainWindow);
-        _ = new DevWinUI.ModernSystemMenu(MainWindow);
         //RestoreTabs();
         //RestoreWindowState();
         SetMinWindowSize();
