@@ -144,7 +144,7 @@ public static class WindowHelper
     {
         if (MainWindow.AppWindow.Presenter is OverlappedPresenter presenter)
         {
-            presenter.PreferredMinimumWidth = 800;
+            presenter.PreferredMinimumWidth = 900;
             presenter.PreferredMinimumHeight = 500;
             presenter.Maximize();
         }
