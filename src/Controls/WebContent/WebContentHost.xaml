@@ -199,11 +199,11 @@
         </MenuFlyout>
     </Page.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid Grid.Column="1" Style="{StaticResource PageBorder}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1" Style="{StaticResource PageBorder}">
             <!--  required to round wv2  -->
             <WebView2
                 x:Name="WebContentControl"
@@ -218,20 +218,13 @@
                 HorizontalContentAlignment="Stretch"
                 Visibility="Collapsed" />
         </Grid>
-        <Image
-            Grid.Column="0"
-            Width="26"
-            Height="26"
-            Margin="7,7,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Source="/Assets/AppIcons/Square44x44Logo.png" />
         <StackPanel
             x:Name="Sidebar"
-            Grid.Column="0"
-            Margin="5,0,0,0"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Center">
+            Grid.Row="0"
+            Margin="40,10,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
             <Button
                 Click="SidebarButton_Click"
                 IsEnabled="{x:Bind WebContentControl.CanGoBack, Mode=OneWay}"
@@ -239,13 +232,6 @@
                 Tag="Back"
                 ToolTipService.ToolTip="Go back">
                 <FontIcon FontSize="16" Glyph="&#xE112;" />
-            </Button>
-            <Button
-                Click="SidebarButton_Click"
-                Style="{StaticResource SidebarButton}"
-                Tag="Refresh"
-                ToolTipService.ToolTip="Refresh (F5)">
-                <FontIcon FontSize="16" Glyph="&#xE149;" />
             </Button>
             <Button
                 Click="SidebarButton_Click"
@@ -258,38 +244,9 @@
             <Button
                 Click="SidebarButton_Click"
                 Style="{StaticResource SidebarButton}"
-                Tag="ReadingMode"
-                ToolTipService.ToolTip="Reading mode">
-                <FontIcon FontSize="16" Glyph="&#xE736;" />
-            </Button>
-            <Button
-                Click="SidebarButton_Click"
-                Style="{StaticResource SidebarButton}"
-                Tag="Translate"
-                ToolTipService.ToolTip="Translate">
-                <FontIcon FontSize="16" Glyph="&#xE775;" />
-            </Button>
-            <Button
-                Click="SidebarButton_Click"
-                Flyout="{x:Bind AddFavoriteFlyout}"
-                Style="{StaticResource SidebarButton}"
-                Tag="AddFavoriteFlyout"
-                ToolTipService.ToolTip="Add site to favorites">
-                <FontIcon FontSize="16" Glyph="&#xE734;" />
-            </Button>
-            <Button
-                Click="SidebarButton_Click"
-                Style="{StaticResource SidebarButton}"
-                Tag="Downloads"
-                ToolTipService.ToolTip="Downloads (Ctrl + J)">
-                <FontIcon FontSize="16" Glyph="&#xE118;" />
-            </Button>
-            <Button
-                Click="SidebarButton_Click"
-                Style="{StaticResource SidebarButton}"
-                Tag="GenQRCode"
-                ToolTipService.ToolTip="Generate QR Code">
-                <FontIcon FontSize="16" Glyph="&#xED14;" />
+                Tag="Refresh"
+                ToolTipService.ToolTip="Refresh (F5)">
+                <FontIcon FontSize="16" Glyph="&#xE149;" />
             </Button>
         </StackPanel>
         <Button
@@ -307,7 +264,7 @@
         </Button>
         <Grid
             x:Name="UrlBoxWrapper"
-            Grid.Column="1"
+            Grid.Row="1"
             Width="500"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"

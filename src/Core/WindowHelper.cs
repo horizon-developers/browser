@@ -20,7 +20,6 @@ public static class WindowHelper
             Title = "Horizon",
             ExtendsContentIntoTitleBar = true
         };
-        
         HWND = WindowNative.GetWindowHandle(MainWindow);
         //RestoreTabs();
         //RestoreWindowState();
