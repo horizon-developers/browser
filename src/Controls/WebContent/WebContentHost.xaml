@@ -235,10 +235,10 @@
             </Button>
             <Button
                 Click="SidebarButton_Click"
-                IsEnabled="{x:Bind WebContentControl.CanGoForward, Mode=OneWay}"
                 Style="{StaticResource SidebarButton}"
                 Tag="Forward"
-                ToolTipService.ToolTip="Go forward">
+                ToolTipService.ToolTip="Go forward"
+                Visibility="{x:Bind WebContentControl.CanGoForward, Mode=OneWay, Converter={StaticResource BooleanToVisiblityConverter}}">
                 <FontIcon FontSize="16" Glyph="&#xE111;" />
             </Button>
             <Button
