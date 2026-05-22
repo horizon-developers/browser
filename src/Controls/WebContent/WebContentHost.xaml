@@ -8,7 +8,7 @@
     xmlns:suggestitem="using:Horizon.Core.AddressBar"
     mc:Ignorable="d">
     <Page.Resources>
-        <Flyout x:Name="AddFavoriteFlyout" Placement="Right">
+        <Flyout x:Name="AddFavoriteFlyout" Placement="Bottom">
             <StackPanel>
                 <TextBlock
                     Width="300"
@@ -33,7 +33,7 @@
                     Tag="AddFavorite" />
             </StackPanel>
         </Flyout>
-        <Flyout x:Name="QRCodeFlyout" Placement="Right">
+        <Flyout x:Name="QRCodeFlyout" Placement="Bottom">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -242,6 +242,7 @@
                 <FontIcon FontSize="16" Glyph="&#xE111;" />
             </Button>
             <Button
+                x:Name="FlyoutHostBtn"
                 Click="SidebarButton_Click"
                 Style="{StaticResource SidebarButton}"
                 Tag="Refresh"

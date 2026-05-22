@@ -159,6 +159,9 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
             case "Settings":
                 _ = new Views.SettingsWindow();
                 break;
+            default:
+                SelectedTab.WebContentInstance.ForwardedEvent(((sender as MenuFlyoutItem).Tag).ToString());
+                break;
         }
     }
 

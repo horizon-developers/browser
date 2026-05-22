@@ -348,6 +348,17 @@ public sealed partial class WebContentHost : Page, IDisposable
             case "Forward":
                 WebContentControl.GoForward();
                 break;
+            
+            case "Mute":
+                WebContentControl.CoreWebView2.IsMuted = !WebContentControl.CoreWebView2.IsMuted;
+                break;
+        }
+    }
+
+    public async void ForwardedEvent(string EventString)
+    {
+        switch (EventString)
+        {
             case "ReadingMode":
                 string jscript = await Modules.Readability.ReadabilityHelper.GetReadabilityScriptAsync();
                 await WebContentControl.CoreWebView2.ExecuteScriptAsync(jscript);
@@ -418,12 +429,9 @@ public sealed partial class WebContentHost : Page, IDisposable
                     {
                         BitmapImage QrCodeImage = await QRCodeHelper.ConvertBitmapBytesToImage(WCHVM.QrCode);
                         QRCodeImage.Source = QrCodeImage;
-                        QRCodeFlyout.ShowAt(sender as Button);
+                        QRCodeFlyout.ShowAt(FlyoutHostBtn);
                     }
                 });
-                break;
-            case "Mute":
-                WebContentControl.CoreWebView2.IsMuted = !WebContentControl.CoreWebView2.IsMuted;
                 break;
         }
     }

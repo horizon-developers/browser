@@ -44,8 +44,8 @@
         </Grid>
         <Grid
             Grid.Row="0"
-            Grid.ColumnSpan="2"
             Width="250"
+            Margin="100,0,0,0"
             HorizontalAlignment="Center"
             CornerRadius="5">
             <Grid.ColumnDefinitions>
@@ -62,27 +62,42 @@
                 <FontIcon FontSize="14" Glyph="&#xE712;" />
                 <Button.Flyout>
                     <MenuFlyout Placement="Bottom">
-                        <MenuFlyoutItem Text="Reading mode">
+                        <MenuFlyoutItem
+                            Click="ToolbarFlyoutItem_Click"
+                            Tag="ReadingMode"
+                            Text="Reading mode">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontSize="16" Glyph="&#xE736;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
-                        <MenuFlyoutItem Text="Translate">
+                        <MenuFlyoutItem
+                            Click="ToolbarFlyoutItem_Click"
+                            Tag="Translate"
+                            Text="Translate">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontSize="16" Glyph="&#xE775;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
-                        <MenuFlyoutItem Text="Add to favorites">
+                        <MenuFlyoutItem
+                            Click="ToolbarFlyoutItem_Click"
+                            Tag="AddFavoriteFlyout"
+                            Text="Add to favorites">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontSize="16" Glyph="&#xE734;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
-                        <MenuFlyoutItem Text="Downloads (Ctrl + J)">
+                        <MenuFlyoutItem
+                            Click="ToolbarFlyoutItem_Click"
+                            Tag="Downloads"
+                            Text="Downloads (Ctrl + J)">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontSize="16" Glyph="&#xE118;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
-                        <MenuFlyoutItem Text="Generate QR Code">
+                        <MenuFlyoutItem
+                            Click="ToolbarFlyoutItem_Click"
+                            Tag="GenQRCode"
+                            Text="Generate QR Code">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontSize="16" Glyph="&#xED14;" />
                             </MenuFlyoutItem.Icon>
