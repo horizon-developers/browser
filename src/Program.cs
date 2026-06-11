@@ -3,8 +3,6 @@
 public static class Program
 {
 #pragma warning disable IDE0060
-#pragma warning disable IDE0079
-#pragma warning disable CA1806
     [STAThread]
     static void Main(string[] args)
     {
@@ -13,16 +11,14 @@ public static class Program
         if (!Redirect)
         {
             ComWrappersSupport.InitializeComWrappers();
-            Application.Start((p) => {
+            Application.Start(static (p) => {
                 var context = new Microsoft.UI.Dispatching.DispatcherQueueSynchronizationContext(Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread());
                 System.Threading.SynchronizationContext.SetSynchronizationContext(context);
-                new App();
+                _ = new App();
             });
         }
     }
 #pragma warning restore IDE0060
-#pragma warning restore CA1806
-#pragma warning restore IDE0079
     static bool DecideRedirection()
     {
         var mainInstance = AppInstance.FindOrRegisterForKey("HorizonSingleInstance");

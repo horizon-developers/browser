@@ -136,7 +136,7 @@ public class FavoritesHelper
             using (var connection = new SqliteConnection(ConnectionString))
             {
                 connection.Open();
-                string selectQuery = "SELECT Id, Title, Url FROM Favorites ORDER BY DateAdded DESC";
+                string selectQuery = "SELECT Id, Title, Url FROM Favorites";
 
                 using (var command = new SqliteCommand(selectQuery, connection))
                 using (var reader = command.ExecuteReader())
