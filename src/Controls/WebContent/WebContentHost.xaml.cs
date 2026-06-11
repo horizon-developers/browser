@@ -417,6 +417,7 @@ public sealed partial class WebContentHost : Page, IDisposable
             case "AddFavoriteFlyout":
                 FavoriteTitle.Text = WebContentControl.CoreWebView2.DocumentTitle;
                 FavoriteUrl.Text = WebContentControl.CoreWebView2.Source;
+                AddFavoriteFlyout.ShowAt(FlyoutHostBtn);
                 break;
             case "Downloads":
                 WebContentControl.CoreWebView2.OpenDefaultDownloadDialog();
