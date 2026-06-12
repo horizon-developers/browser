@@ -19,6 +19,49 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
         InitializeComponent();
     }
 
+    private void RootWindowGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        UpdateDragRegions();
+    }
+
+    private void UpdateDragRegions()
+    {
+        if (AppWindowTitleBar.IsCustomizationSupported() && AppWindow.TitleBar.ExtendsContentIntoTitleBar)
+        {
+            double scale = RootWindowGrid.XamlRoot.RasterizationScale;
+
+            // Find where the BrowserControlIsland is rendered relative to the window container
+            var transform = BrowserControlIsland.TransformToVisual(RootWindowGrid);
+            var islandBounds = transform.TransformBounds(new Windows.Foundation.Rect(0, 0, BrowserControlIsland.ActualWidth, BrowserControlIsland.ActualHeight));
+
+            var dragRects = new List<RectInt32>();
+
+            int titleBarHeightPhysical = (int)(40 * scale);
+
+            // From the left edge up to the exact start of the BrowserControlIsland
+            int leftWidthPhysical = (int)(islandBounds.X * scale);
+            if (leftWidthPhysical > 0)
+            {
+                // offset by 175 to accommodate for back/refresh/forward
+                dragRects.Add(new RectInt32(175, 0, leftWidthPhysical - 175, titleBarHeightPhysical));
+            }
+
+            // From the exact right edge of the BrowserControlIsland up to the system caption buttons
+            int rightXPhysical = (int)((islandBounds.X + islandBounds.Width) * scale);
+            int totalWidthPhysical = (int)(RootWindowGrid.ActualWidth * scale);
+
+            int rightInsetPhysical = (int)this.AppWindow.TitleBar.RightInset;
+
+            int rightWidthPhysical = totalWidthPhysical - rightXPhysical - rightInsetPhysical;
+            if (rightWidthPhysical > 0)
+            {
+                dragRects.Add(new RectInt32(rightXPhysical, 0, rightWidthPhysical, titleBarHeightPhysical));
+            }
+
+            this.AppWindow.TitleBar.SetDragRectangles(dragRects.ToArray());
+        }
+    }
+
     public void CreateTab(string title, string launchurl, bool isinprivate = false, bool insertaftercurrent = false, int indexofrequester = -1)
     {
         Tab tab = new();

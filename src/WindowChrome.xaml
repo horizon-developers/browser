@@ -12,7 +12,7 @@
     xmlns:toolkitc="using:CommunityToolkit.WinUI.Controls"
     xmlns:viewmodels="using:Horizon.ViewModels"
     mc:Ignorable="d">
-    <Grid>
+    <Grid x:Name="RootWindowGrid" SizeChanged="RootWindowGrid_SizeChanged">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -43,6 +43,7 @@
                 Source="/Assets/AppIcons/Square44x44Logo.png" />
         </Grid>
         <Grid
+            x:Name="BrowserControlIsland"
             Grid.Row="0"
             Width="250"
             Margin="100,0,0,0"
