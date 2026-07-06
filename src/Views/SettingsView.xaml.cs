@@ -35,6 +35,7 @@ public sealed partial class SettingsView : Page
 
         AdvancedCTXToggle.IsOn = SettingsHelper.GetSetting("AdvancedCTX") == "true";
         DisableWebPageDarkening.IsOn = SettingsHelper.GetSetting("DisableWebPageDarkening") == "true";
+        BlockAdsToggle.IsOn = SettingsHelper.GetSetting("BlockAds") == "true";
         BlockCaptureToggle.IsOn = SettingsHelper.GetSetting("IsScreencaptureBlocked") == "true";
         WindowsHelloToggle.IsOn = SettingsHelper.GetSetting("IsAppLockEnabled") == "true";
 
@@ -43,6 +44,7 @@ public sealed partial class SettingsView : Page
         BackdropTypeSelector.SelectionChanged += BackdropTypeSelector_SelectionChanged;
         AdvancedCTXToggle.Toggled += AdvancedCTXToggle_Toggled;
         DisableWebPageDarkening.Toggled += DisableWebPageDarkening_Toggled;
+        BlockAdsToggle.Toggled += BlockAdsToggle_Toggled;
         BlockCaptureToggle.Toggled += BlockCaptureToggle_Toggled;
         WindowsHelloToggle.Toggled += WindowsHelloLockToggle_Toggled;
     }
@@ -140,6 +142,19 @@ public sealed partial class SettingsView : Page
                 break;
             case false:
                 SettingsHelper.SetSetting("DisableWebPageDarkening", "false");
+                break;
+        }
+    }
+
+    private void BlockAdsToggle_Toggled(object sender, RoutedEventArgs e)
+    {
+        switch ((sender as ToggleSwitch).IsOn)
+        {
+            case true:
+                SettingsHelper.SetSetting("BlockAds", "true");
+                break;
+            case false:
+                SettingsHelper.SetSetting("BlockAds", "false");
                 break;
         }
     }

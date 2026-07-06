@@ -42,6 +42,11 @@ public sealed partial class WebContentHost : Page, IDisposable
                 }
 
                 await (sender as WebView2)?.EnsureCoreWebView2Async(environment);
+                
+                if (SettingsHelper.GetSetting("BlockAds") == "true") {
+                    AdBlockEngine engine = new();
+                    await engine.InitBrowserAsync((sender as WebView2).CoreWebView2);
+                }
             }
             catch (Exception ex)
             {
