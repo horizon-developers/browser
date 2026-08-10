@@ -92,16 +92,16 @@
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.WindowsAppSDK.Base" Version="2.0.4" />
-		<PackageReference Include="Microsoft.WindowsAppSDK.DWrite" Version="2.1.0" />
-		<PackageReference Include="Microsoft.WindowsAppSDK.Foundation" Version="2.3.5" />
-		<PackageReference Include="Microsoft.WindowsAppSDK.InteractiveExperiences" Version="2.1.3" />
-		<PackageReference Include="Microsoft.WindowsAppSDK.Runtime" Version="2.3.1" />
-		<PackageReference Include="Microsoft.WindowsAppSDK.WinUI" Version="2.3.2" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="2.3.1" />
 		<PackageReference Include="QRCoder" Version="1.8.0" />
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<PackageReference Update="Microsoft.WindowsAppSDK.AI" ExcludeAssets="all" />
+		<PackageReference Update="Microsoft.WindowsAppSDK.ML" ExcludeAssets="all" />
+		<PackageReference Update="Microsoft.WindowsAppSDK.Widgets" ExcludeAssets="all" />
+	</ItemGroup>
 	<!--
     Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
     Tools extension to be activated for this project even if the Windows App SDK Nuget
