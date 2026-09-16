@@ -175,29 +175,16 @@
                             <Grid Height="300">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-                                <InfoBar
-                                    Grid.Row="0"
-                                    IsClosable="False"
-                                    IsOpen="True"
-                                    Message="Anything missing?"
-                                    Severity="Warning" />
-                                <Button
-                                    Margin="0,0,10,0"
-                                    HorizontalAlignment="Right"
-                                    Click="ToolbarButton_Click"
-                                    Content="Read more"
-                                    Tag="ConvertFavs" />
                                 <TextBlock
-                                    Grid.Row="1"
+                                    Grid.Row="0"
                                     Margin="5,0,0,5"
                                     FontSize="20"
                                     FontWeight="SemiBold"
                                     Text="Favorites" />
                                 <Button
-                                    Grid.Row="1"
+                                    Grid.Row="0"
                                     HorizontalAlignment="Right"
                                     Click="ToolbarButton_Click"
                                     Tag="FavoritesManager"
@@ -206,7 +193,7 @@
                                 </Button>
                                 <ListView
                                     x:Name="FavoritesListView"
-                                    Grid.Row="2"
+                                    Grid.Row="1"
                                     Width="300"
                                     ItemsSource="{x:Bind viewmodels:MainViewModel.MainVM.FavoritesList, Mode=TwoWay}"
                                     RightTapped="FavoritesListView_RightTapped"
