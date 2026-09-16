@@ -295,8 +295,10 @@
                         <KeyboardAccelerator Key="Escape" Invoked="UrlBoxKeyboardAccelerator_Invoked" />
                     </TextBox.KeyboardAccelerators>
                 </TextBox>-->
+                <!--  TextMemberPath resolves on SuggestionItem, which is marked GeneratedBindableCustomProperty, so the path survives trimming/AOT  -->
                 <AutoSuggestBox
                     x:Name="UrlBox"
+                    x:SuppressXamlTrimWarnings="True"
                     Height="32"
                     Margin="15"
                     CornerRadius="15"
@@ -304,7 +306,8 @@
                     QueryIcon="Find"
                     QuerySubmitted="AddressBar_QuerySubmitted"
                     Text="{x:Bind WebContentControl.Source, Mode=OneWay}"
-                    TextChanged="AddressBar_TextChanged">
+                    TextChanged="AddressBar_TextChanged"
+                    TextMemberPath="Value">
                     <AutoSuggestBox.TextBoxStyle>
                         <Style BasedOn="{StaticResource AutoSuggestBoxTextBoxStyle}" TargetType="TextBox">
                             <Setter Property="IsSpellCheckEnabled" Value="False" />
@@ -313,8 +316,16 @@
                     <AutoSuggestBox.ItemTemplate>
                         <DataTemplate x:DataType="suggestitem:SuggestionItem">
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                <SymbolIcon Symbol="{x:Bind DisplayIcon}" />
-                                <TextBlock Text="{x:Bind DisplayText}" />
+                                <SymbolIcon VerticalAlignment="Center" Symbol="{x:Bind DisplayIcon}" />
+                                <StackPanel>
+                                    <TextBlock Text="{x:Bind DisplayText}" TextTrimming="CharacterEllipsis" />
+                                    <TextBlock
+                                        FontSize="12"
+                                        Foreground="{ThemeResource SystemAccentColorDark1}"
+                                        Text="{x:Bind Description}"
+                                        TextTrimming="CharacterEllipsis"
+                                        Visibility="{x:Bind HasDescription}" />
+                                </StackPanel>
                             </StackPanel>
                         </DataTemplate>
                     </AutoSuggestBox.ItemTemplate>

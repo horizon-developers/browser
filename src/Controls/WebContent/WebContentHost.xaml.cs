@@ -562,7 +562,7 @@ public sealed partial class WebContentHost : Page, IDisposable
 
             var query = rawText.Trim();
 
-            var suggestions = new List<SuggestionItem>(3);
+            var suggestions = new List<SuggestionItem>(7);
 
             // Regex Guard Clauses
             // Regex is CPU expensive. We shouldn't run it for plain text queries like "how to cook"
@@ -599,6 +599,10 @@ public sealed partial class WebContentHost : Page, IDisposable
                     }
                 }
 
+                // Address matches sit above the web search because that is what Enter opens for plain text.
+                // A typed url still gets the "Visit" entry first, so the top row always shows what Enter does.
+                suggestions.AddRange(FavoriteSuggestions.FindByAddress(query));
+
                 suggestions.Add(new SuggestionItem
                 {
                     DisplayIcon = Symbol.Find,
@@ -606,6 +610,9 @@ public sealed partial class WebContentHost : Page, IDisposable
                     Command = SuggestionCommand.SearchWeb,
                     Value = query
                 });
+
+                // Title-only matches go below the search so they have to be picked explicitly
+                suggestions.AddRange(FavoriteSuggestions.FindByTitle(query));
 
                 // Ensure we aren't updating the UI if a newer request came in during processing
                 if (!token.IsCancellationRequested)
@@ -649,6 +656,18 @@ public sealed partial class WebContentHost : Page, IDisposable
             return;
         }
         var query = sender.Text.Trim();
+
+        // Only plain text that would otherwise become a web search - a typed url always wins.
+        // Re-evaluated here instead of reading ItemsSource, which lags behind the debounce when Enter follows typing quickly.
+        if (UrlHelper.GetInputType(query) == "searchquery" &&
+            FavoriteSuggestions.NavigationTarget(query) is SuggestionItem favorite)
+        {
+#if DEBUG
+            Logger.LogEvent(Logger.Severity.Info, "AddressBar", $"Query submitted, opening matching favorite: {favorite.DisplayText} {favorite.Value}");
+#endif
+            ExecuteSuggestion(favorite);
+            return;
+        }
         ProcessQueryAndGo(query);
     }
 
@@ -668,6 +687,10 @@ public sealed partial class WebContentHost : Page, IDisposable
                 break;
             case SuggestionCommand.LocalFile:
                 ProcessQueryAndGo(item.Value.Replace("\"", ""));
+                break;
+            case SuggestionCommand.OpenFavorite:
+                // Not lower-cased like GoToUrl - paths are case-sensitive. ProcessQueryAndGo adds https:// to favorites saved without a scheme
+                ProcessQueryAndGo(item.Value);
                 break;
         }
     }
