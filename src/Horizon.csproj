@@ -8,7 +8,7 @@
 		<UseWinUI>true</UseWinUI>
 		<ApplicationIcon>Horizon.ico</ApplicationIcon>
 		<LangVersion>preview</LangVersion>
-		<AppVersion>20.0.1500.0</AppVersion>
+		<AppVersion>20.1.1507.0</AppVersion>
 		<DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
 	</PropertyGroup>
 
@@ -101,7 +101,7 @@
 		<PackageReference Include="Microsoft.WindowsAppSDK.AI" ExcludeAssets="all" Version="2.4.4" />
 		<PackageReference Include="Microsoft.WindowsAppSDK.ML" ExcludeAssets="all" Version="2.1.74" />
 		<PackageReference Include="Microsoft.Windows.AI.MachineLearning" ExcludeAssets="all" Version="2.3.42" />
-		<PackageReference Include="Microsoft.WindowsAppSDK.Widgets" ExcludeAssets="all" Version="2.0.5"/>
+		<PackageReference Include="Microsoft.WindowsAppSDK.Widgets" ExcludeAssets="all" Version="2.0.5" />
 	</ItemGroup>
 	<!--
     Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
