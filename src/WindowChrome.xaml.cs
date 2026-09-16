@@ -231,9 +231,6 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
             case "NewPrivateTab":
                 CreateTab("New InPrivate tab", string.Empty, true);
                 break;
-            case "ConvertFavs":
-                _ = new Views.FavoritesMigrationWindow();
-                break;
             case "FavoritesManager":
                 _ = new Views.FavoritesManagerWindow();
                 break;
