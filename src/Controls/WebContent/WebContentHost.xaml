@@ -200,7 +200,7 @@
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="32" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid x:Name="WebContentBorder" Grid.Row="1">
@@ -218,39 +218,36 @@
                 HorizontalContentAlignment="Stretch"
                 Visibility="Collapsed" />
         </Grid>
-        <Grid
-            x:Name="ToolbarHost"
-            Grid.Row="0"
-            Height="48">
+        <Grid x:Name="ToolbarHost" Grid.Row="0">
             <StackPanel
                 x:Name="Sidebar"
-                Margin="40,10,0,0"
+                Margin="30,1,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
                 <Button
                     Click="SidebarButton_Click"
                     IsEnabled="{x:Bind WebContentControl.CanGoBack, Mode=OneWay}"
-                    Style="{StaticResource SidebarButton}"
+                    Style="{StaticResource QuietButton}"
                     Tag="Back"
                     ToolTipService.ToolTip="Go back">
-                    <FontIcon FontSize="16" Glyph="&#xE112;" />
+                    <FontIcon FontSize="14" Glyph="&#xE112;" />
                 </Button>
                 <Button
                     Click="SidebarButton_Click"
-                    Style="{StaticResource SidebarButton}"
+                    Style="{StaticResource QuietButton}"
                     Tag="Forward"
                     ToolTipService.ToolTip="Go forward"
                     Visibility="{x:Bind WebContentControl.CanGoForward, Mode=OneWay, Converter={StaticResource BooleanToVisiblityConverter}}">
-                    <FontIcon FontSize="16" Glyph="&#xE111;" />
+                    <FontIcon FontSize="14" Glyph="&#xE111;" />
                 </Button>
                 <Button
                     x:Name="FlyoutHostBtn"
                     Click="SidebarButton_Click"
-                    Style="{StaticResource SidebarButton}"
+                    Style="{StaticResource QuietButton}"
                     Tag="Refresh"
                     ToolTipService.ToolTip="Refresh (F5)">
-                    <FontIcon FontSize="16" Glyph="&#xE149;" />
+                    <FontIcon FontSize="14" Glyph="&#xE149;" />
                 </Button>
             </StackPanel>
             <Button

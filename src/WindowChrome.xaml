@@ -14,7 +14,7 @@
     mc:Ignorable="d">
     <Grid x:Name="RootWindowGrid" SizeChanged="RootWindowGrid_SizeChanged">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="32" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -23,9 +23,9 @@
         </Grid.ColumnDefinitions>
         <ContentPresenter
             x:Name="TabContentHost"
-            Grid.Row="1"
+            Grid.RowSpan="2"
             Grid.Column="0"
-            Margin="0,-48,7,0"
+            Margin="0,0,2,0"
             x:FieldModifier="public" />
         <Grid
             x:Name="AppIconHost"
@@ -38,7 +38,7 @@
                 Grid.Column="0"
                 Width="26"
                 Height="26"
-                Margin="7,7,0,0"
+                Margin="5,2,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Source="/Assets/AppIcons/Square44x44Logo.png" />
@@ -131,7 +131,7 @@
             x:Name="Sidebar"
             Grid.Row="1"
             Grid.Column="1"
-            Margin="2,0,8,3"
+            Margin="2,0,2,2"
             x:FieldModifier="public"
             Style="{StaticResource PageBorder}">
             <Grid.RowDefinitions>
