@@ -242,7 +242,6 @@
                     <FontIcon FontSize="14" Glyph="&#xE111;" />
                 </Button>
                 <Button
-                    x:Name="FlyoutHostBtn"
                     Click="SidebarButton_Click"
                     Style="{StaticResource QuietButton}"
                     Tag="Refresh"
@@ -263,6 +262,11 @@
                     <FontIcon FontSize="16" Glyph="&#xE767;" />
                 </Button.Content>
             </Button>
+            <Border
+                x:Name="FlyoutHostBtn"
+                Margin="102,25,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center" />
         </Grid>
         <Grid
             x:Name="UrlBoxWrapper"
