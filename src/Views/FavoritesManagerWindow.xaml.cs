@@ -59,12 +59,16 @@ public sealed partial class FavoritesManagerWindow : Window
         {
             FavoritesListView.ItemsSource = MainViewModel.MainVM.FavoritesList;
             IsSearchActive = false;
+            return;
         }
         IsSearchActive = true;
 
+        // under AOT the ListView rejects a lazy LINQ iterator with E_INVALIDARG,
+        // because CsWinRT only generates WinRT vtables for collection types it can see at compile time.
         var SearchResults = MainViewModel.MainVM.FavoritesList
             .Where(s => s.Title.Contains(SearchTextBox.Text, StringComparison.OrdinalIgnoreCase) ||
-            (s.Url.Contains(SearchTextBox.Text, StringComparison.OrdinalIgnoreCase)));
+            (s.Url.Contains(SearchTextBox.Text, StringComparison.OrdinalIgnoreCase)))
+            .ToList();
 
         FavoritesListView.ItemsSource = SearchResults;
     }
