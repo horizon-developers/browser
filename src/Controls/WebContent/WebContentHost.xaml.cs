@@ -113,7 +113,7 @@ public sealed partial class WebContentHost : Page, IDisposable
     private void CoreWebView2_NewWindowRequested(CoreWebView2 sender, CoreWebView2NewWindowRequestedEventArgs args)
     {
         args.Handled = true;
-        WindowHelper.CreateNewTabInMainWindow("New tab", args.Uri, WCHVM.MyTab);
+        WindowHelper.CreateNewTabInMainWindow("New tab", args.Uri, WCHVM.MyTab, WCHVM.IsInPrivate);
     }
 
     private void CoreWebView2_ContextMenuRequested(CoreWebView2 sender, CoreWebView2ContextMenuRequestedEventArgs args)
@@ -262,7 +262,7 @@ public sealed partial class WebContentHost : Page, IDisposable
         }
         if (args.TryGetWebMessageAsString() == "ControlT")
         {
-            WindowHelper.CreateNewTabInMainWindow("New tab", string.Empty, WCHVM.MyTab);
+            WindowHelper.CreateNewTabInMainWindow("New tab", string.Empty, WCHVM.MyTab, WCHVM.IsInPrivate);
             return;
         }
     }
@@ -300,7 +300,7 @@ public sealed partial class WebContentHost : Page, IDisposable
             case "OpenLnkInNewTab":
                 if (!string.IsNullOrEmpty(WCHVM.LinkUri))
                 {
-                    WindowHelper.CreateNewTabInMainWindow("New tab", WCHVM.LinkUri, WCHVM.MyTab);
+                    WindowHelper.CreateNewTabInMainWindow("New tab", WCHVM.LinkUri, WCHVM.MyTab, WCHVM.IsInPrivate);
                 }
                 break;
             case "Copy":
@@ -320,14 +320,14 @@ public sealed partial class WebContentHost : Page, IDisposable
                 if (!string.IsNullOrEmpty(WCHVM.SelectionText))
                 {
                     string link = SettingsHelper.CurrentSearchUrl + WCHVM.SelectionText;
-                    WindowHelper.CreateNewTabInMainWindow("New tab", link, WCHVM.MyTab);
+                    WindowHelper.CreateNewTabInMainWindow("New tab", link, WCHVM.MyTab, WCHVM.IsInPrivate);
                 }
                 break;
             case "DevTools":
                 WebContentControl.CoreWebView2.OpenDevToolsWindow();
                 break;
             case "ViewSource":
-                WindowHelper.CreateNewTabInMainWindow($"View source", $"view-source:{WebContentControl.CoreWebView2.Source}", WCHVM.MyTab);
+                WindowHelper.CreateNewTabInMainWindow($"View source", $"view-source:{WebContentControl.CoreWebView2.Source}", WCHVM.MyTab, WCHVM.IsInPrivate);
                 break;
             case "TaskManager":
                 WebContentControl.CoreWebView2.OpenTaskManagerWindow();

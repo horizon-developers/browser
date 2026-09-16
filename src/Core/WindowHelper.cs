@@ -134,7 +134,7 @@ public static class WindowHelper
         MainWindow.Close();
     }
 
-    static public void CreateNewTabInMainWindow(string title, string uri, Tab? requester = null)
+    static public void CreateNewTabInMainWindow(string title, string uri, Tab? requester = null, bool isInPrivate = false)
     {
         int IndexOfRequester = -1;
         if (requester != null)
@@ -143,7 +143,7 @@ public static class WindowHelper
         }
         _ = MainWindow.DispatcherQueue.TryEnqueue(() =>
         {
-            MainWindow.CreateTab(title, uri, false, true, IndexOfRequester);
+            MainWindow.CreateTab(title, uri, isInPrivate, true, IndexOfRequester);
         });
     }
 
