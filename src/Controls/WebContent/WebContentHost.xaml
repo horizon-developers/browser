@@ -298,7 +298,6 @@
                 <!--  TextMemberPath resolves on SuggestionItem, which is marked GeneratedBindableCustomProperty, so the path survives trimming/AOT  -->
                 <AutoSuggestBox
                     x:Name="UrlBox"
-                    x:SuppressXamlTrimWarnings="True"
                     Height="32"
                     Margin="15"
                     CornerRadius="15"
