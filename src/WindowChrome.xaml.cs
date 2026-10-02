@@ -163,6 +163,7 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
     {
         if (MainViewModel.MainVM.Tabs.Count > 1)
         {
+            RecentTabs.AddTab(tab);
             int index = MainViewModel.MainVM.Tabs.IndexOf(tab);
             tab.WebContentInstance.Dispose();
             tab.WebContentInstance = null;
@@ -190,6 +191,7 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
         TabListView.SelectedItem = tabToKeep; // Select the surviving tab first so the content host never points at a disposed instance
         foreach (Tab tab in tabs.Where(t => t != tabToKeep).ToList())
         {
+            RecentTabs.AddTab(tab);
             tab.WebContentInstance?.Dispose();
             tab.WebContentInstance = null;
             MainViewModel.MainVM.Tabs.Remove(tab);
@@ -241,6 +243,9 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
     {
         switch ((sender as MenuFlyoutItem).Tag)
         {
+            case "RecentlyClosed":
+                System.Diagnostics.Debug.WriteLine(RecentTabs.RecentTabsList.ToString());
+                break;
             case "Downloads":
                 CreateTab("Downloads", "edge://downloads");
                 break;

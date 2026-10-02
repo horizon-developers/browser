@@ -261,6 +261,14 @@
                         <MenuFlyout Placement="Bottom">
                             <MenuFlyoutItem
                                 Click="ToolbarFlyoutItem_Click"
+                                Tag="RecentlyClosed"
+                                Text="Recently closed">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE823;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem
+                                Click="ToolbarFlyoutItem_Click"
                                 Tag="History"
                                 Text="History">
                                 <MenuFlyoutItem.Icon>
