@@ -84,7 +84,7 @@ public partial class App : Application
         }
     }
 
-    private void App_Activated(object sender, AppActivationArguments e)
+    private void App_Activated(object? sender, AppActivationArguments e)
     {
         HandleUriActivation(e);
         WindowHelper.RestoreMainWindow();

@@ -525,6 +525,10 @@ public sealed partial class WebContentHost : Page, IDisposable
     {
         string QRFileName = $"QRCode - {WebContentControl.CoreWebView2.DocumentTitle}";
         string QRFileNameNor = FileNameHelper.ToValidFileName(QRFileName);
+        if (WCHVM.QrCode == null)
+        {
+            return;
+        }
         await FileHelper.SaveBytesAsFileAsync(QRFileNameNor, WCHVM.QrCode, "Bitmap", ".bmp");
         /*_ = WindowHelper.MainWindow.DispatcherQueue.TryEnqueue(async () =>
         {

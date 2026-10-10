@@ -5,7 +5,7 @@ namespace Horizon.Modules.QR;
 public static class QRCodeHelper
 {
     public static readonly QRCodeGenerator SingletonQrGenerator = new();
-    public static Task<byte[]> GenerateQRCodeFromUrlAsync(string url)
+    public static Task<byte[]?> GenerateQRCodeFromUrlAsync(string url)
     {
         try
         {
@@ -16,11 +16,11 @@ public static class QRCodeHelper
             //Create byte/raw bitmap qr code
             BitmapByteQRCode qrCodeBmp = new(qrCodeData);
 
-            return Task.FromResult(qrCodeBmp.GetGraphic(20));
+            return Task.FromResult<byte[]?>(qrCodeBmp.GetGraphic(20));
         }
         catch
         {
-            return null;
+            return Task.FromResult<byte[]?>(null);
         }
     }
 

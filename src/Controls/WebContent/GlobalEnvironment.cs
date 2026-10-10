@@ -2,27 +2,24 @@
 
 internal static class GlobalEnvironment
 {
-    private static CoreWebView2Environment Environment;
+    private static CoreWebView2Environment? Environment;
 
     public static async Task<CoreWebView2Environment> GetDefault()
     {
-        if (Environment == null)
-        {
-            await CreateEnvironment();
-        }
-        return Environment;
+        return Environment ??= await CreateEnvironment();
     }
 
-    private static async Task CreateEnvironment()
+    private static async Task<CoreWebView2Environment> CreateEnvironment()
     {
         CoreWebView2EnvironmentOptions options = new()
         {
             AreBrowserExtensionsEnabled = true,
             ScrollBarStyle = CoreWebView2ScrollbarStyle.FluentOverlay
         };
-        Environment = await CoreWebView2Environment.CreateWithOptionsAsync(null, null, options);
+        var environment = await CoreWebView2Environment.CreateWithOptionsAsync(null, null, options);
 #if DEBUG
         System.Diagnostics.Debug.WriteLine("WebView2 enviroment created!");
 #endif
+        return environment;
     }
 }

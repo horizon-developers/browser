@@ -6,12 +6,12 @@ public enum SuggestionCommand { GoToUrl, SearchWeb, LocalFile, OpenFavorite }
 public partial class SuggestionItem
 {
     public Symbol DisplayIcon { get; set; }
-    public string DisplayText { get; set; }
+    public string DisplayText { get; set; } = string.Empty;
     /// <summary>
     /// Optional second line, e.g. the url of a favorite
     /// </summary>
-    public string Description { get; set; }
+    public string? Description { get; set; }
     public bool HasDescription => !string.IsNullOrEmpty(Description);
     public SuggestionCommand Command { get; set; }
-    public string Value { get; set; }
+    public string Value { get; set; } = string.Empty;
 }

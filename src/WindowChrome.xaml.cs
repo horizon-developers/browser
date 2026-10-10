@@ -6,8 +6,8 @@ namespace Horizon;
 public sealed partial class WindowChrome : Window, INotifyPropertyChanged
 {
     private readonly MainWindowViewModel MWVM = new();
-    public event PropertyChangedEventHandler PropertyChanged;
-    private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    public event PropertyChangedEventHandler? PropertyChanged;
+    private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 #if DEBUG
@@ -118,7 +118,7 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
         UpdateDragRegions();
     }
 
-    public void CreateTab(string title, string launchurl, bool isinprivate = false, bool insertaftercurrent = false, int indexofrequester = -1, TaskCompletionSource<CoreWebView2> newWindowTarget = null)
+    public void CreateTab(string title, string launchurl, bool isinprivate = false, bool insertaftercurrent = false, int indexofrequester = -1, TaskCompletionSource<CoreWebView2>? newWindowTarget = null)
     {
         Tab tab = new()
         {
@@ -147,8 +147,8 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
 
     private void TabListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        ListView listView = sender as ListView;
-        Tab item = (Tab)listView.SelectedItem;
+        ListView listView = (ListView)sender;
+        Tab? item = (Tab?)listView.SelectedItem;
         if (item != null)
         {
             SelectedTab = item;
@@ -175,7 +175,7 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
         {
             RecentTabs.AddTab(tab);
             int index = MainViewModel.MainVM.Tabs.IndexOf(tab);
-            tab.WebContentInstance.Dispose();
+            tab.WebContentInstance?.Dispose();
             tab.WebContentInstance = null;
             if (index == 0)
             {
@@ -209,9 +209,9 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
     }
 
 
-    private Tab _selectedTab;
+    private Tab? _selectedTab;
 
-    public Tab SelectedTab
+    public Tab? SelectedTab
     {
         get => _selectedTab;
         set
@@ -226,10 +226,10 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
 
     private void ToolbarButton_Click(object sender, RoutedEventArgs e)
     {
-        switch ((sender as Button).Tag)
+        switch (((Button)sender).Tag)
         {
             case "CopyLink":
-                string currentUrl = SelectedTab?.WebContentInstance?.CurrentUrl;
+                string? currentUrl = SelectedTab?.WebContentInstance?.CurrentUrl;
                 if (!string.IsNullOrEmpty(currentUrl))
                 {
                     ClipboardHelper.CopyTextToClipboard(currentUrl);
@@ -255,7 +255,7 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
 
     private void ToolbarFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
-        switch ((sender as MenuFlyoutItem).Tag)
+        switch (((MenuFlyoutItem)sender).Tag)
         {
             case "RecentlyClosed":
                 System.Diagnostics.Debug.WriteLine(RecentTabs.RecentTabsList.ToString());
@@ -288,7 +288,7 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
                 _ = new Views.SettingsWindow();
                 break;
             default:
-                SelectedTab.WebContentInstance.ForwardedEvent(((sender as MenuFlyoutItem).Tag).ToString());
+                SelectedTab?.WebContentInstance?.ForwardedEvent((string)((MenuFlyoutItem)sender).Tag);
                 break;
         }
     }
@@ -305,7 +305,7 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
         }
     }
 
-    Tab CTXSelectedTab;
+    Tab? CTXSelectedTab;
     private void TabListView_RightTapped(object sender, RightTappedRoutedEventArgs e)
     {
         CTXSelectedTab = ((FrameworkElement)e.OriginalSource).DataContext as Tab;
@@ -325,10 +325,10 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
             return;
         }
 
-        switch ((sender as MenuFlyoutItem).Tag)
+        switch (((MenuFlyoutItem)sender).Tag)
         {
             case "Duplicate":
-                string URL = ThisWCI.CurrentUrl;
+                string URL = ThisWCI.CurrentUrl ?? string.Empty;
                 // A duplicate of an InPrivate tab has to stay InPrivate, or the page ends up in regular history and cookies
                 CreateTab(CTXSelectedTab.IsInPrivate ? "New InPrivate tab" : "New tab", URL, CTXSelectedTab.IsInPrivate);
                 break;
@@ -355,7 +355,7 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
 
     private void FavoritesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        ListView listView = sender as ListView;
+        ListView listView = (ListView)sender;
         if (listView.SelectedItem != null)
         {
             FavoriteItem item = (FavoriteItem)listView.SelectedItem;
@@ -364,7 +364,7 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
         }
     }
 
-    FavoriteItem FavSelectedItem;
+    FavoriteItem? FavSelectedItem;
     private void FavoritesListView_RightTapped(object sender, RightTappedRoutedEventArgs e)
     {
         FavSelectedItem = ((FrameworkElement)e.OriginalSource).DataContext as FavoriteItem;
@@ -376,7 +376,7 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
         {
             return;
         }
-        switch ((sender as AppBarButton).Tag)
+        switch (((AppBarButton)sender).Tag)
         {
             case "Copy":
                 ClipboardHelper.CopyTextToClipboard(FavSelectedItem.Url);
@@ -395,6 +395,6 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
 
     private void UrlBoxButton_Click(object sender, RoutedEventArgs e)
     {
-        SelectedTab.WebContentInstance.ToggleUrlBox();
+        SelectedTab?.WebContentInstance?.ToggleUrlBox();
     }
 }

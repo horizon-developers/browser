@@ -38,9 +38,7 @@ public class FavoritesHelper
         }
         catch (Exception ex)
         {
-#if DEBUG
             Logger.LogEvent(Logger.Severity.Error, "FavoritesHelper", $"Failed to initialize DB: {ex.Message}");
-#endif
         }
     }
 
@@ -72,9 +70,7 @@ public class FavoritesHelper
                 }
             }
 
-#if DEBUG
             Logger.LogEvent(Logger.Severity.Info, "FavoritesHelper", "Added new favorite: " + newFavoriteItem.Title + ", " + newFavoriteItem.Id);
-#endif
             WindowHelper.MainWindow.DispatcherQueue.TryEnqueue(() =>
             {
                 MainViewModel.MainVM.FavoritesList.Insert(0, newFavoriteItem);
@@ -82,9 +78,7 @@ public class FavoritesHelper
         }
         catch (Exception ex)
         {
-#if DEBUG
             Logger.LogEvent(Logger.Severity.Error, "FavoritesHelper", $"Error adding favorite: {ex.Message}");
-#endif
         }
     }
 
@@ -113,9 +107,7 @@ public class FavoritesHelper
         }
         catch (Exception ex)
         {
-#if DEBUG
             Logger.LogEvent(Logger.Severity.Error, "FavoritesHelper", $"Error removing favorite: {ex.Message}");
-#endif
         }
     }
 
@@ -130,9 +122,7 @@ public class FavoritesHelper
 
         try
         {
-#if DEBUG
             Logger.LogEvent(Logger.Severity.Info, "FavoritesHelper", "Loading favorites from SQLite");
-#endif
             using (var connection = new SqliteConnection(ConnectionString))
             {
                 connection.Open();
@@ -152,15 +142,11 @@ public class FavoritesHelper
                     }
                 }
             }
-#if DEBUG
             Logger.LogEvent(Logger.Severity.Info, "FavoritesHelper", $"Loaded {items.Count} favorite(s)");
-#endif
         }
         catch (Exception ex)
         {
-#if DEBUG
             Logger.LogEvent(Logger.Severity.Error, "FavoritesHelper", $"Error loading favorites: {ex.Message}");
-#endif
         }
 
         return items;

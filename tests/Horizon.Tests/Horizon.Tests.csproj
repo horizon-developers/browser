@@ -16,6 +16,13 @@
 		<EmbeddedResource Include="..\..\src\Assets\Data\public_suffix_list.dat" LogicalName="Horizon.public_suffix_list.dat" Link="Assets\Data\public_suffix_list.dat" />
 	</ItemGroup>
 
+	<!-- Global usings from src/GlobalUsings.cs that the linked sources rely on -->
+	<ItemGroup>
+		<Using Include="System.Globalization" />
+		<Using Include="System.Net" />
+		<Using Include="System.Net.Sockets" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<PackageReference Include="MSTest.TestAdapter" Version="4.2.3" />
 		<PackageReference Include="MSTest.TestFramework" Version="4.2.3" />

@@ -2,7 +2,7 @@
 
 public class ReadabilityHelper
 {
-    public static string JScript { private set; get; }
+    public static string? JScript { private set; get; }
     private const string ResourceName = "Horizon.readability_module.js";
 
     public static async Task<string> GetReadabilityScriptAsync()

@@ -2,7 +2,7 @@
 
 public partial class Tab : ObservableObject
 {
-    private string _title;
+    private string _title = string.Empty;
     public string Title
     {
         get => _title;
@@ -14,7 +14,7 @@ public partial class Tab : ObservableObject
     /// </summary>
     public bool IsInPrivate { get; init; }
 
-    private string _domain;
+    private string _domain = string.Empty;
     public string Domain
     {
         get => _domain;
@@ -28,8 +28,8 @@ public partial class Tab : ObservableObject
         set => SetProperty(ref _icon, value);
     }*/
 
-    private WebContentHost _webcontentinstance;
-    public WebContentHost WebContentInstance
+    private WebContentHost? _webcontentinstance;
+    public WebContentHost? WebContentInstance
     {
         get => _webcontentinstance;
         set => SetProperty(ref _webcontentinstance, value);

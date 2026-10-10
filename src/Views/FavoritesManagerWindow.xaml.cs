@@ -75,11 +75,11 @@ public sealed partial class FavoritesManagerWindow : Window
 
     private void FavoritesListView_Loaded(object sender, RoutedEventArgs e)
     {
-        (sender as ListView).ItemsSource = MainViewModel.MainVM.FavoritesList;
+        ((ListView)sender).ItemsSource = MainViewModel.MainVM.FavoritesList;
     }
 
     #region Favorites flyout
-    FavoriteItem FavSelectedItem;
+    FavoriteItem? FavSelectedItem;
     private void FavoritesListView_RightTapped(object sender, RightTappedRoutedEventArgs e)
     {
         FavSelectedItem = ((FrameworkElement)e.OriginalSource).DataContext as FavoriteItem;
@@ -91,7 +91,7 @@ public sealed partial class FavoritesManagerWindow : Window
         {
             return;
         }
-        switch ((sender as AppBarButton).Tag)
+        switch (((AppBarButton)sender).Tag)
         {
             case "Open":
                 WindowHelper.CreateNewTabInMainWindow(FavSelectedItem.Title, FavSelectedItem.Url);

@@ -2,11 +2,16 @@
 
 public static class UserHelper
 {
-    private static WS.User CurrentUser { get; set; }
-    private static BitmapImage CurrentUserPicture { get; set; }
+    private static WS.User? CurrentUser { get; set; }
+    private static BitmapImage? CurrentUserPicture { get; set; }
 
-    public static async Task<BitmapImage> GetUserPicture()
+    public static async Task<BitmapImage?> GetUserPicture()
     {
+        // User.GetDefault only exists since Windows 11 / Server 2022 (build 20348)
+        if (!OperatingSystem.IsWindowsVersionAtLeast(10, 0, 20348))
+        {
+            return null;
+        }
         try
         {
             if (CurrentUser == null)
@@ -34,9 +39,7 @@ public static class UserHelper
                 }
                 catch (Exception ex)
                 {
-#if DEBUG
                     Logger.LogEvent(Logger.Severity.Error, "User (AccountPicture)", $"Error loading picture: {ex.Message}");
-#endif
                 }
             }
             CurrentUserPicture = bitmapImage;
@@ -45,9 +48,7 @@ public static class UserHelper
         }
         catch (Exception ex)
         {
-#if DEBUG
             Logger.LogEvent(Logger.Severity.Error, "User (AccountPicture)", $"Error loading picture: {ex.Message}");
-#endif
             return null;
         }
     }

@@ -58,19 +58,21 @@ public sealed partial class SettingsView : Page
     private async void UserPictureDisplay_Loaded(object sender, RoutedEventArgs e)
     {
         var pic = await UserHelper.GetUserPicture();
-        (sender as PersonPicture).ProfilePicture = pic;
+        ((PersonPicture)sender).ProfilePicture = pic;
     }
 
     private async void UserNameDisplay_Loaded(object sender, RoutedEventArgs e)
     {
         var name = await UserHelper.GetUserName();
-        (sender as TextBlock).Text = name;
+        ((TextBlock)sender).Text = name;
     }
 
     private void SearchEngineSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        SearchEngine engine = e.AddedItems[0] as SearchEngine;
-        SearchEngineHelper.SetSearchEngine(engine);
+        if (e.AddedItems[0] is SearchEngine engine)
+        {
+            SearchEngineHelper.SetSearchEngine(engine);
+        }
     }
 
     private async void OpenProfileFolder_Click(object sender, RoutedEventArgs e)
@@ -87,7 +89,7 @@ public sealed partial class SettingsView : Page
     private async void SetDownloadFolderButton_Click(object sender, RoutedEventArgs e)
     {
         //disable the button to avoid double-clicking
-        var senderButton = sender as Button;
+        var senderButton = (Button)sender;
         senderButton.IsEnabled = false;
 
         // Create a folder picker
@@ -114,15 +116,15 @@ public sealed partial class SettingsView : Page
 
     private void BackdropTypeSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        string Selection = e.AddedItems[0].ToString();
-        SettingsHelper.SetSetting("OverrideBackdropType", e.AddedItems[0].ToString());
+        string Selection = (string)e.AddedItems[0];
+        SettingsHelper.SetSetting("OverrideBackdropType", Selection);
         SettingsHelper.CurrentBackdrop = Selection;
         WindowHelper.SetupBackdrop(Selection);
     }
 
     private void AdvancedCTXToggle_Toggled(object sender, RoutedEventArgs e)
     {
-        switch ((sender as ToggleSwitch).IsOn)
+        switch (((ToggleSwitch)sender).IsOn)
         {
             case true:
                 SettingsHelper.SetSetting("AdvancedCTX", "true");
@@ -135,7 +137,7 @@ public sealed partial class SettingsView : Page
 
     private void DisableWebPageDarkening_Toggled(object sender, RoutedEventArgs e)
     {
-        switch ((sender as ToggleSwitch).IsOn)
+        switch (((ToggleSwitch)sender).IsOn)
         {
             case true:
                 SettingsHelper.SetSetting("DisableWebPageDarkening", "true");
@@ -148,7 +150,7 @@ public sealed partial class SettingsView : Page
 
     private void BlockAdsToggle_Toggled(object sender, RoutedEventArgs e)
     {
-        switch ((sender as ToggleSwitch).IsOn)
+        switch (((ToggleSwitch)sender).IsOn)
         {
             case true:
                 SettingsHelper.SetSetting("BlockAds", "true");
@@ -161,7 +163,7 @@ public sealed partial class SettingsView : Page
 
     private void BlockCaptureToggle_Toggled(object sender, RoutedEventArgs e)
     {
-        switch ((sender as ToggleSwitch).IsOn)
+        switch (((ToggleSwitch)sender).IsOn)
         {
             case true:
                 SettingsHelper.SetSetting("IsScreencaptureBlocked", "true");
@@ -176,7 +178,7 @@ public sealed partial class SettingsView : Page
 
     private async void WindowsHelloLockToggle_Toggled(object sender, RoutedEventArgs e)
     {
-        switch ((sender as ToggleSwitch).IsOn)
+        switch (((ToggleSwitch)sender).IsOn)
         {
             case true:
                 UserConsentVerifierAvailability IsWinHelloAvailable = await WindowsHelloHelper.CheckAvailability();
@@ -188,7 +190,7 @@ public sealed partial class SettingsView : Page
                 if (IsWinHelloAvailable == UserConsentVerifierAvailability.NotConfiguredForUser)
                 {
                     Win32Helper.ShowMessageBox("Horizon", "An error occured while trying to setup App Lock using Windows Hello.\n\nPlease setup it in Windows Settings");
-                    (sender as ToggleSwitch).IsOn = false;
+                    ((ToggleSwitch)sender).IsOn = false;
                     break;
                 }
                 break;
@@ -270,7 +272,7 @@ public sealed partial class SettingsView : Page
         }
     }
 
-    CoreWebView2BrowserExtension selectedItem;
+    CoreWebView2BrowserExtension? selectedItem;
     private void ExtensionsListView_RightTapped(object sender, RightTappedRoutedEventArgs e)
     {
         selectedItem = ((FrameworkElement)e.OriginalSource).DataContext as CoreWebView2BrowserExtension;
@@ -284,7 +286,7 @@ public sealed partial class SettingsView : Page
             return;
         }
 
-        switch ((sender as MenuFlyoutItem).Tag)
+        switch (((MenuFlyoutItem)sender).Tag)
         {
             case "CopyID":
                 ClipboardHelper.CopyTextToClipboard(selectedItem.Id);
@@ -318,12 +320,12 @@ public sealed partial class SettingsView : Page
 
     private void VersionTextBlock_Loaded(object sender, RoutedEventArgs e)
     {
-        (sender as TextBlock).Text = AppVersionHelper.GetAppVersion();
+        ((TextBlock)sender).Text = AppVersionHelper.GetAppVersion();
     }
 
     private async void SettingsCardClickHandler(object sender, RoutedEventArgs e)
     {
-        switch ((sender as SettingsCard).Tag)
+        switch (((SettingsCard)sender).Tag)
         {
             case "GNU":
                 await WS.Launcher.LaunchUriAsync(new Uri("https://raw.githubusercontent.com/horizon-developers/browser/refs/heads/main/LICENSE"));

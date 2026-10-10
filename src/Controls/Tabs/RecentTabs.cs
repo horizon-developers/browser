@@ -10,7 +10,7 @@ public static class RecentTabs
         {
             return;
         }
-        string url = tab.WebContentInstance?.CurrentUrl;
+        string? url = tab.WebContentInstance?.CurrentUrl;
         // Nothing to reopen, e.g. a new tab that was closed before anything was typed into it
         if (string.IsNullOrEmpty(url) || url == "about:blank")
         {
