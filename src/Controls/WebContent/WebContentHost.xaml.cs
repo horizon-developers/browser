@@ -1,6 +1,3 @@
-#nullable enable
-using CommunityToolkit.WinUI;
-
 namespace Horizon.Controls.WebContent;
 
 public sealed partial class WebContentHost : Page, IDisposable

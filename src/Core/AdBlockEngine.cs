@@ -1,13 +1,4 @@
-﻿#nullable enable
-using System.Buffers.Binary;
-using System.Collections.Frozen;
-using System.Diagnostics;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using Windows.Storage.Streams;
-
-namespace Horizon.Core;
+﻿namespace Horizon.Core;
 
 /// <summary>
 /// Holds the domain blocklist (StevenBlack's unified hosts file) and keeps it fresh.

@@ -10,6 +10,7 @@
 		<LangVersion>preview</LangVersion>
 		<AppVersion>20.1.1511.0</AppVersion>
 		<DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
 	<!-- Publishing properties -->
@@ -22,10 +23,9 @@
 		<SelfContained>true</SelfContained>
 		<Optimize>true</Optimize>
 		<OptimizationPreference>Speed</OptimizationPreference>
-		<SelfContained>true</SelfContained>
 		<PublishTrimmed>true</PublishTrimmed>
-		<IlcGenerateMstatFile>true</IlcGenerateMstatFile>
-		<IlcGenerateDgmlFile>true</IlcGenerateDgmlFile>
+		<!--<IlcGenerateMstatFile>true</IlcGenerateMstatFile>
+		<IlcGenerateDgmlFile>true</IlcGenerateDgmlFile>-->
 		<WindowsSdkPackageVersion>10.0.26100.87</WindowsSdkPackageVersion>
 	</PropertyGroup>
 	

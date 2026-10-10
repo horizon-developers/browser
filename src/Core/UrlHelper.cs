@@ -1,8 +1,4 @@
-﻿#nullable enable
-using System.Net;
-using System.Net.Sockets;
-
-namespace Horizon.Core;
+﻿namespace Horizon.Core;
 
 public enum UserInputClassification
 {

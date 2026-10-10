@@ -1,5 +1,4 @@
-﻿#nullable enable
-namespace Horizon.Core.AddressBar;
+﻿namespace Horizon.Core.AddressBar;
 
 /// <summary>
 /// Turns favorites into address bar suggestions. Reads MainVM.FavoritesList directly (an ObservableCollection),
