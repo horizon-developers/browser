@@ -83,7 +83,7 @@ public sealed partial class WebContentHost : Page, IDisposable
 
         // Attach before the first navigation below so the very first request is already filtered.
         // Applies to InPrivate tabs as well - tracker blocking matters most there.
-        if (SettingsHelper.GetSetting("BlockAds") == "true")
+        if (AppSettings.Current.BlockAds)
         {
             _adBlockEngine = new AdBlockEngine();
             _adBlockEngine.Attach(sender.CoreWebView2);
@@ -92,7 +92,7 @@ public sealed partial class WebContentHost : Page, IDisposable
         string mainscript = "document.addEventListener(\"keydown\",function(e){e.ctrlKey&&\"l\"===e.key&&(e.preventDefault(),window.chrome.webview.postMessage(\"ControlL\")),e.ctrlKey&&\"t\"===e.key&&(e.preventDefault(),window.chrome.webview.postMessage(\"ControlT\"))});";
         await sender.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(mainscript);
         
-        if (SettingsHelper.GetSetting("DisableWebPageDarkening") != "true")
+        if (!AppSettings.Current.DisableWebPageDarkening)
         {
             sender.DefaultBackgroundColor = Colors.Transparent;
         }
@@ -161,7 +161,7 @@ public sealed partial class WebContentHost : Page, IDisposable
 
     private void CoreWebView2_ContextMenuRequested(CoreWebView2 sender, CoreWebView2ContextMenuRequestedEventArgs args)
     {
-        if (SettingsHelper.GetSetting("AdvancedCTX") == "true")
+        if (AppSettings.Current.UseAdvancedContextMenu)
         {
             return;
         }
@@ -362,7 +362,7 @@ public sealed partial class WebContentHost : Page, IDisposable
             case "Search":
                 if (!string.IsNullOrEmpty(WCHVM.SelectionText))
                 {
-                    string link = UrlHelper.FormatSearchQuery(SettingsHelper.CurrentSearchUrl, WCHVM.SelectionText);
+                    string link = UrlHelper.FormatSearchQuery(AppSettings.Current.SearchUrl, WCHVM.SelectionText);
                     WindowHelper.CreateNewTabInMainWindow("New tab", link, WCHVM.MyTab, WCHVM.MyTab.IsInPrivate);
                 }
                 break;
@@ -443,7 +443,7 @@ public sealed partial class WebContentHost : Page, IDisposable
                 if (WebContentControl.CoreWebView2.Source == "about:blank")
                     break;
 
-                if (SettingsHelper.GetSetting("AccTranslatePrivacy") != "true")
+                if (!AppSettings.Current.TranslatePrivacyAccepted)
                 {
                     StackPanel contentPanel = new();
                     contentPanel.Children.Add(new TextBlock
@@ -478,7 +478,7 @@ public sealed partial class WebContentHost : Page, IDisposable
                             break;
                         case ContentDialogResult.Secondary:
                             Translate();
-                            SettingsHelper.SetSetting("AccTranslatePrivacy", "true");
+                            AppSettings.Current.TranslatePrivacyAccepted = true;
                             break;
                         default:
                             break;
@@ -723,7 +723,7 @@ public sealed partial class WebContentHost : Page, IDisposable
                 ProcessQueryAndGo(item.Value);
                 break;
             case SuggestionCommand.SearchWeb:
-                string query = UrlHelper.FormatSearchQuery(SettingsHelper.CurrentSearchUrl, item.Value);
+                string query = UrlHelper.FormatSearchQuery(AppSettings.Current.SearchUrl, item.Value);
 #if DEBUG
                 Logger.LogEvent(Logger.Severity.Info, "AddressBar", $"Searching the web for {item.Value}");
 #endif
@@ -741,7 +741,7 @@ public sealed partial class WebContentHost : Page, IDisposable
 
     private void ProcessQueryAndGo(string input, bool appendTld = false)
     {
-        NavigateToUrl(UrlHelper.ToNavigationUrl(input, SettingsHelper.CurrentSearchUrl, appendTld));
+        NavigateToUrl(UrlHelper.ToNavigationUrl(input, AppSettings.Current.SearchUrl, appendTld));
     }
 
     public void Dispose()

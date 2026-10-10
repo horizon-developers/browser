@@ -2,14 +2,6 @@
 
 public class SearchEngineHelper
 {
-    public static void SetSearchEngine(SearchEngine engine)
-    {
-        SettingsHelper.SetSetting("EngineFriendlyName", engine.EngineFriendlyName);
-        SettingsHelper.SetSetting("SearchUrl", engine.SearchUrl);
-        SettingsHelper.CurrentSearchUrl = engine.SearchUrl;
-        return;
-    }
-
     public static IReadOnlyList<SearchEngine> SearchEngines = new SearchEngine[]
     {
         new("Ask", "https://www.ask.com/web?q="),

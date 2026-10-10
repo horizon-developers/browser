@@ -12,12 +12,11 @@ public partial class App : Application
     public App()
     {
         this.InitializeComponent();
-        SettingsHelper.LoadSettingsOnStartup();
         UnhandledException += App_UnhandledException;
 
         // Warm the ad blocklist while the first WebView2 is still being created, so the first
         // page load is filtered from its very first request without deferring any of them.
-        if (SettingsHelper.GetSetting("BlockAds") == "true")
+        if (AppSettings.Current.BlockAds)
             _ = ABEDatabase.EnsureLoadedAsync();
     }
 
@@ -57,7 +56,7 @@ public partial class App : Application
 
         AppInstance.GetCurrent().Activated += App_Activated;
 
-        if (SettingsHelper.GetSetting("IsAppLockEnabled") == "true")
+        if (AppSettings.Current.IsAppLockEnabled)
         {
             if (await WindowsHelloHelper.CheckSec())
             {
@@ -66,7 +65,7 @@ public partial class App : Application
             }
             else
             {
-                System.Diagnostics.Process.GetCurrentProcess().Kill();
+                Process.GetCurrentProcess().Kill();
                 return;
             }
         }

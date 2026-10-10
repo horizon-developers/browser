@@ -95,13 +95,13 @@
                     <toolkitc:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xEDE3;" />
                     </toolkitc:SettingsCard.HeaderIcon>
-                    <ToggleSwitch x:Name="AdvancedCTXToggle" />
+                    <ToggleSwitch IsOn="{x:Bind Settings.UseAdvancedContextMenu, Mode=TwoWay}" />
                 </toolkitc:SettingsCard>
                 <toolkitc:SettingsCard Description="Try enabling if you experience unreadable texts. Might cause flickers, and requires app restart" Header="Disable web background darkening">
                     <toolkitc:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE708;" />
                     </toolkitc:SettingsCard.HeaderIcon>
-                    <ToggleSwitch x:Name="DisableWebPageDarkening" />
+                    <ToggleSwitch IsOn="{x:Bind Settings.DisableWebPageDarkening, Mode=TwoWay}" />
                 </toolkitc:SettingsCard>
                 <!--  Advanced features  -->
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Privacy" />
@@ -109,19 +109,19 @@
                     <toolkitc:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xEC4A;" />
                     </toolkitc:SettingsCard.HeaderIcon>
-                    <ToggleSwitch x:Name="BlockAdsToggle" />
+                    <ToggleSwitch IsOn="{x:Bind Settings.BlockAds, Mode=TwoWay}" />
                 </toolkitc:SettingsCard>
                 <toolkitc:SettingsCard Description="" Header="Block screencapture">
                     <toolkitc:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE678;" />
                     </toolkitc:SettingsCard.HeaderIcon>
-                    <ToggleSwitch x:Name="BlockCaptureToggle" />
+                    <ToggleSwitch IsOn="{x:Bind Settings.IsScreencaptureBlocked, Mode=TwoWay}" />
                 </toolkitc:SettingsCard>
                 <toolkitc:SettingsCard Description="" Header="Lock with Windows Hello">
                     <toolkitc:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE72E;" />
                     </toolkitc:SettingsCard.HeaderIcon>
-                    <ToggleSwitch x:Name="WindowsHelloToggle" />
+                    <ToggleSwitch IsOn="{x:Bind Settings.IsAppLockEnabled, Mode=OneWay}" Toggled="WindowsHelloToggle_Toggled" />
                 </toolkitc:SettingsCard>
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Advanced features" />
                 <toolkitc:SettingsExpander

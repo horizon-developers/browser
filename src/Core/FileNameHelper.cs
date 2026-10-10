@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace Horizon.Core;
+﻿namespace Horizon.Core;
 public static class FileNameHelper
 {
     /// <summary>

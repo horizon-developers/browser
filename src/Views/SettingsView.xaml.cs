@@ -10,43 +10,30 @@ public sealed partial class SettingsView : Page
         InitHeadless();
     }
 
+    // The toggles bind to this two-way
+    public AppSettings Settings => AppSettings.Current;
+
+    // The backdrop picker lists these names, in this order
+    private static readonly (BackdropKind Kind, string Name)[] BackdropOptions =
+    [
+        (BackdropKind.Acrylic, "Acrylic"),
+        (BackdropKind.Mica, "Mica"),
+        (BackdropKind.MicaAlt, "Mica Alt"),
+        (BackdropKind.None, "None")
+    ];
+
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        base.OnNavigatedFrom(e);
+        base.OnNavigatedTo(e);
         SearchEngineSelector.ItemsSource = SearchEngineHelper.SearchEngines;
-        foreach (SearchEngine engine in SearchEngineHelper.SearchEngines)
-        {
-            if (engine.SearchUrl == SettingsHelper.CurrentSearchUrl)
-            {
-                SearchEngineSelector.SelectedItem = engine;
-                break;
-            }
-        }
+        SearchEngineSelector.SelectedItem = SearchEngineHelper.SearchEngines.FirstOrDefault(engine => engine.SearchUrl == Settings.SearchUrl);
 
-        BackdropTypeSelector.ItemsSource = Backdrops.BackdropsList;
-        foreach (string Backdp in Backdrops.BackdropsList)
-        {
-            if (Backdp == SettingsHelper.CurrentBackdrop)
-            {
-                BackdropTypeSelector.SelectedItem = Backdp;
-                break;
-            }
-        }
+        BackdropTypeSelector.ItemsSource = BackdropOptions.Select(option => option.Name).ToList();
+        BackdropTypeSelector.SelectedIndex = Array.FindIndex(BackdropOptions, option => option.Kind == Settings.Backdrop);
 
-        AdvancedCTXToggle.IsOn = SettingsHelper.GetSetting("AdvancedCTX") == "true";
-        DisableWebPageDarkening.IsOn = SettingsHelper.GetSetting("DisableWebPageDarkening") == "true";
-        BlockAdsToggle.IsOn = SettingsHelper.GetSetting("BlockAds") == "true";
-        BlockCaptureToggle.IsOn = SettingsHelper.GetSetting("IsScreencaptureBlocked") == "true";
-        WindowsHelloToggle.IsOn = SettingsHelper.GetSetting("IsAppLockEnabled") == "true";
-
-        // Set event handlers
+        // Attached after the initial selection, so showing the current values doesn't write them back
         SearchEngineSelector.SelectionChanged += SearchEngineSelector_SelectionChanged;
         BackdropTypeSelector.SelectionChanged += BackdropTypeSelector_SelectionChanged;
-        AdvancedCTXToggle.Toggled += AdvancedCTXToggle_Toggled;
-        DisableWebPageDarkening.Toggled += DisableWebPageDarkening_Toggled;
-        BlockAdsToggle.Toggled += BlockAdsToggle_Toggled;
-        BlockCaptureToggle.Toggled += BlockCaptureToggle_Toggled;
-        WindowsHelloToggle.Toggled += WindowsHelloLockToggle_Toggled;
     }
 
     private async void InitHeadless()
@@ -69,9 +56,9 @@ public sealed partial class SettingsView : Page
 
     private void SearchEngineSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (e.AddedItems[0] is SearchEngine engine)
+        if (SearchEngineSelector.SelectedItem is SearchEngine engine)
         {
-            SearchEngineHelper.SetSearchEngine(engine);
+            Settings.SearchUrl = engine.SearchUrl;
         }
     }
 
@@ -116,88 +103,34 @@ public sealed partial class SettingsView : Page
 
     private void BackdropTypeSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        string Selection = (string)e.AddedItems[0];
-        SettingsHelper.SetSetting("OverrideBackdropType", Selection);
-        SettingsHelper.CurrentBackdrop = Selection;
-        WindowHelper.SetupBackdrop(Selection);
-    }
-
-    private void AdvancedCTXToggle_Toggled(object sender, RoutedEventArgs e)
-    {
-        switch (((ToggleSwitch)sender).IsOn)
+        if (BackdropTypeSelector.SelectedIndex >= 0)
         {
-            case true:
-                SettingsHelper.SetSetting("AdvancedCTX", "true");
-                break;
-            case false:
-                SettingsHelper.SetSetting("AdvancedCTX", "false");
-                break;
+            // WindowHelper applies the new backdrop when the setting changes
+            Settings.Backdrop = BackdropOptions[BackdropTypeSelector.SelectedIndex].Kind;
         }
     }
 
-    private void DisableWebPageDarkening_Toggled(object sender, RoutedEventArgs e)
+    // Not bound two-way: App Lock may only be turned on once Windows Hello is known to work
+    private async void WindowsHelloToggle_Toggled(object sender, RoutedEventArgs e)
     {
-        switch (((ToggleSwitch)sender).IsOn)
+        var toggle = (ToggleSwitch)sender;
+        if (toggle.IsOn == Settings.IsAppLockEnabled)
         {
-            case true:
-                SettingsHelper.SetSetting("DisableWebPageDarkening", "true");
-                break;
-            case false:
-                SettingsHelper.SetSetting("DisableWebPageDarkening", "false");
-                break;
+            // The one-way binding showing the current value, or our own reset below
+            return;
         }
-    }
-
-    private void BlockAdsToggle_Toggled(object sender, RoutedEventArgs e)
-    {
-        switch (((ToggleSwitch)sender).IsOn)
+        if (!toggle.IsOn)
         {
-            case true:
-                SettingsHelper.SetSetting("BlockAds", "true");
-                break;
-            case false:
-                SettingsHelper.SetSetting("BlockAds", "false");
-                break;
+            Settings.IsAppLockEnabled = false;
+            return;
         }
-    }
-
-    private void BlockCaptureToggle_Toggled(object sender, RoutedEventArgs e)
-    {
-        switch (((ToggleSwitch)sender).IsOn)
+        if (await WindowsHelloHelper.CheckAvailability() == UserConsentVerifierAvailability.Available)
         {
-            case true:
-                SettingsHelper.SetSetting("IsScreencaptureBlocked", "true");
-                WindowHelper.BlockScreencaptureForMainWindow(true);
-                break;
-            case false:
-                SettingsHelper.SetSetting("IsScreencaptureBlocked", "false");
-                WindowHelper.BlockScreencaptureForMainWindow(false);
-                break;
+            Settings.IsAppLockEnabled = true;
+            return;
         }
-    }
-
-    private async void WindowsHelloLockToggle_Toggled(object sender, RoutedEventArgs e)
-    {
-        switch (((ToggleSwitch)sender).IsOn)
-        {
-            case true:
-                UserConsentVerifierAvailability IsWinHelloAvailable = await WindowsHelloHelper.CheckAvailability();
-                if (IsWinHelloAvailable == UserConsentVerifierAvailability.Available)
-                {
-                    SettingsHelper.SetSetting("IsAppLockEnabled", "true");
-                    return;
-                }
-                if (IsWinHelloAvailable == UserConsentVerifierAvailability.NotConfiguredForUser)
-                {
-                    Win32Helper.ShowMessageBox("Horizon", "An error occured while trying to setup App Lock using Windows Hello.\n\nPlease setup it in Windows Settings");
-                    ((ToggleSwitch)sender).IsOn = false;
-                    break;
-                }
-                break;
-            case false:
-                SettingsHelper.SetSetting("IsAppLockEnabled", "false");
-                break;
-        }
+        Win32Helper.ShowMessageBox("Horizon", "An error occured while trying to setup App Lock using Windows Hello.\n\nPlease setup it in Windows Settings");
+        toggle.IsOn = false;
     }
 
     #region Extensions

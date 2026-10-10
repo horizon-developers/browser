@@ -79,25 +79,21 @@ public static class WindowHelper
             return false;
     }
 
-    static internal void SetupBackdrop(string? Backdrop = null)
+    static internal void SetupBackdrop()
     {
-        if (string.IsNullOrEmpty(Backdrop))
+        switch (AppSettings.Current.Backdrop)
         {
-            Backdrop = SettingsHelper.GetSetting("OverrideBackdropType");
-        }
-        switch (Backdrop)
-        {
-            case "Acrylic":
+            case BackdropKind.Acrylic:
                 MainWindow.SystemBackdrop = new DesktopAcrylicBackdrop();
                 break;
-            case "Mica Alt":
+            case BackdropKind.MicaAlt:
                 MainWindow.SystemBackdrop = new MicaBackdrop
                 {
                     Kind = Microsoft.UI.Composition.SystemBackdrops.MicaKind.BaseAlt
                 };
                 DwmHelper.ApplyMica(HWND, Windows.Win32.Graphics.Dwm.DWM_SYSTEMBACKDROP_TYPE.DWMSBT_TABBEDWINDOW);
                 break;
-            case "None":
+            case BackdropKind.None:
                 MainWindow.SystemBackdrop = null;
                 break;
             default:
@@ -109,9 +105,24 @@ public static class WindowHelper
 
     static private void ApplyWindowSettings()
     {
-        if (SettingsHelper.GetSetting("IsScreencaptureBlocked") == "true")
+        if (AppSettings.Current.IsScreencaptureBlocked)
         {
             BlockScreencaptureForMainWindow(true);
+        }
+        AppSettings.Current.PropertyChanged += AppSettings_PropertyChanged;
+    }
+
+    // Settings that change how the window looks or behaves apply right away
+    private static void AppSettings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        switch (e.PropertyName)
+        {
+            case nameof(AppSettings.Backdrop):
+                SetupBackdrop();
+                break;
+            case nameof(AppSettings.IsScreencaptureBlocked):
+                BlockScreencaptureForMainWindow(AppSettings.Current.IsScreencaptureBlocked);
+                break;
         }
     }
 
