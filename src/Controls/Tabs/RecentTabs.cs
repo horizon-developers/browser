@@ -6,6 +6,10 @@ public static class RecentTabs
 
     public static void AddTab(Tab tab)
     {
+        if (tab.IsInPrivate)
+        {
+            return;
+        }
         string url = tab.WebContentInstance?.CurrentUrl;
         // Nothing to reopen, e.g. a new tab that was closed before anything was typed into it
         if (string.IsNullOrEmpty(url) || url == "about:blank")
@@ -13,7 +17,7 @@ public static class RecentTabs
             return;
         }
 
-        RecentTab newRecentTab = new RecentTab
+        RecentTab newRecentTab = new()
         {
             Title = tab.Title,
             Url = url,

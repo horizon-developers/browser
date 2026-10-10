@@ -26,7 +26,6 @@ public sealed partial class WebContentHost : Page, IDisposable
     {
         WCHVM.LaunchUrl = parameters.LaunchUrl;
         WCHVM.MyTab = parameters.MyTab;
-        WCHVM.IsInPrivate = parameters.IsInPrivate;
         _newWindowTarget = parameters.NewWindowTarget;
 
         if (WCHVM.LaunchUrl == string.Empty)
@@ -43,7 +42,7 @@ public sealed partial class WebContentHost : Page, IDisposable
             {
                 CoreWebView2Environment environment = await GlobalEnvironment.GetDefault();
 
-                if (WCHVM.IsInPrivate)
+                if (WCHVM.MyTab.IsInPrivate)
                 {
                     var options = environment.CreateCoreWebView2ControllerOptions();
                     options.IsInPrivateModeEnabled = true;
@@ -140,7 +139,7 @@ public sealed partial class WebContentHost : Page, IDisposable
         try
         {
             TaskCompletionSource<CoreWebView2> newWindowTarget = new(TaskCreationOptions.RunContinuationsAsynchronously);
-            WindowHelper.CreateNewTabInMainWindow("New tab", args.Uri, WCHVM.MyTab, WCHVM.IsInPrivate, newWindowTarget);
+            WindowHelper.CreateNewTabInMainWindow("New tab", args.Uri, WCHVM.MyTab, WCHVM.MyTab.IsInPrivate, newWindowTarget);
             args.NewWindow = await newWindowTarget.Task;
         }
         catch (Exception ex)
@@ -248,7 +247,7 @@ public sealed partial class WebContentHost : Page, IDisposable
 
     private void CoreWebView2_DocumentTitleChanged(CoreWebView2 sender, object args)
     {
-        if (WCHVM.IsInPrivate)
+        if (WCHVM.MyTab.IsInPrivate)
         {
             WCHVM.MyTab?.Title = $"InPrivate: {sender.DocumentTitle}";
             return;
@@ -309,7 +308,7 @@ public sealed partial class WebContentHost : Page, IDisposable
         }
         if (args.TryGetWebMessageAsString() == "ControlT")
         {
-            WindowHelper.CreateNewTabInMainWindow("New tab", string.Empty, WCHVM.MyTab, WCHVM.IsInPrivate);
+            WindowHelper.CreateNewTabInMainWindow("New tab", string.Empty, WCHVM.MyTab, WCHVM.MyTab.IsInPrivate);
             return;
         }
     }
@@ -347,7 +346,7 @@ public sealed partial class WebContentHost : Page, IDisposable
             case "OpenLnkInNewTab":
                 if (!string.IsNullOrEmpty(WCHVM.LinkUri))
                 {
-                    WindowHelper.CreateNewTabInMainWindow("New tab", WCHVM.LinkUri, WCHVM.MyTab, WCHVM.IsInPrivate);
+                    WindowHelper.CreateNewTabInMainWindow("New tab", WCHVM.LinkUri, WCHVM.MyTab, WCHVM.MyTab.IsInPrivate);
                 }
                 break;
             case "Copy":
@@ -367,14 +366,14 @@ public sealed partial class WebContentHost : Page, IDisposable
                 if (!string.IsNullOrEmpty(WCHVM.SelectionText))
                 {
                     string link = UrlHelper.FormatSearchQuery(SettingsHelper.CurrentSearchUrl, WCHVM.SelectionText);
-                    WindowHelper.CreateNewTabInMainWindow("New tab", link, WCHVM.MyTab, WCHVM.IsInPrivate);
+                    WindowHelper.CreateNewTabInMainWindow("New tab", link, WCHVM.MyTab, WCHVM.MyTab.IsInPrivate);
                 }
                 break;
             case "DevTools":
                 WebContentControl.CoreWebView2.OpenDevToolsWindow();
                 break;
             case "ViewSource":
-                WindowHelper.CreateNewTabInMainWindow($"View source", $"view-source:{WebContentControl.CoreWebView2.Source}", WCHVM.MyTab, WCHVM.IsInPrivate);
+                WindowHelper.CreateNewTabInMainWindow($"View source", $"view-source:{WebContentControl.CoreWebView2.Source}", WCHVM.MyTab, WCHVM.MyTab.IsInPrivate);
                 break;
             case "TaskManager":
                 WebContentControl.CoreWebView2.OpenTaskManagerWindow();

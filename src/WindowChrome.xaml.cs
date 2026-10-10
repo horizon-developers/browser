@@ -119,12 +119,14 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
 
     public void CreateTab(string title, string launchurl, bool isinprivate = false, bool insertaftercurrent = false, int indexofrequester = -1, TaskCompletionSource<CoreWebView2> newWindowTarget = null)
     {
-        Tab tab = new();
+        Tab tab = new()
+        {
+            IsInPrivate = isinprivate
+        };
         TabCreationParams parameters = new()
         {
             LaunchUrl = launchurl,
             MyTab = tab,
-            IsInPrivate = isinprivate,
             NewWindowTarget = newWindowTarget
         };
 
@@ -326,7 +328,8 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
         {
             case "Duplicate":
                 string URL = ThisWCI.CurrentUrl;
-                CreateTab("New tab", URL);
+                // A duplicate of an InPrivate tab has to stay InPrivate, or the page ends up in regular history and cookies
+                CreateTab(CTXSelectedTab.IsInPrivate ? "New InPrivate tab" : "New tab", URL, CTXSelectedTab.IsInPrivate);
                 break;
             case "CloseBelow":
                 int belowIndex = MainViewModel.MainVM.Tabs.IndexOf(CTXSelectedTab);

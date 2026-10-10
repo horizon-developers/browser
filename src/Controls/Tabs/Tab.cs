@@ -9,6 +9,11 @@ public partial class Tab : ObservableObject
         set => SetProperty(ref _title, value);
     }
 
+    /// <summary>
+    /// Fixed when the tab is created, a tab never switches between InPrivate and regular browsing
+    /// </summary>
+    public bool IsInPrivate { get; init; }
+
     private string _domain;
     public string Domain
     {

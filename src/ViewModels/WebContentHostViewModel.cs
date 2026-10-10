@@ -8,7 +8,6 @@ public class WebContentHostViewModel
 
     public string LaunchUrl { get; set; }
     public Tab MyTab { get; set; }
-    public bool IsInPrivate { get; set; }
 
     #region Context menu
     public string SelectionText { get; set; }
