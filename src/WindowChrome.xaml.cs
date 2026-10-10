@@ -59,11 +59,12 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
             int titleBarHeightPhysical = (int)(40 * scale);
 
             // From the left edge up to the exact start of the BrowserControlIsland
-            int leftWidthPhysical = (int)(islandBounds.X * scale);
+            // offset by 175 (in DIPs, like the rest of the layout) to accommodate for back/refresh/forward
+            int navButtonsEndPhysical = (int)(175 * scale);
+            int leftWidthPhysical = (int)(islandBounds.X * scale) - navButtonsEndPhysical;
             if (leftWidthPhysical > 0)
             {
-                // offset by 175 to accommodate for back/refresh/forward
-                dragRects.Add(new RectInt32(175, 0, leftWidthPhysical - 175, titleBarHeightPhysical));
+                dragRects.Add(new RectInt32(navButtonsEndPhysical, 0, leftWidthPhysical, titleBarHeightPhysical));
             }
 
             // From the exact right edge of the BrowserControlIsland up to the system caption buttons
