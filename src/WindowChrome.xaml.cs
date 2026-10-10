@@ -117,14 +117,15 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
         UpdateDragRegions();
     }
 
-    public void CreateTab(string title, string launchurl, bool isinprivate = false, bool insertaftercurrent = false, int indexofrequester = -1)
+    public void CreateTab(string title, string launchurl, bool isinprivate = false, bool insertaftercurrent = false, int indexofrequester = -1, TaskCompletionSource<CoreWebView2> newWindowTarget = null)
     {
         Tab tab = new();
         TabCreationParams parameters = new()
         {
             LaunchUrl = launchurl,
             MyTab = tab,
-            IsInPrivate = isinprivate
+            IsInPrivate = isinprivate,
+            NewWindowTarget = newWindowTarget
         };
 
         WebContentHost NewWCI = new(parameters);
@@ -159,8 +160,14 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
         CloseTab(tab);
     }
 
-    private void CloseTab(Tab tab)
+    public void CloseTab(Tab tab)
     {
+        // The tab may already be gone, e.g. the user closed it while the page was asking to close itself
+        if (!MainViewModel.MainVM.Tabs.Contains(tab))
+        {
+            return;
+        }
+
         if (MainViewModel.MainVM.Tabs.Count > 1)
         {
             RecentTabs.AddTab(tab);

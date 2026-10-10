@@ -7,6 +7,7 @@ public sealed partial class WebContentHost : Page, IDisposable
 {
     private WebContentHostViewModel WCHVM { get; set; } = new();
     private AdBlockEngine? _adBlockEngine;
+    private TaskCompletionSource<CoreWebView2>? _newWindowTarget;
 
     public WebContentHost(TabCreationParams parameters)
     {
@@ -19,6 +20,7 @@ public sealed partial class WebContentHost : Page, IDisposable
         WCHVM.LaunchUrl = parameters.LaunchUrl;
         WCHVM.MyTab = parameters.MyTab;
         WCHVM.IsInPrivate = parameters.IsInPrivate;
+        _newWindowTarget = parameters.NewWindowTarget;
 
         if (WCHVM.LaunchUrl == string.Empty)
         {
@@ -47,6 +49,7 @@ public sealed partial class WebContentHost : Page, IDisposable
             }
             catch (Exception ex)
             {
+                _newWindowTarget?.TrySetException(ex);
                 WebContentControl?.Close();
                 TextBlock ErrorTextBlock = new()
                 {
@@ -72,6 +75,7 @@ public sealed partial class WebContentHost : Page, IDisposable
         //sender.CoreWebView2.FaviconChanged += CoreWebView2_FaviconChanged;
         sender.CoreWebView2.ContainsFullScreenElementChanged += CoreWebView2_ContainsFullScreenElementChanged;
         sender.CoreWebView2.WebMessageReceived += CoreWebView2_WebMessageReceived;
+        sender.CoreWebView2.WindowCloseRequested += CoreWebView2_WindowCloseRequested;
 
         // Attach before the first navigation below so the very first request is already filtered.
         // Applies to InPrivate tabs as well - tracker blocking matters most there.
@@ -87,6 +91,15 @@ public sealed partial class WebContentHost : Page, IDisposable
         if (SettingsHelper.GetSetting("DisableWebPageDarkening") != "true")
         {
             sender.DefaultBackgroundColor = Colors.Transparent;
+        }
+
+        if (_newWindowTarget != null)
+        {
+            // The opener's NewWindowRequested navigates us once it receives this CoreWebView2,
+            // navigating here first would make WebView2 reject it as the new window
+            WebContentControl.Visibility = Visibility.Visible;
+            _newWindowTarget.TrySetResult(sender.CoreWebView2);
+            return;
         }
 
         if (WCHVM.LaunchUrl != string.Empty && WCHVM.LaunchUrl != null)
@@ -110,10 +123,36 @@ public sealed partial class WebContentHost : Page, IDisposable
         LoadingBar.IsIndeterminate = false;
     }
 
-    private void CoreWebView2_NewWindowRequested(CoreWebView2 sender, CoreWebView2NewWindowRequestedEventArgs args)
+    private async void CoreWebView2_NewWindowRequested(CoreWebView2 sender, CoreWebView2NewWindowRequestedEventArgs args)
     {
+        // Hand the page the new tab's CoreWebView2 instead of just opening the url in it, so window.opener survives.
+        // Login popups (Sign in with Google/Microsoft/Apple) post their result back to the opener through it.
         args.Handled = true;
-        WindowHelper.CreateNewTabInMainWindow("New tab", args.Uri, WCHVM.MyTab, WCHVM.IsInPrivate);
+        Windows.Foundation.Deferral deferral = args.GetDeferral();
+        try
+        {
+            TaskCompletionSource<CoreWebView2> newWindowTarget = new(TaskCreationOptions.RunContinuationsAsynchronously);
+            WindowHelper.CreateNewTabInMainWindow("New tab", args.Uri, WCHVM.MyTab, WCHVM.IsInPrivate, newWindowTarget);
+            args.NewWindow = await newWindowTarget.Task;
+        }
+        catch (Exception ex)
+        {
+            // The new tab failed to create its WebView2 (it shows the error itself) or was closed before it could
+            Logger.LogEvent(Logger.Severity.Warning, "WebContentHost", $"Could not open new window for {args.Uri}: {ex.Message}");
+        }
+        finally
+        {
+            deferral.Complete();
+        }
+    }
+
+    private void CoreWebView2_WindowCloseRequested(CoreWebView2 sender, object args)
+    {
+        // window.close(), e.g. a login popup that is done. Deferred, closing the WebView2 inside its own event is unsafe
+        if (WCHVM.MyTab != null)
+        {
+            WindowHelper.CloseTabInMainWindow(WCHVM.MyTab);
+        }
     }
 
     private void CoreWebView2_ContextMenuRequested(CoreWebView2 sender, CoreWebView2ContextMenuRequestedEventArgs args)
@@ -712,7 +751,10 @@ public sealed partial class WebContentHost : Page, IDisposable
             WebContentControl.CoreWebView2.DocumentTitleChanged -= CoreWebView2_DocumentTitleChanged;
             WebContentControl.CoreWebView2.ContainsFullScreenElementChanged -= CoreWebView2_ContainsFullScreenElementChanged;
             WebContentControl.CoreWebView2.WebMessageReceived -= CoreWebView2_WebMessageReceived;
+            WebContentControl.CoreWebView2.WindowCloseRequested -= CoreWebView2_WindowCloseRequested;
         }
+        // Closed before the WebView2 was ready, let the opener stop waiting for us
+        _newWindowTarget?.TrySetCanceled();
         _adBlockEngine?.Dispose();
         _adBlockEngine = null;
         WebContentControl?.Close();

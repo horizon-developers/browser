@@ -134,16 +134,27 @@ public static class WindowHelper
         MainWindow.Close();
     }
 
-    static public void CreateNewTabInMainWindow(string title, string uri, Tab? requester = null, bool isInPrivate = false)
+    static public void CreateNewTabInMainWindow(string title, string uri, Tab? requester = null, bool isInPrivate = false, TaskCompletionSource<CoreWebView2>? newWindowTarget = null)
     {
         int IndexOfRequester = -1;
         if (requester != null)
         {
             IndexOfRequester = MainViewModel.MainVM.Tabs.IndexOf(requester);
         }
+        if (!MainWindow.DispatcherQueue.TryEnqueue(() =>
+        {
+            MainWindow.CreateTab(title, uri, isInPrivate, true, IndexOfRequester, newWindowTarget);
+        }))
+        {
+            newWindowTarget?.TrySetCanceled();
+        }
+    }
+
+    static public void CloseTabInMainWindow(Tab tab)
+    {
         _ = MainWindow.DispatcherQueue.TryEnqueue(() =>
         {
-            MainWindow.CreateTab(title, uri, isInPrivate, true, IndexOfRequester);
+            MainWindow.CloseTab(tab);
         });
     }
 
