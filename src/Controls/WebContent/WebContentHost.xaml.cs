@@ -235,7 +235,7 @@ public sealed partial class WebContentHost : Page, IDisposable
         if (Uri.TryCreate(sender.Source, UriKind.Absolute, out Uri? uri))
         {
             string DomainText = uri.Host;
-            if (uri.Host.Contains("www"))
+            if (uri.Host.StartsWith("www"))
             {
                 DomainText = uri.Host.Replace("www.", "");
             }
