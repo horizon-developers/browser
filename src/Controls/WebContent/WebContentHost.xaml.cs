@@ -508,8 +508,7 @@ public sealed partial class WebContentHost : Page, IDisposable
 
     private void Translate()
     {
-        string url = WebContentControl.CoreWebView2.Source;
-        WebContentControl.CoreWebView2.Navigate("https://translate.google.com/translate?hl&u=" + url);
+        WebContentControl.CoreWebView2.Navigate(Uri.EscapeDataString("https://translate.google.com/translate?hl&u=" + WebContentControl.CoreWebView2.Source));
     }
 
     private void AddFavoriteButton_Click(object sender, RoutedEventArgs e)
