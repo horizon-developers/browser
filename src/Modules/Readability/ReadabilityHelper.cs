@@ -3,13 +3,16 @@
 public class ReadabilityHelper
 {
     public static string JScript { private set; get; }
-    private static readonly string JScriptPath = $"{AppContext.BaseDirectory}\\Assets\\JS\\readability.js";
+    private const string ResourceName = "Horizon.readability_module.js";
 
     public static async Task<string> GetReadabilityScriptAsync()
     {
         if (JScript == null)
         {
-            JScript = await File.ReadAllTextAsync(JScriptPath);
+            using var stream = typeof(ReadabilityHelper).Assembly.GetManifestResourceStream(ResourceName)
+                ?? throw new InvalidOperationException($"Missing embedded resource {ResourceName}");
+            using var reader = new StreamReader(stream);
+            JScript = await reader.ReadToEndAsync();
         }
         return JScript;
     }

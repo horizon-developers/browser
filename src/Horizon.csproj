@@ -61,9 +61,8 @@
 		<Content Include="Assets\Icons\paypal.png" />
 		<None Remove="Assets\Data\public_suffix_list.dat" />
 		<EmbeddedResource Include="Assets\Data\public_suffix_list.dat" LogicalName="Horizon.public_suffix_list.dat" />
-		<None Include="Assets\JS\readability.js">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
+		<None Remove="Assets\JS\readability.js" />
+		<EmbeddedResource Include="Assets\JS\readability.js" LogicalName="Horizon.readability_module.js" />
 	</ItemGroup>
 	
 	<Target Name="GetGitCommit" BeforeTargets="BeforeBuild">
