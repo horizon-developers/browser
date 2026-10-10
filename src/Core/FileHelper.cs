@@ -22,21 +22,20 @@ public class FileHelper
 
         // Open the picker for the user to pick a file
         var file = await savePicker.PickSaveFileAsync();
-        if (file != null)
+        // The user cancelled the picker
+        if (file == null)
         {
-            if (BytesFileContent != null)
-            {
-                await File.WriteAllBytesAsync(file.Path, BytesFileContent);
-            }
-            if (TextFileContent != null)
-            {
-                await File.WriteAllTextAsync(file.Path, TextFileContent);
-            }
+            return null;
         }
-        if (file.Path != null) {
-            return file.Path;
+        if (BytesFileContent != null)
+        {
+            await File.WriteAllBytesAsync(file.Path, BytesFileContent);
         }
-        return "Unknown path";
+        if (TextFileContent != null)
+        {
+            await File.WriteAllTextAsync(file.Path, TextFileContent);
+        }
+        return file.Path;
     }
 
     public static async Task DeleteLocalFile(string fileName)
