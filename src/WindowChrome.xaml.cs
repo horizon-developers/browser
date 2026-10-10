@@ -226,7 +226,11 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
         switch ((sender as Button).Tag)
         {
             case "CopyLink":
-                ClipboardHelper.CopyTextToClipboard(SelectedTab.WebContentInstance.WebContentControl.CoreWebView2.Source);
+                string currentUrl = SelectedTab?.WebContentInstance?.CurrentUrl;
+                if (!string.IsNullOrEmpty(currentUrl))
+                {
+                    ClipboardHelper.CopyTextToClipboard(currentUrl);
+                }
                 /*DevWinUI.Growl.Success(new DevWinUI.GrowlInfo
                 {
                     ShowDateTime = false,
@@ -321,7 +325,7 @@ public sealed partial class WindowChrome : Window, INotifyPropertyChanged
         switch ((sender as MenuFlyoutItem).Tag)
         {
             case "Duplicate":
-                string URL = ThisWCI.WebContentControl.CoreWebView2?.Source;
+                string URL = ThisWCI.CurrentUrl;
                 CreateTab("New tab", URL);
                 break;
             case "CloseBelow":

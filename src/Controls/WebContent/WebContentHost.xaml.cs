@@ -8,6 +8,13 @@ public sealed partial class WebContentHost : Page, IDisposable
     private WebContentHostViewModel WCHVM { get; set; } = new();
     private AdBlockEngine? _adBlockEngine;
     private TaskCompletionSource<CoreWebView2>? _newWindowTarget;
+    private bool _isWebViewClosed;
+
+    /// <summary>
+    /// The page currently shown. Falls back to the url the tab was opened with while the WebView2 is still starting,
+    /// failed to start or has been closed, so this never throws.
+    /// </summary>
+    public string? CurrentUrl => (_isWebViewClosed ? null : WebContentControl?.CoreWebView2?.Source) ?? WCHVM.LaunchUrl;
 
     public WebContentHost(TabCreationParams parameters)
     {
@@ -50,6 +57,7 @@ public sealed partial class WebContentHost : Page, IDisposable
             catch (Exception ex)
             {
                 _newWindowTarget?.TrySetException(ex);
+                _isWebViewClosed = true;
                 WebContentControl?.Close();
                 TextBlock ErrorTextBlock = new()
                 {
@@ -508,7 +516,7 @@ public sealed partial class WebContentHost : Page, IDisposable
 
     private void Translate()
     {
-        WebContentControl.CoreWebView2.Navigate(Uri.EscapeDataString("https://translate.google.com/translate?hl&u=" + WebContentControl.CoreWebView2.Source));
+        WebContentControl.CoreWebView2.Navigate("https://translate.google.com/translate?hl&u=" + Uri.EscapeDataString(WebContentControl.CoreWebView2.Source));
     }
 
     private void AddFavoriteButton_Click(object sender, RoutedEventArgs e)
@@ -756,6 +764,7 @@ public sealed partial class WebContentHost : Page, IDisposable
         _newWindowTarget?.TrySetCanceled();
         _adBlockEngine?.Dispose();
         _adBlockEngine = null;
+        _isWebViewClosed = true;
         WebContentControl?.Close();
     }
 }

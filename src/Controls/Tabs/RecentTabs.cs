@@ -6,10 +6,17 @@ public static class RecentTabs
 
     public static void AddTab(Tab tab)
     {
+        string url = tab.WebContentInstance?.CurrentUrl;
+        // Nothing to reopen, e.g. a new tab that was closed before anything was typed into it
+        if (string.IsNullOrEmpty(url) || url == "about:blank")
+        {
+            return;
+        }
+
         RecentTab newRecentTab = new RecentTab
         {
             Title = tab.Title,
-            Url = tab.WebContentInstance.WebContentControl.CoreWebView2.Source,
+            Url = url,
         };
         RecentTabsList.Add(newRecentTab);
     }
