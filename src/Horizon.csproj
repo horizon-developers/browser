@@ -59,6 +59,8 @@
 		<Content Include="Assets\FileIcons\link.png" />
 		<Content Include="Assets\Icons\DevSanx.png" />
 		<Content Include="Assets\Icons\paypal.png" />
+		<None Remove="Assets\Data\public_suffix_list.dat" />
+		<EmbeddedResource Include="Assets\Data\public_suffix_list.dat" LogicalName="Horizon.public_suffix_list.dat" />
 		<None Include="Assets\JS\readability.js">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>

@@ -319,7 +319,7 @@ public sealed partial class WebContentHost : Page, IDisposable
             case "Search":
                 if (!string.IsNullOrEmpty(WCHVM.SelectionText))
                 {
-                    string link = SettingsHelper.CurrentSearchUrl + WCHVM.SelectionText;
+                    string link = UrlHelper.FormatSearchQuery(SettingsHelper.CurrentSearchUrl, WCHVM.SelectionText);
                     WindowHelper.CreateNewTabInMainWindow("New tab", link, WCHVM.MyTab, WCHVM.IsInPrivate);
                 }
                 break;
@@ -564,39 +564,29 @@ public sealed partial class WebContentHost : Page, IDisposable
 
             var suggestions = new List<SuggestionItem>(7);
 
-            // Regex Guard Clauses
-            // Regex is CPU expensive. We shouldn't run it for plain text queries like "how to cook"
-            // Only check if the string contains URL-like characters ('.' or ':')
-            bool isUrlCandidate = query.IndexOfAny(UrlHelper.UrlIndicators) >= 0;
+            Uri? url = UrlHelper.SanitizeUrl(query);
 
             _ = WindowHelper.MainWindow.DispatcherQueue.TryEnqueue(async () =>
             {
-                if (isUrlCandidate)
+                if (url?.IsFile == true)
                 {
-
-                    // Use OrdinalIgnoreCase for faster string comparison
-                    if (query.StartsWith("edge://", StringComparison.OrdinalIgnoreCase) ||
-                        UrlHelper.IPRegex().IsMatch(query) ||
-                        UrlHelper.UrlRegex().IsMatch(query))
+                    suggestions.Add(new SuggestionItem
                     {
-                        suggestions.Add(new SuggestionItem
-                        {
-                            DisplayIcon = Symbol.Globe,
-                            DisplayText = $"Visit {query}",
-                            Command = SuggestionCommand.GoToUrl,
-                            Value = query
-                        });
-                    }
-                    else if (query.StartsWith("file:///", StringComparison.OrdinalIgnoreCase))
+                        DisplayIcon = Symbol.Folder,
+                        DisplayText = $"Open local file {query}",
+                        Command = SuggestionCommand.LocalFile,
+                        Value = query
+                    });
+                }
+                else if (url is not null)
+                {
+                    suggestions.Add(new SuggestionItem
                     {
-                        suggestions.Add(new SuggestionItem
-                        {
-                            DisplayIcon = Symbol.Folder,
-                            DisplayText = $"Open local file {query}",
-                            Command = SuggestionCommand.LocalFile,
-                            Value = query
-                        });
-                    }
+                        DisplayIcon = Symbol.Globe,
+                        DisplayText = $"Visit {query}",
+                        Command = SuggestionCommand.GoToUrl,
+                        Value = query
+                    });
                 }
 
                 // Address matches sit above the web search because that is what Enter opens for plain text.
@@ -657,9 +647,17 @@ public sealed partial class WebContentHost : Page, IDisposable
         }
         var query = sender.Text.Trim();
 
+        // Ctrl+Enter turns a bare name into a .com address ("example" opens https://example.com/)
+        if (Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(WS.VirtualKey.Control)
+                .HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down))
+        {
+            ProcessQueryAndGo(query, appendTld: true);
+            return;
+        }
+
         // Only plain text that would otherwise become a web search - a typed url always wins.
         // Re-evaluated here instead of reading ItemsSource, which lags behind the debounce when Enter follows typing quickly.
-        if (UrlHelper.GetInputType(query) == "searchquery" &&
+        if (UrlHelper.SanitizeUrl(query) is null &&
             FavoriteSuggestions.NavigationTarget(query) is SuggestionItem favorite)
         {
 #if DEBUG
@@ -676,44 +674,28 @@ public sealed partial class WebContentHost : Page, IDisposable
         switch (item.Command)
         {
             case SuggestionCommand.GoToUrl:
-                ProcessQueryAndGo(item.Value.ToLowerInvariant());
+                ProcessQueryAndGo(item.Value);
                 break;
             case SuggestionCommand.SearchWeb:
-                string query = SettingsHelper.CurrentSearchUrl + item.Value;
+                string query = UrlHelper.FormatSearchQuery(SettingsHelper.CurrentSearchUrl, item.Value);
 #if DEBUG
                 Logger.LogEvent(Logger.Severity.Info, "AddressBar", $"Searching the web for {item.Value}");
 #endif
                 NavigateToUrl(query);
                 break;
             case SuggestionCommand.LocalFile:
-                ProcessQueryAndGo(item.Value.Replace("\"", ""));
+                ProcessQueryAndGo(item.Value);
                 break;
             case SuggestionCommand.OpenFavorite:
-                // Not lower-cased like GoToUrl - paths are case-sensitive. ProcessQueryAndGo adds https:// to favorites saved without a scheme
+                // ProcessQueryAndGo adds a scheme to favorites saved without one
                 ProcessQueryAndGo(item.Value);
                 break;
         }
     }
 
-    private void ProcessQueryAndGo(string input)
+    private void ProcessQueryAndGo(string input, bool appendTld = false)
     {
-        string inputtype = UrlHelper.GetInputType(input);
-        if (inputtype == "urlNOProtocol")
-            NavigateToUrl("https://" + input.Trim());
-        else if (inputtype == "url")
-        {
-            if (input.StartsWith("file:///"))
-            {
-                NavigateToUrl(input.Replace("\"", ""));
-                return;
-            }
-            NavigateToUrl(input.Trim());
-        }
-        else
-        {
-            string query = SettingsHelper.CurrentSearchUrl + input;
-            NavigateToUrl(query);
-        }
+        NavigateToUrl(UrlHelper.ToNavigationUrl(input, SettingsHelper.CurrentSearchUrl, appendTld));
     }
 
     public void Dispose()

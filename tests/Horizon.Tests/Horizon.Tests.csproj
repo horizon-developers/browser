@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net11.0</TargetFramework>
+		<RootNamespace>Horizon.Tests</RootNamespace>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<IsPackable>false</IsPackable>
+		<EnableMSTestRunner>true</EnableMSTestRunner>
+	</PropertyGroup>
+
+	<!-- The app is a WinUI executable, so the platform independent sources under test are compiled in directly -->
+	<ItemGroup>
+		<Compile Include="..\..\src\Core\UrlHelper.cs" Link="Core\UrlHelper.cs" />
+		<Compile Include="..\..\src\Core\PublicSuffixList.cs" Link="Core\PublicSuffixList.cs" />
+		<EmbeddedResource Include="..\..\src\Assets\Data\public_suffix_list.dat" LogicalName="Horizon.public_suffix_list.dat" Link="Assets\Data\public_suffix_list.dat" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MSTest.TestAdapter" Version="4.2.3" />
+		<PackageReference Include="MSTest.TestFramework" Version="4.2.3" />
+	</ItemGroup>
+</Project>

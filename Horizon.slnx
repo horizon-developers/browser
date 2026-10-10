@@ -10,4 +10,5 @@
     <Platform Solution="*|ARM64" Project="ARM64" />
     <Deploy />
   </Project>
+  <Project Path="tests/Horizon.Tests/Horizon.Tests.csproj" />
 </Solution>
