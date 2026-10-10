@@ -5,7 +5,7 @@ namespace Horizon;
 /// </summary>
 public sealed partial class WindowChrome : Window, INotifyPropertyChanged
 {
-    private MainWindowViewModel MWVM = new();
+    private readonly MainWindowViewModel MWVM = new();
     public event PropertyChangedEventHandler PropertyChanged;
     private void OnPropertyChanged([CallerMemberName] string propertyName = null)
     {
