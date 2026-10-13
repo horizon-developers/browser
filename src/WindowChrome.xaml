@@ -259,14 +259,14 @@
                     </Button.Content>
                     <Button.Flyout>
                         <MenuFlyout Placement="Bottom">
-                            <MenuFlyoutItem
+                            <!--<MenuFlyoutItem
                                 Click="ToolbarFlyoutItem_Click"
                                 Tag="RecentlyClosed"
                                 Text="Recently closed">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE823;" />
                                 </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
+                            </MenuFlyoutItem>-->
                             <MenuFlyoutItem
                                 Click="ToolbarFlyoutItem_Click"
                                 Tag="History"
