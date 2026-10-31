@@ -2,23 +2,17 @@
 
 public static class Program
 {
-#pragma warning disable IDE0060
     [STAThread]
-    static void Main(string[] args)
+    [SuppressMessage("Performance", "CA1806:Do not ignore method results", Justification = "Required for app init")]
+    static void Main()
     {
         bool Redirect = DecideRedirection();
 
         if (!Redirect)
         {
-            ComWrappersSupport.InitializeComWrappers();
-            Application.Start(static (p) => {
-                var context = new Microsoft.UI.Dispatching.DispatcherQueueSynchronizationContext(Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread());
-                System.Threading.SynchronizationContext.SetSynchronizationContext(context);
-                _ = new App();
-            });
+            Application.Start(_ => new App());
         }
     }
-#pragma warning restore IDE0060
     static bool DecideRedirection()
     {
         var mainInstance = AppInstance.FindOrRegisterForKey("HorizonSingleInstance");
