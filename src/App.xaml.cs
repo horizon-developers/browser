@@ -76,6 +76,7 @@ public partial class App : Application
         }
         
         HandleUriActivation(appArgs);
+        RegisterAcceleratedLaunches();
 
         if (Environment.IsPrivilegedProcess)
         {
@@ -86,6 +87,35 @@ public partial class App : Application
     private void App_Activated(object? sender, AppActivationArguments e)
     {
         HandleUriActivation(e);
+        WindowHelper.RestoreMainWindow();
+    }
+
+    private AcceleratedLaunchHelper? _acceleratedLaunchHelper;
+
+    // Tile and protocol launches get delivered straight to this instance where supported,
+    // anything else still goes through the redirection in Program and ends up in App_Activated
+    private void RegisterAcceleratedLaunches()
+    {
+        try
+        {
+            _acceleratedLaunchHelper = new();
+            _ = _acceleratedLaunchHelper.TryRegisterForTileLaunch(() => OnAcceleratedLaunch(string.Empty));
+            _ = _acceleratedLaunchHelper.TryRegisterForUris(["http", "https"], OnAcceleratedLaunch);
+            WindowHelper.MainWindow.Closed += (_, _) => _acceleratedLaunchHelper?.Dispose();
+        }
+        catch (Exception ex)
+        {
+            // Purely an optimization, the regular redirection keeps working without it
+            Logger.LogEvent(Logger.Severity.Warning, "AcceleratedLaunch", $"Registration failed: {ex}");
+            _acceleratedLaunchHelper?.Dispose();
+            _acceleratedLaunchHelper = null;
+        }
+    }
+
+    // Same result as a redirected activation in App_Activated
+    private static void OnAcceleratedLaunch(string uri)
+    {
+        WindowHelper.CreateNewTabInMainWindow("New tab", uri);
         WindowHelper.RestoreMainWindow();
     }
 
