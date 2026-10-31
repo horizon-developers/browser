@@ -19,13 +19,12 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
-            <ColumnDefinition Width="195" />
+            <ColumnDefinition Width="185" />
         </Grid.ColumnDefinitions>
         <ContentPresenter
             x:Name="TabContentHost"
             Grid.RowSpan="2"
             Grid.Column="0"
-            Margin="0,0,2,0"
             x:FieldModifier="public" />
         <Grid
             x:Name="AppIconHost"
@@ -131,7 +130,6 @@
             x:Name="Sidebar"
             Grid.Row="1"
             Grid.Column="1"
-            Margin="2,0,2,2"
             x:FieldModifier="public"
             Style="{StaticResource PageBorder}">
             <Grid.RowDefinitions>
