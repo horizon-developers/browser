@@ -166,8 +166,6 @@
     <Style x:Key="PageBorder" TargetType="Grid">
         <Setter Property="BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Margin" Value="5,0,0,5" />
-        <Setter Property="Padding" Value="0,0,0,0" />
         <Setter Property="Background" Value="{StaticResource NavigationViewContentBackground}" />
     </Style>
 
