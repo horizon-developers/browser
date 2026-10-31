@@ -3,14 +3,19 @@
 public static class Program
 {
     [STAThread]
-    [SuppressMessage("Performance", "CA1806:Do not ignore method results", Justification = "Required for app init")]
     static void Main()
     {
         bool Redirect = DecideRedirection();
 
         if (!Redirect)
         {
-            Application.Start(_ => new App());
+            ComWrappersSupport.InitializeComWrappers();
+            Application.Start(static p =>
+            {
+                // Without this, awaits on the UI thread resume on the thread pool, where WebView2 and XAML objects can't be touched
+                System.Threading.SynchronizationContext.SetSynchronizationContext(new Microsoft.UI.Dispatching.DispatcherQueueSynchronizationContext(Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread()));
+                _ = new App();
+            });
         }
     }
     static bool DecideRedirection()
