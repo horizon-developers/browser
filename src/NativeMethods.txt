@@ -6,3 +6,7 @@ MARGINS
 SetWindowDisplayAffinity
 SetWindowLong
 SetWindowLongPtr
+AllowSetForegroundWindow
+IsIconic
+ShowWindow
+SwitchToThisWindow

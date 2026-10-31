@@ -26,6 +26,7 @@ public static class Program
         // If the main instance isn't this current instance
         if (!mainInstance.IsCurrent)
         {
+            _ = Windows.Win32.PInvoke.AllowSetForegroundWindow(mainInstance.ProcessId);
             // Redirect activation to that instance
             mainInstance.RedirectActivationToAsync(AppInstance.GetCurrent().GetActivatedEventArgs()).AsTask().Wait();
 

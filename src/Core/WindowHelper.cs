@@ -133,10 +133,22 @@ public static class WindowHelper
 
     static public void RestoreMainWindow()
     {
-        if (MainWindow.AppWindow.Presenter is OverlappedPresenter presenter)
+        if (MainWindow == null)
+            return;
+
+        if (!MainWindow.DispatcherQueue.HasThreadAccess)
         {
-            presenter.Restore();
+            _ = MainWindow.DispatcherQueue.TryEnqueue(RestoreMainWindow);
+            return;
         }
+
+        Windows.Win32.Foundation.HWND hwnd = (Windows.Win32.Foundation.HWND)HWND;
+        if (Windows.Win32.PInvoke.IsIconic(hwnd))
+        {
+            _ = Windows.Win32.PInvoke.ShowWindow(hwnd, SHOW_WINDOW_CMD.SW_RESTORE);
+        }
+        Windows.Win32.PInvoke.SwitchToThisWindow(hwnd, true);
+        MainWindow.Activate();
     }
 
     static public void CloseMainWindow()
