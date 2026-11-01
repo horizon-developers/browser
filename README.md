@@ -75,7 +75,7 @@ A donation would be highly appreciated, and it helps me out a lot. Thanks :)
 - Git for Windows (MUST be present in PATH)
 - Visual Studio 2026, version 18.1.0 or newer
 - Windows 11 SDK (10.0.26100.0)
-- .NET 10 SDK
+- .NET 11 SDK
 - Windows Application Workload
 
 ### 2. Clone the repository
